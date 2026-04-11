@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>资源匮乏竟成创业王牌？</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    :root {
+      --color1: #4361ee;
+      --color2: #3a0ca3;
+      --color3: #4cc9f0;
+      --color4: #7209b7;
+      --shadow: 0 8px 24px rgba(0,0,0,0.12);
+      --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    body {
+      background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #222;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* SVG 动态标题 */
+    .svg-header {
+      width: 100%;
+      height: auto;
+      margin: 20px 0 40px;
+    }
+
+    /* 导航菜单 */
+    .nav {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      position: relative;
+    }
+
+    .nav-btn {
+      padding: 12px 22px;
+      background: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(67,97,238,0.1);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-btn:hover {
+      transform: scale(1.08);
+      color: white;
+      background: linear-gradient(90deg, var(--color1), var(--color3));
+      box-shadow: 0 6px 16px rgba(67,97,238,0.25);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(90deg, var(--color1), var(--color3));
+      color: white;
+    }
+
+    /* 点击波纹 */
+    .ripple {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+
+    @keyframes ripple {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* 卡片样式 */
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 32px;
+      margin-bottom: 28px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      transition: var(--transition);
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      font-size: 22px;
+      background: linear-gradient(90deg, var(--color1), var(--color3));
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 {
+      font-size: 17px;
+      margin: 16px 0 10px;
+      color: #333;
+      border-left: 4px solid var(--color3);
+      padding-left: 10px;
+    }
+
+    /* 金句区块 */
+    .quote {
+      background: linear-gradient(135deg, #eef6ff 0%, #f5f0ff 100%);
+      border-left: 5px solid var(--color4);
+      padding: 16px 20px;
+      margin: 14px 0;
+      border-radius: 10px;
+      font-style: italic;
+      font-size: 15px;
+      animation: breathe 3s infinite ease-in-out;
+    }
+
+    @keyframes breathe {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.01); }
+    }
+
+    /* 列表 */
+    .list {
+      padding-left: 22px;
+      margin: 10px 0;
+      line-height: 1.8;
+    }
+
+    .list li {
+      margin-bottom: 8px;
+    }
+
+    /* 终极检验 */
+    .final-box {
+      background: linear-gradient(135deg, #ffefd5, #ffe0f0);
+      padding: 24px;
+      border-radius: 16px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 17px;
+      margin-top: 20px;
+      color: #552a38;
+    }
+
+    /* 弹出面板 */
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      min-width: 300px;
+      max-width: 90%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+    }
+
+    .popup.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+      pointer-events: all;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .overlay.show {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .close {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      font-size: 20px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    /* 响应式 */
+    @media (max-width:768px) {
+      .card { padding: 22px; }
+      .nav-btn { padding: 10px 16px; font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- SVG 动态标题 -->
+  <svg class="svg-header" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="#4361ee"></stop>
+        <stop offset="100%" stop-color="#4cc9f0"></stop>
+      </linearGradient>
+      <style>
+        @keyframes float {
+          0%,100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
+        }
+        .title-text { animation: float 3s infinite ease-in-out; }
+      </style>
+    </defs>
+    <text class="title-text" x="450" y="60" text-anchor="middle" font-size="34" font-weight="bold" fill="url(#titleGrad)">资源匮乏竟成创业王牌？</text>
+    <text x="450" y="100" text-anchor="middle" font-size="18" fill="#777">Telegram 创始人杜罗夫创业哲学 · 可视化总结</text>
+  </svg>
+
+  <!-- 导航菜单 -->
+  <div class="nav">
+    <button class="nav-btn" data-target="core">核心方法论</button>
+    <button class="nav-btn" data-target="quotes">颠覆性金句</button>
+    <button class="nav-btn" data-target="action">行动清单</button>
+  </div>
+
+  <!-- 内容卡片 -->
+  <div class="card" id="core">
+    <h2>📘 核心方法论：以少胜多的三层逻辑</h2>
+    <h3>心态层：匮乏即优势</h3>
+    <p>老鼠天堂实验：资源过剩导致群体崩溃，匮乏反而激发生存本能</p>
+    <p><strong>行动公式：</strong>资源紧张期 = 砍掉80%业务 + 设资源上限 + 每周防贪多</p>
+    <div class="quote">"300万必须赌一个项目，3个亿反而什么都做不成"</div>
+
+    <h3>团队层：少即是多</h3>
+    <p>极端案例：2个工程师维护10亿用户的Telegram</p>
+    <p>反常识发现：开除低效成员后，1人产出 > 原2人总和</p>
+    <p>社会惰化效应：团队规模↑ → 个体贡献度↓</p>
+
+    <h3>产品层：隐形细节定生死</h3>
+    <p>峰值定律：用户记忆取决于「体验峰值+结束时刻」</p>
+    <p>经典案例：消息删除动画（实时重绘万粒粒子+界面自适应）</p>
+    <div class="quote">"每天几千万人删消息，让心情好0.001%也值得"</div>
+  </div>
+
+  <div class="card" id="quotes">
+    <h2>💬 颠覆性金句</h2>
+    <h3>关于资源</h3>
+    <div class="quote">"匮乏不是缺陷，是帮你砍掉杂音的刀"</div>
+    <div class="quote">"选择过载比资源不足更致命"</div>
+
+    <h3>关于团队</h3>
+    <div class="quote">"A级选手旁边坐C级的人，等于给潜力上锁"</div>
+    <div class="quote">"招聘不是补数量，是筛出'绝对要重招'的人"</div>
+
+    <h3>关于产品</h3>
+    <div class="quote">"功能多≠竞争力强，说不清但离不开才是壁垒"</div>
+    <div class="quote">"用户不会感谢你的动画，但会记住'被在乎'的感觉"</div>
+  </div>
+
+  <div class="card" id="action">
+    <h2>✅ 可落地行动清单</h2>
+    <ul class="list">
+      <li><strong>本周必做：</strong>列出所有业务，立即砍掉"可做但不必须"的80%</li>
+      <li>给核心业务设置资源上限（钱/人/时间）</li>
+      <li><strong>团队优化：</strong>灵魂拷问："重来一次我还会招TA吗？"</li>
+      <li>下次缺人时先试「一个月不招人」压力测试</li>
+      <li><strong>产品迭代：</strong>优化最高频3个动作（发送/搜索）</li>
+      <li>每次更新必含1个隐性体验优化</li>
+    </ul>
+    <div class="final-box">
+      终极检验：<br>
+      如果用竞品一周后，用户最想念你哪个细节？——那就是护城河
+    </div>
+  </div>
+</div>
+
+<!-- 弹出面板 -->
+<div class="overlay"></div>
+<div class="popup">
+  <span class="close">×</span>
+  <div id="popup-content"></div>
+</div>
+
+<script>
+  // 滚动渐入动画
+  const cards = document.querySelectorAll('.card');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => e.target.classList.toggle('visible', e.isIntersecting));
+  }, { threshold: 0.1 });
+  cards.forEach(c => observer.observe(c));
+
+  // 点击波纹
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const ripple = document.createElement('span');
+      ripple.classList.add('ripple');
+      const rect = btn.getBoundingClientRect();
+      ripple.style.left = e.clientX - rect.left - 10 + 'px';
+      ripple.style.top = e.clientY - rect.top - 10 + 'px';
+      btn.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 700);
+    });
+  });
+
+  // 菜单弹出效果
+  const popup = document.querySelector('.popup');
+  const overlay = document.querySelector('.overlay');
+  const content = document.querySelector('#popup-content');
+  const close = document.querySelector('.close');
+
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.target;
+      const html = document.getElementById(target).innerHTML;
+      content.innerHTML = html;
+      popup.classList.add('show');
+      overlay.classList.add('show');
+    });
+  });
+
+  function closePopup() {
+    popup.classList.remove('show');
+    overlay.classList.remove('show');
+  }
+  close.addEventListener('click', closePopup);
+  overlay.addEventListener('click', closePopup);
+</script>
+</body>
+</html>
