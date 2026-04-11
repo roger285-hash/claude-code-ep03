@@ -1,363 +1,560 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>资源匮乏竟成创业王牌？</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源匮乏竟成创业王牌？Telegram创始人创业哲学</title>
+    <style>
+        /* ================= 基础变量与重置 ================= */
+        :root {
+            --bg-color: #070b14;
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #b066fe;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(15, 23, 42, 0.6);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
 
-    :root {
-      --color1: #4361ee;
-      --color2: #3a0ca3;
-      --color3: #4cc9f0;
-      --color4: #7209b7;
-      --shadow: 0 8px 24px rgba(0,0,0,0.12);
-      --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
-      min-height: 100vh;
-      padding: 20px;
-      color: #222;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
 
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-    }
+        /* 背景氛围光晕 */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 15% 30%, rgba(0, 242, 254, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(176, 102, 254, 0.08) 0%, transparent 40%);
+        }
 
-    /* SVG 动态标题 */
-    .svg-header {
-      width: 100%;
-      height: auto;
-      margin: 20px 0 40px;
-    }
+        /* ================= 顶部与动态SVG ================= */
+        header {
+            padding: 4rem 1rem 2rem;
+            text-align: center;
+            position: relative;
+        }
 
-    /* 导航菜单 */
-    .nav {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 40px;
-      flex-wrap: wrap;
-      position: relative;
-    }
+        .svg-title-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            animation: float 6s ease-in-out infinite;
+        }
 
-    .nav-btn {
-      padding: 12px 22px;
-      background: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(67,97,238,0.1);
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
+        .svg-title {
+            width: 100%;
+            height: auto;
+            overflow: visible;
+        }
 
-    .nav-btn:hover {
-      transform: scale(1.08);
-      color: white;
-      background: linear-gradient(90deg, var(--color1), var(--color3));
-      box-shadow: 0 6px 16px rgba(67,97,238,0.25);
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
 
-    .nav-btn.active {
-      background: linear-gradient(90deg, var(--color1), var(--color3));
-      color: white;
-    }
+        /* ================= 导航菜单 ================= */
+        .nav-menu {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
 
-    /* 点击波纹 */
-    .ripple {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.6);
-      transform: scale(0);
-      animation: ripple 0.6s linear;
-      pointer-events: none;
-    }
+        .nav-btn {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
 
-    @keyframes ripple {
-      to { transform: scale(4); opacity: 0; }
-    }
+        .nav-btn:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+            color: var(--primary);
+        }
 
-    /* 卡片样式 */
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 32px;
-      margin-bottom: 28px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
-      transition: var(--transition);
-      opacity: 0;
-      transform: translateY(30px);
-    }
+        /* 水波纹动画 */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-anim 0.6s linear;
+            background: rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
 
-    .card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+        @keyframes ripple-anim {
+            to { transform: scale(4); opacity: 0; }
+        }
 
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow);
-    }
+        /* ================= 内容区排版与卡片 ================= */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem 6rem;
+        }
 
-    .card h2 {
-      font-size: 22px;
-      background: linear-gradient(90deg, var(--color1), var(--color3));
-      -webkit-background-clip: text;
-      color: transparent;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .card h3 {
-      font-size: 17px;
-      margin: 16px 0 10px;
-      color: #333;
-      border-left: 4px solid var(--color3);
-      padding-left: 10px;
-    }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
 
-    /* 金句区块 */
-    .quote {
-      background: linear-gradient(135deg, #eef6ff 0%, #f5f0ff 100%);
-      border-left: 5px solid var(--color4);
-      padding: 16px 20px;
-      margin: 14px 0;
-      border-radius: 10px;
-      font-style: italic;
-      font-size: 15px;
-      animation: breathe 3s infinite ease-in-out;
-    }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 1;
+        }
 
-    @keyframes breathe {
-      0%,100% { transform: scale(1); }
-      50% { transform: scale(1.01); }
-    }
+        /* 卡片滚动动画初始状态 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
 
-    /* 列表 */
-    .list {
-      padding-left: 22px;
-      margin: 10px 0;
-      line-height: 1.8;
-    }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    .list li {
-      margin-bottom: 8px;
-    }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.15);
+            border-color: rgba(0, 242, 254, 0.3);
+        }
 
-    /* 终极检验 */
-    .final-box {
-      background: linear-gradient(135deg, #ffefd5, #ffe0f0);
-      padding: 24px;
-      border-radius: 16px;
-      text-align: center;
-      font-weight: bold;
-      font-size: 17px;
-      margin-top: 20px;
-      color: #552a38;
-    }
+        .card h3 {
+            color: var(--primary);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-    /* 弹出面板 */
-    .popup {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
-      background: white;
-      border-radius: 20px;
-      padding: 30px;
-      min-width: 300px;
-      max-width: 90%;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.2);
-    }
+        .card h3::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+        }
 
-    .popup.show {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-      pointer-events: all;
-    }
+        .card ul {
+            list-style: none;
+            color: var(--text-muted);
+        }
 
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.2);
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.3s;
-    }
+        .card ul li {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
 
-    .overlay.show {
-      opacity: 1;
-      pointer-events: all;
-    }
+        .card ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
 
-    .close {
-      position: absolute;
-      top: 16px;
-      right: 18px;
-      font-size: 20px;
-      cursor: pointer;
-      color: #666;
-    }
+        .code-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: monospace;
+            color: var(--primary);
+            margin: 1rem 0;
+            border-left: 3px solid var(--accent);
+        }
 
-    /* 响应式 */
-    @media (max-width:768px) {
-      .card { padding: 22px; }
-      .nav-btn { padding: 10px 16px; font-size: 14px; }
-    }
-  </style>
+        /* ================= 金句区块 (呼吸渐变) ================= */
+        .quote-block {
+            background: linear-gradient(90deg, rgba(79, 172, 254, 0.1) 0%, transparent 100%);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem 2rem;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 1.5rem;
+            animation: breathe-glow 3s infinite alternate;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes breathe-glow {
+            0% { box-shadow: inset 0 0 0 rgba(0, 242, 254, 0); border-left-color: var(--primary); }
+            100% { box-shadow: inset 20px 0 30px rgba(0, 242, 254, 0.05); border-left-color: var(--accent); }
+        }
+
+        .quote-block h4 {
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .quote-block p {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .quote-block p::before { content: '" '; color: var(--primary); font-weight: bold;}
+        .quote-block p::after { content: ' "'; color: var(--primary); font-weight: bold;}
+
+        /* ================= 弹窗 (Modal) ================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: linear-gradient(145deg, rgba(20, 30, 48, 0.95), rgba(36, 59, 85, 0.95));
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-radius: 24px;
+            width: 90%;
+            max-width: 700px;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            transform: scale(0.7) translateY(50px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.26, 1.55);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 242, 254, 0.1);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: rgba(79, 172, 254, 0.5); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* ================= 响应式 ================= */
+        @media (max-width: 768px) {
+            header { padding: 2rem 1rem; }
+            .nav-menu { flex-direction: column; width: 100%; max-width: 300px; margin: 2rem auto 0; }
+            .modal-content { padding: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <!-- SVG 动态标题 -->
-  <svg class="svg-header" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="titleGrad" x1="0" y1="0" x2="1" y2="0">
-        <stop offset="0%" stop-color="#4361ee"></stop>
-        <stop offset="100%" stop-color="#4cc9f0"></stop>
-      </linearGradient>
-      <style>
-        @keyframes float {
-          0%,100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
-        }
-        .title-text { animation: float 3s infinite ease-in-out; }
-      </style>
-    </defs>
-    <text class="title-text" x="450" y="60" text-anchor="middle" font-size="34" font-weight="bold" fill="url(#titleGrad)">资源匮乏竟成创业王牌？</text>
-    <text x="450" y="100" text-anchor="middle" font-size="18" fill="#777">Telegram 创始人杜罗夫创业哲学 · 可视化总结</text>
-  </svg>
+    <div class="ambient-glow"></div>
 
-  <!-- 导航菜单 -->
-  <div class="nav">
-    <button class="nav-btn" data-target="core">核心方法论</button>
-    <button class="nav-btn" data-target="quotes">颠覆性金句</button>
-    <button class="nav-btn" data-target="action">行动清单</button>
-  </div>
+    <header>
+        <!-- 动态渐变 SVG 标题 -->
+        <div class="svg-title-container">
+            <svg class="svg-title" viewBox="0 0 800 140" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#00f2fe" />
+                        <stop offset="50%" stop-color="#4facfe" />
+                        <stop offset="100%" stop-color="#b066fe" />
+                    </linearGradient>
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="5" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+                <text x="50%" y="55%" text-anchor="middle" dominant-baseline="middle"
+                      font-family="sans-serif" font-weight="900" font-size="44"
+                      fill="url(#textGrad)" filter="url(#glow)">
+                    资源匮乏竟成创业王牌？
+                </text>
+                <text x="50%" y="90%" text-anchor="middle"
+                      font-family="sans-serif" font-size="20" font-weight="300"
+                      fill="#94a3b8" letter-spacing="3">
+                    Telegram创始人杜罗夫的创业哲学
+                </text>
+            </svg>
+        </div>
 
-  <!-- 内容卡片 -->
-  <div class="card" id="core">
-    <h2>📘 核心方法论：以少胜多的三层逻辑</h2>
-    <h3>心态层：匮乏即优势</h3>
-    <p>老鼠天堂实验：资源过剩导致群体崩溃，匮乏反而激发生存本能</p>
-    <p><strong>行动公式：</strong>资源紧张期 = 砍掉80%业务 + 设资源上限 + 每周防贪多</p>
-    <div class="quote">"300万必须赌一个项目，3个亿反而什么都做不成"</div>
+        <nav class="nav-menu">
+            <button class="nav-btn" data-target="modal-methodology">一、核心方法论</button>
+            <button class="nav-btn" data-target="modal-quotes">二、颠覆性金句</button>
+            <button class="nav-btn" data-target="modal-action">三、行动清单</button>
+        </nav>
+    </header>
 
-    <h3>团队层：少即是多</h3>
-    <p>极端案例：2个工程师维护10亿用户的Telegram</p>
-    <p>反常识发现：开除低效成员后，1人产出 > 原2人总和</p>
-    <p>社会惰化效应：团队规模↑ → 个体贡献度↓</p>
+    <main>
+        <!-- 核心板块一 -->
+        <h2 class="section-title reveal">以少胜多的三层逻辑</h2>
+        <div class="grid-container">
+            <div class="card reveal">
+                <h3>1. 心态层：匮乏即优势</h3>
+                <ul>
+                    <li><strong>老鼠天堂实验：</strong>资源过剩导致群体崩溃，匮乏反而激发生存本能</li>
+                    <li><strong>反常识认知：</strong>"300万必须赌一个项目，3个亿反而什么都做不成"</li>
+                </ul>
+                <div class="code-box">
+                    行动公式：<br>
+                    资源紧张期 = 砍掉80%业务 + 设资源上限 + 每周防贪多
+                </div>
+            </div>
 
-    <h3>产品层：隐形细节定生死</h3>
-    <p>峰值定律：用户记忆取决于「体验峰值+结束时刻」</p>
-    <p>经典案例：消息删除动画（实时重绘万粒粒子+界面自适应）</p>
-    <div class="quote">"每天几千万人删消息，让心情好0.001%也值得"</div>
-  </div>
+            <div class="card reveal">
+                <h3>2. 团队层：少即是多</h3>
+                <ul>
+                    <li><strong>极端案例：</strong>仅凭 2个工程师 维护 10亿用户的 Telegram</li>
+                    <li><strong>反常识发现：</strong>开除低效成员后，1人产出 > 原2人总和</li>
+                    <li><strong>社会惰化效应：</strong>团队规模↑ → 个体贡献度↓</li>
+                </ul>
+            </div>
 
-  <div class="card" id="quotes">
-    <h2>💬 颠覆性金句</h2>
-    <h3>关于资源</h3>
-    <div class="quote">"匮乏不是缺陷，是帮你砍掉杂音的刀"</div>
-    <div class="quote">"选择过载比资源不足更致命"</div>
+            <div class="card reveal">
+                <h3>3. 产品层：隐形细节定生死</h3>
+                <ul>
+                    <li><strong>峰值定律：</strong>用户记忆取决于「体验峰值+结束时刻」</li>
+                    <li><strong>经典案例：</strong>消息删除动画（实时重绘万粒粒子+界面自适应）</li>
+                    <li><strong>极致追求：</strong>"每天几千万人删消息，让心情好0.001%也值得"</li>
+                </ul>
+            </div>
+        </div>
 
-    <h3>关于团队</h3>
-    <div class="quote">"A级选手旁边坐C级的人，等于给潜力上锁"</div>
-    <div class="quote">"招聘不是补数量，是筛出'绝对要重招'的人"</div>
+        <!-- 核心板块二 -->
+        <h2 class="section-title reveal">颠覆性思想碰撞</h2>
+        <div class="grid-container" style="grid-template-columns: 1fr;">
+            <div class="card reveal quote-block">
+                <h4>关于资源</h4>
+                <p>匮乏不是缺陷，是帮你砍掉杂音的刀</p>
+                <p>选择过载比资源不足更致命</p>
+            </div>
+            <div class="card reveal quote-block">
+                <h4>关于团队</h4>
+                <p>A级选手旁边坐C级的人，等于给潜力上锁</p>
+                <p>招聘不是补数量，是筛出'绝对要重招'的人</p>
+            </div>
+            <div class="card reveal quote-block">
+                <h4>关于产品</h4>
+                <p>功能多≠竞争力强，说不清但离不开才是壁垒</p>
+                <p>用户不会感谢你的动画，但会记住'被在乎'的感觉</p>
+            </div>
+        </div>
+    </main>
 
-    <h3>关于产品</h3>
-    <div class="quote">"功能多≠竞争力强，说不清但离不开才是壁垒"</div>
-    <div class="quote">"用户不会感谢你的动画，但会记住'被在乎'的感觉"</div>
-  </div>
-
-  <div class="card" id="action">
-    <h2>✅ 可落地行动清单</h2>
-    <ul class="list">
-      <li><strong>本周必做：</strong>列出所有业务，立即砍掉"可做但不必须"的80%</li>
-      <li>给核心业务设置资源上限（钱/人/时间）</li>
-      <li><strong>团队优化：</strong>灵魂拷问："重来一次我还会招TA吗？"</li>
-      <li>下次缺人时先试「一个月不招人」压力测试</li>
-      <li><strong>产品迭代：</strong>优化最高频3个动作（发送/搜索）</li>
-      <li>每次更新必含1个隐性体验优化</li>
-    </ul>
-    <div class="final-box">
-      终极检验：<br>
-      如果用竞品一周后，用户最想念你哪个细节？——那就是护城河
+    <!-- ================= 弹窗结构 ================= -->
+    <div class="modal-overlay" id="modal-methodology">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="section-title" style="font-size:1.8rem;">核心方法论速览</h2>
+            <div class="quote-block">
+                <h4>心态层</h4>
+                <p style="font-size:0.95rem; font-style:normal;">匮乏即优势，资源过剩往往导致崩溃，保持饥饿感是创新的源动力。</p>
+            </div>
+            <div class="quote-block" style="border-left-color: var(--secondary);">
+                <h4>团队层</h4>
+                <p style="font-size:0.95rem; font-style:normal;">少即是多，坚决警惕社会惰化效应，保持精英小团队的高效运转。</p>
+            </div>
+            <div class="quote-block" style="border-left-color: var(--accent);">
+                <h4>产品层</h4>
+                <p style="font-size:0.95rem; font-style:normal;">隐形细节定生死，打磨那些用户察觉不到但能潜移默化提升体验的细节。</p>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
 
-<!-- 弹出面板 -->
-<div class="overlay"></div>
-<div class="popup">
-  <span class="close">×</span>
-  <div id="popup-content"></div>
-</div>
+    <div class="modal-overlay" id="modal-quotes">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="section-title" style="font-size:1.8rem;">杜罗夫金句卡</h2>
+            <div class="card" style="margin-bottom:1rem; border-color:var(--primary)">
+                <p style="font-size: 1.2rem; font-style: italic; color:var(--text-main);">"功能多≠竞争力强，说不清但离不开才是壁垒。"</p>
+            </div>
+            <div class="card" style="margin-bottom:1rem; border-color:var(--secondary)">
+                <p style="font-size: 1.2rem; font-style: italic; color:var(--text-main);">"A级选手旁边坐C级的人，等于给潜力上锁。"</p>
+            </div>
+            <div class="card" style="border-color:var(--accent)">
+                <p style="font-size: 1.2rem; font-style: italic; color:var(--text-main);">"用户不会感谢你的动画，但会记住'被在乎'的感觉。"</p>
+            </div>
+        </div>
+    </div>
 
-<script>
-  // 滚动渐入动画
-  const cards = document.querySelectorAll('.card');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => e.target.classList.toggle('visible', e.isIntersecting));
-  }, { threshold: 0.1 });
-  cards.forEach(c => observer.observe(c));
+    <div class="modal-overlay" id="modal-action">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <h2 class="section-title" style="font-size:1.8rem;">可落地的行动清单</h2>
 
-  // 点击波纹
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const ripple = document.createElement('span');
-      ripple.classList.add('ripple');
-      const rect = btn.getBoundingClientRect();
-      ripple.style.left = e.clientX - rect.left - 10 + 'px';
-      ripple.style.top = e.clientY - rect.top - 10 + 'px';
-      btn.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 700);
-    });
-  });
+            <div class="code-box" style="margin-bottom:1.5rem;">
+                <strong>1. 本周必做</strong>
+                <ul style="color:#a8b2d1; margin-top:0.5rem; padding-left:1.5rem;">
+                    <li>列出所有业务，立即砍掉"可做但不必须"的80%</li>
+                    <li>给核心业务设置资源上限（钱/人/时间）</li>
+                </ul>
+            </div>
 
-  // 菜单弹出效果
-  const popup = document.querySelector('.popup');
-  const overlay = document.querySelector('.overlay');
-  const content = document.querySelector('#popup-content');
-  const close = document.querySelector('.close');
+            <div class="code-box" style="margin-bottom:1.5rem; border-left-color:var(--secondary)">
+                <strong>2. 团队优化</strong>
+                <ul style="color:#a8b2d1; margin-top:0.5rem; padding-left:1.5rem;">
+                    <li>灵魂拷问："重来一次我还会招TA吗？"</li>
+                    <li>下次缺人时先试「一个月不招人」压力测试</li>
+                </ul>
+            </div>
 
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.target;
-      const html = document.getElementById(target).innerHTML;
-      content.innerHTML = html;
-      popup.classList.add('show');
-      overlay.classList.add('show');
-    });
-  });
+            <div class="code-box" style="margin-bottom:1.5rem; border-left-color:var(--primary)">
+                <strong>3. 产品迭代</strong>
+                <ul style="color:#a8b2d1; margin-top:0.5rem; padding-left:1.5rem;">
+                    <li>优化最高频3个动作（如发送/搜索）</li>
+                    <li>每次更新必含1个隐性体验优化</li>
+                </ul>
+            </div>
 
-  function closePopup() {
-    popup.classList.remove('show');
-    overlay.classList.remove('show');
-  }
-  close.addEventListener('click', closePopup);
-  overlay.addEventListener('click', closePopup);
-</script>
+            <div class="quote-block" style="border-left:none; background: linear-gradient(90deg, rgba(176,102,254,0.2) 0%, transparent 100%);">
+                <h4 style="color:var(--accent)">终极检验：</h4>
+                <p style="font-style:normal;">"如果用竞品一周后，用户最想念你哪个细节？——那就是护城河"</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JavaScript 交互逻辑 ================= -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. 水波纹点击特效
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const x = e.clientX - e.target.getBoundingClientRect().left;
+                    const y = e.clientY - e.target.getBoundingClientRect().top;
+
+                    const ripple = document.createElement('span');
+                    ripple.style.left = `${x}px`;
+                    ripple.style.top = `${y}px`;
+                    ripple.classList.add('ripple');
+
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+
+            // 2. 弹窗逻辑 (弹性缓动)
+            const modals = document.querySelectorAll('.modal-overlay');
+            const closeBtns = document.querySelectorAll('.modal-close');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetId = btn.getAttribute('data-target');
+                    document.getElementById(targetId).classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+
+            const closeModal = () => {
+                modals.forEach(modal => modal.classList.remove('active'));
+                document.body.style.overflow = '';
+            };
+
+            closeBtns.forEach(btn => btn.addEventListener('click', closeModal));
+
+            modals.forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal();
+                });
+            });
+
+            // 3. 滚动平滑淡入上浮动画 (Intersection Observer)
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
 </body>
 </html>
