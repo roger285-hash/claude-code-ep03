@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obsidian 知识管理迭代框架</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Rob, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        :root {
+            --color-primary: #4361ee;
+            --color-secondary: #3a0ca3;
+            --color-accent: #4cc9f0;
+            --color-gradient: linear-gradient(135deg, #4361ee, #3a0ca3, #4cc9f0);
+            --color-bg: #0f172a;
+            --color-card: #1e293b;
+            --color-text: #f1f5f9;
+            --color-text-secondary: #cbd5e1;
+            --radius: 16px;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --chart-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+            overflow-x: hidden;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Animation */
+        .header {
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        .gradient-text {
+            background: var(--color-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+
+        svg.title-svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Nav */
+        .nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 30px 0 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            padding: 12px 20px;
+            background: rgba(67, 97, 238, 0.1);
+            border: 1px solid rgba(67, 97, 238, 0.3);
+            border-radius: 50px;
+            color: var(--color-text);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            outline: none;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.08);
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(67, 97, 238, 0.3);
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            pointer-events: none;
+        }
+
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--color-card);
+            border-radius: var(--radius);
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            font-size: 22px;
+            margin-bottom: 16px;
+            color: #fff;
+        }
+
+        .card h3 {
+            font-size: 18px;
+            margin: 20px 0 10px;
+            color: var(--color-accent);
+        }
+
+        .card p {
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+        }
+
+        /* 流程图卡片样式 */
+        .chart-card {
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            margin: 20px 0;
+            background-color: var(--chart-bg);
+            padding: 15px;
+        }
+
+        .chart-container:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(67, 97, 238, 0.2);
+        }
+
+        .chart-img {
+            width: 100%;
+            height: auto;
+            border-radius: calc(var(--radius) - 8px);
+            object-fit: contain;
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            filter: contrast(1.1) brightness(1.05);
+            transition: all 0.4s ease;
+        }
+
+        .chart-img.fullsize {
+            max-width: 100%;
+            transform: scale(1.5);
+            cursor: zoom-out;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .chart-caption {
+            color: var(--color-accent);
+            margin-top: 15px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        /* Highlight Box */
+        .highlight {
+            background: linear-gradient(135deg, rgba(67,97,238,0.1), rgba(58,12,163,0.1));
+            border-left: 4px solid var(--color-primary);
+            padding: 18px 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%,100% { opacity: 0.9; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.01); }
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .modal {
+            background: var(--color-card);
+            border-radius: var(--radius);
+            max-width: 800px;
+            max-height: 85vh;
+            width: 100%;
+            padding: 32px;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y: auto;
+        }
+
+        .modal .chart-container {
+            background: white;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px; right: 24px;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            width: 36px; height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* List */
+        ul {
+            padding-left: 20px;
+            color: var(--color-text-secondary);
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        /* Code Style */
+        .code-block {
+            background: #111827;
+            padding: 14px 18px;
+            border-radius: 10px;
+            color: #4cc9f0;
+            font-family: monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav { gap: 8px; }
+            .nav-btn { padding: 10px 16px; font-size: 14px; }
+            .card { padding: 22px; }
+            .modal { padding: 24px; max-width: 95%; }
+            .chart-container:hover { transform: none; }
+            .chart-img.fullsize {
+                transform: scale(1.2);
+            }
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4361ee;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #4cc9f0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <svg class="title-svg" viewBox="0 0 800 120" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="titleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#4361ee;stop-opacity:1" />
+                        <stop offset="50%" style="stop-color:#3a0ca3;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#4cc9f0;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <text x="50%" y="60%" font-size="48" font-weight="bold" text-anchor="middle" fill="url(#titleGradient)" class="gradient-text">
+                    Obsidian 知识管理 · 回顾与迭代框架
+                </text>
+            </svg>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav">
+            <button class="nav-btn" data-target="structure">整体框架</button>
+            <button class="nav-btn" data-target="chart">核心流程图</button>
+            <button class="nav-btn" data-target="three-step">三层节奏</button>
+            <button class="nav-btn" data-target="four-actions">四大动作</button>
+            <button class="nav-btn" data-target="claude">Claude 指令</button>
+            <button class="nav-btn" data-target="mistakes">常见误区</button>
+        </div>
+
+        <!-- 流程图卡片 -->
+        <div class="card chart-card" id="chart">
+            <h2>核心流程总览图</h2>
+            <p>以下是完整的 Obsidian 知识管理回顾与迭代框架可视化流程图，点击可放大查看高清细节：</p>
+            <div class="chart-container">
+                <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/8d5d48d8025145fdba7ccabe6ddec851.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=202604121232515F5B06F2644E4C948D7C&rrcfp=8a172a1a&x-expires=1776573171&x-signature=DsmXqY%2BVmEphshQgfb77P7GMjxE%3D"
+                     alt="Obsidian 知识管理回顾与迭代框架"
+                     class="chart-img"
+                     title="点击放大/缩小查看细节">
+            </div>
+            <p class="chart-caption">Obsidian 日/周/月三层回顾节奏 + 四大核心动作全流程</p>
+        </div>
+
+        <!-- Content Cards -->
+        <div class="card" id="structure">
+            <h2>整体框架结构</h2>
+            <p>这套体系分为 5 大模块，逻辑层层递进，让笔记从「杂乱碎片」变成「活知识体系」：</p>
+            <ul>
+                <li>三层回顾节奏：每日 → 每周 → 每月</li>
+                <li>四大核心动作：贯穿全流程的通用操作</li>
+                <li>Claude 辅助提示词：现成 AI 指令</li>
+                <li>常见误区提醒：避免形式主义</li>
+                <li>执行成本说明：明确时间投入</li>
+            </ul>
+        </div>
+
+        <div class="card" id="three-step">
+            <h2>三层回顾节奏（核心）</h2>
+            <h3>📅 每日回顾（5–10 分钟）</h3>
+            <p>目标：清空 Inbox、记录闪念、标记待深读</p>
+            <ul>
+                <li>清空收件箱，快速处理临时笔记</li>
+                <li>一句话记录今日轨迹</li>
+                <li>标记 #review 标签</li>
+            </ul>
+
+            <h3>📅 每周回顾（30–45 分钟）</h3>
+            <p>目标：提炼、结构化、建立链接</p>
+            <ul>
+                <li>处理本周 #review 笔记</li>
+                <li>碎片 → 主题笔记</li>
+                <li>建立 [[双向链接]]</li>
+                <li>更新版本号 + 写周报</li>
+            </ul>
+
+            <h3>📅 每月回顾（60–90 分钟）</h3>
+            <p>目标：清理、升级、规划</p>
+            <ul>
+                <li>淘汰过时内容 → 归档</li>
+                <li>升级常青笔记</li>
+                <li>规划下月知识方向</li>
+            </ul>
+        </div>
+
+        <div class="card" id="four-actions">
+            <h2>四大核心动作（贯穿所有回顾）</h2>
+            <div class="highlight">
+                这 4 个动作是让笔记「活起来」的关键！
+            </div>
+            <ul>
+                <li><strong>更新</strong>：补充新资讯、修正旧观点</li>
+                <li><strong>关联</strong>：建立链接、搭建 MOC 知识地图</li>
+                <li><strong>提炼</strong>：萃取核心、去除噪音</li>
+                <li><strong>复盘</strong>：内化输入、沉淀收获</li>
+            </ul>
+        </div>
+
+        <div class="card" id="claude">
+            <h2>Claude 辅助提示词（直接复制）</h2>
+            <h3>🔹 提炼笔记</h3>
+            <div class="code-block">
+帮我提炼这篇笔记的核心观点，去除重复，输出 3-5 条要点
+            </div>
+
+            <h3>🔹 建立关联</h3>
+            <div class="code-block">
+这篇笔记和 [[笔记名]] 有什么关联？帮我写一段连结说明
+            </div>
+
+            <h3>🔹 智能复盘</h3>
+            <div class="code-block">
+根据这周笔记，帮我找出三个值得深入的知识缺口
+            </div>
+        </div>
+
+        <div class="card" id="mistakes">
+            <h2>常见误区（避坑指南）</h2>
+            <ul>
+                <li>❌ 只收不回顾 → 知识变成死库</li>
+                <li>❌ 回顾时间太长 → 无法坚持</li>
+                <li>❌ 链接乱加 → 知识图谱无意义</li>
+            </ul>
+            <div class="highlight">
+                核心逻辑：高频轻量回顾 + 深度月度升级 + AI 辅助 = 可持续闭环
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <button class="close-btn">×</button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Scroll Animation
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.1 });
+
+        cards.forEach(card => observer.observe(card));
+
+        // Ripple Effect
+        const btns = document.querySelectorAll('.nav-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                const rect = btn.getBoundingClientRect();
+                ripple.style.width = ripple.style.height = Math.max(rect.width, rect.height) + 'px';
+                ripple.style.left = e.clientX - rect.left - ripple.offsetWidth/2 + 'px';
+                ripple.style.top = e.clientY - rect.top - ripple.offsetHeight/2 + 'px';
+                btn.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Modal
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeBtn = document.querySelector('.close-btn');
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.dataset.target;
+                const targetContent = document.getElementById(targetId).innerHTML;
+                modalContent.innerHTML = targetContent;
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            const img = document.querySelector('.chart-img.fullsize');
+            if(img) {
+                img.classList.remove('fullsize');
+                img.style.transform = 'scale(1)';
+            }
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if(e.target === modal) closeModal();
+        });
+
+        // 图片点击缩放逻辑
+        document.querySelector('.chart-img').addEventListener('click', function(e) {
+            e.stopPropagation();
+            if(this.classList.contains('fullsize')) {
+                this.classList.remove('fullsize');
+                this.style.transform = 'scale(1)';
+                this.style.cursor = 'zoom-in';
+                this.parentElement.style.overflow = 'hidden';
+            } else {
+                this.classList.add('fullsize');
+                this.style.cursor = 'zoom-out';
+                this.parentElement.style.overflow = 'auto';
+            }
+        });
+
+        // 初始化图片鼠标样式
+        document.querySelector('.chart-img').style.cursor = 'zoom-in';
+    </script>
+</body>
+</html>
