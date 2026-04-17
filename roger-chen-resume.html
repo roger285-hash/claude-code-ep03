@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陳俊岳 Roger Chen | AI 驅動的資深經營幕僚</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .navy-bg { background-color: #0f172a; }
+        .tech-blue { color: #3b82f6; }
+        .tech-blue-bg { background-color: #3b82f6; }
+        .gradient-text {
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-white font-black text-xl tracking-tight">陳俊岳 <span class="tech-blue">Roger Chen</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="#diagnosis" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-medium transition">經營診斷</a>
+                        <a href="#solutions" class="text-slate-300 hover:text-white px-3 py-2 text-sm font-medium transition">價值藥方</a>
+                        <a href="#contact" class="tech-blue-bg text-white px-5 py-2 rounded-full text-sm font-bold hover:bg-blue-500 transition shadow-lg shadow-blue-500/20">預約現場演示</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative navy-bg pt-32 pb-20 lg:pt-48 lg:pb-40 overflow-hidden">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-blue-600 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-0 -right-1/4 w-1/2 h-1/2 bg-indigo-900 rounded-full blur-[120px]"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center">
+                <h2 class="inline-block text-blue-400 font-bold tracking-[0.2em] mb-4 uppercase text-sm">21年產業底蘊 × AI 數位神經系統</h2>
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white leading-tight mb-8">
+                    我不只是助理，<br class="hidden md:block">
+                    更是為您阻斷內耗的<br>
+                    <span class="gradient-text">「經營幕僚」</span>
+                </h1>
+                <p class="text-lg md:text-xl text-slate-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+                    協助老闆終結「校長兼撞鐘」的困境。透過 AI 數位賦能，讓管理不再靠感覺，實現「老闆不必看數字，看圖就知道問題在哪」。
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="#solutions" class="bg-white text-navy-bg px-8 py-4 rounded-xl font-black text-lg hover:bg-blue-50 transition transform hover:scale-105 shadow-xl">
+                        查看我的 AI 經營藥方
+                    </a>
+                    <a href="#contact" class="border border-slate-700 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/5 transition">
+                        現場演示邀請
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Diagnosis Section -->
+    <section id="diagnosis" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-900 mb-4 italic">經營診斷：我看見的批發業難題</h2>
+                <p class="text-slate-500 max-w-2xl mx-auto">實業經營最怕陷入「高投入、低產出」的空轉，以下是立身股份轉型期最需突破的阻力。</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Pain Point 1 -->
+                <div class="p-8 bg-slate-50 rounded-3xl border-l-8 border-red-500 shadow-sm hover:shadow-xl transition group">
+                    <div class="w-14 h-14 bg-red-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-500 transition-colors">
+                        <i data-lucide="user-minus" class="text-red-600 group-hover:text-white w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-4 italic text-red-600">校長兼撞鐘</h3>
+                    <p class="text-slate-600 leading-relaxed">老闆被瑣碎行政、帳務、調度綁架。每天在雜事中內耗，導致無暇思考真正的賺錢大計與市場佈局。</p>
+                </div>
+
+                <!-- Pain Point 2 -->
+                <div class="p-8 bg-slate-50 rounded-3xl border-l-8 border-orange-500 shadow-sm hover:shadow-xl transition group">
+                    <div class="w-14 h-14 bg-orange-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-500 transition-colors">
+                        <i data-lucide="bar-chart-3" class="text-orange-600 group-hover:text-white w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-4 italic text-orange-600">數據看得到理不清</h3>
+                    <p class="text-slate-600 leading-relaxed">農水產數據雜亂。ERP 變擺設，行政算帳慢。老闆想知道「哪個貨賺錢、哪個虧」，卻總是要等到明天以後。</p>
+                </div>
+
+                <!-- Pain Point 3 -->
+                <div class="p-8 bg-slate-50 rounded-3xl border-l-8 border-blue-500 shadow-sm hover:shadow-xl transition group">
+                    <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-500 transition-colors">
+                        <i data-lucide="workflow" class="text-blue-600 group-hover:text-white w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-black mb-4 italic text-blue-600">執行管理空轉</h3>
+                    <p class="text-slate-600 leading-relaxed">交辦事項石沈大海，人員管理全靠腦記。沒有 SOP 導致同樣的錯誤反覆發生，不僅浪費成本，更消磨心力。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solutions" class="py-24 navy-bg text-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="mb-12 lg:mb-0">
+                    <h2 class="text-3xl md:text-4xl font-black mb-6 italic">我的價值藥方</h2>
+                    <p class="text-slate-400 text-lg mb-12">運用 21 年管理底蘊結合 AI 工具鏈，為立身股份建立數位控制中心。</p>
+
+                    <div class="space-y-8">
+                        <div class="flex gap-6">
+                            <div class="flex-shrink-0 w-12 h-12 tech-blue-bg rounded-xl flex items-center justify-center">
+                                <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">數據釐清與圖表化</h4>
+                                <p class="text-slate-400 leading-relaxed">利用 Gemini 進行數據清洗，將混亂流水帳轉為經營戰情看板。老闆只需看圖，就能抓出毛利異常。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-6">
+                            <div class="flex-shrink-0 w-12 h-12 tech-blue-bg rounded-xl flex items-center justify-center">
+                                <i data-lucide="database" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">知識沉澱 (SOIL 框架)</h4>
+                                <p class="text-slate-400 leading-relaxed">運用 Obsidian 建立企業外部大腦，將老闆經驗 SOP 化。確保交辦事項必有結果，經驗不再流失。</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-6">
+                            <div class="flex-shrink-0 w-12 h-12 tech-blue-bg rounded-xl flex items-center justify-center">
+                                <i data-lucide="eye" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-2">決策預審與過濾</h4>
+                                <p class="text-slate-400 leading-relaxed">AI 掃描合約與公文，我遞給您的文件已標註重點與風險提示。協助老闆實現「最低消耗腦算力」。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative">
+                    <div class="glass-card p-6 rounded-3xl animate-float">
+                        <div class="flex items-center justify-between mb-6 border-b border-white/10 pb-4">
+                            <div class="flex space-x-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            </div>
+                            <span class="text-xs font-bold tracking-widest text-blue-400 uppercase italic">AI 經營看板 (示意)</span>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="p-4 bg-white/5 rounded-xl border-l-4 border-blue-500">
+                                <p class="text-[10px] text-slate-500 mb-1 uppercase tracking-wider">今日獲利預警</p>
+                                <p class="text-lg font-bold">批發品類：鮮魚 A 組</p>
+                                <p class="text-xs text-blue-400 mt-1">▲ 毛利提升 12.5% | 損耗降低 5%</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-blue-600/20 p-4 rounded-xl text-center">
+                                    <p class="text-[10px] text-blue-400 mb-1">行政產能提升</p>
+                                    <p class="text-2xl font-black text-white">85%</p>
+                                </div>
+                                <div class="bg-indigo-600/20 p-4 rounded-xl text-center">
+                                    <p class="text-[10px] text-indigo-400 mb-1">老闆節省工時</p>
+                                    <p class="text-2xl font-black text-white">4.5h</p>
+                                </div>
+                            </div>
+                            <div class="h-32 bg-white/5 rounded-xl flex items-end justify-around px-4 pb-4">
+                                <div class="w-4 bg-blue-500 h-[30%] rounded-t"></div>
+                                <div class="w-4 bg-blue-400 h-[60%] rounded-t"></div>
+                                <div class="w-4 bg-blue-300 h-[45%] rounded-t"></div>
+                                <div class="w-4 bg-blue-600 h-[85%] rounded-t"></div>
+                                <div class="w-4 bg-indigo-500 h-[70%] rounded-t"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy -->
+    <section class="py-32 bg-white text-center">
+        <div class="max-w-5xl mx-auto px-4">
+            <h2 class="text-3xl md:text-5xl font-black text-slate-900 leading-tight italic">
+                「AI 是強大的引擎，但唯有市場歷練過的舵手，才能駕馭它衝破經營的迷霧。」
+            </h2>
+            <div class="mt-12 flex items-center justify-center space-x-4">
+                <div class="h-[1px] w-12 bg-slate-300"></div>
+                <span class="text-slate-400 font-bold uppercase tracking-widest text-sm">陳俊岳 Roger Chen</span>
+                <div class="h-[1px] w-12 bg-slate-300"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact / CTA -->
+    <footer id="contact" class="py-24 navy-bg text-white border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-blue-600 rounded-[2rem] p-8 md:p-16 relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-12 opacity-10">
+                    <i data-lucide="send" class="w-48 h-48"></i>
+                </div>
+
+                <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h3 class="text-3xl md:text-4xl font-black mb-6">準備好釋放您的經營精力了嗎？</h3>
+                        <p class="text-blue-100 text-lg mb-8 leading-relaxed">
+                            我已準備好為立身股份插上 AI 的翅膀。我的到來，是為了讓您有更多時間去做「真正賺錢的事」。
+                        </p>
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-center">
+                                <i data-lucide="phone" class="w-5 h-5 mr-4 text-blue-200"></i>
+                                <span class="text-xl font-bold">0983-607-002</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i data-lucide="map-pin" class="w-5 h-5 mr-4 text-blue-200"></i>
+                                <span class="font-medium">新北市蘆洲區 (可駐地/出差彰化芳苑)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-8 rounded-2xl text-slate-900 shadow-2xl">
+                        <h4 class="text-xl font-black mb-4 tech-blue underline underline-offset-8 decoration-2 italic">面試現場特別提案</h4>
+                        <p class="text-slate-600 mb-6 italic leading-relaxed">
+                            面試現場，我準備為您演示「三分鐘數據釐清」。若您能提供一份目前最雜亂的經營數據（如採購單、Excel 或合約草稿），我將現場演示如何運用 AI 在 180 秒內產出具備獲利洞察的視覺報告。
+                        </p>
+                        <div class="p-4 bg-blue-50 rounded-lg flex items-start">
+                            <i data-lucide="info" class="w-5 h-5 text-blue-600 mr-3 mt-1 shrink-0"></i>
+                            <p class="text-xs text-blue-900 font-bold">讓數據說實話，解決滯後難題。我將證明技術如何轉化為您的經營利潤。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-16 text-center text-slate-500 text-xs">
+                &copy; 2024 Roger Chen. AI Driven Management Executive. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html>
