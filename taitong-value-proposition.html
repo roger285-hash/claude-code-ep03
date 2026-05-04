@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陳俊岳 × AI ── 給泰通電線電纜的價值主張</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0C0E12;
+  --surface: #141720;
+  --border: #1E2330;
+  --copper: #C8852A;
+  --copper-glow: rgba(200,133,42,0.15);
+  --copper-light: #E8A84A;
+  --text: #E8E4DC;
+  --text-dim: #6B7280;
+  --text-mid: #9CA3AF;
+  --green: #22C55E;
+  --red: #EF4444;
+  --blue: #3B82F6;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ─── HERO ─── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5rem 6vw;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(200,133,42,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(59,130,246,0.04) 0%, transparent 60%);
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,133,42,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,133,42,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.hero-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-headline {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  max-width: 900px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-headline .accent {
+  color: var(--copper);
+  position: relative;
+}
+
+.hero-headline .accent::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--copper);
+  opacity: 0.4;
+}
+
+.hero-sub {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: var(--text-mid);
+  max-width: 580px;
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-cta {
+  margin-top: 3rem;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.btn-primary {
+  background: var(--copper);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.9rem 2rem;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: var(--copper-light);
+  transform: translateY(-2px);
+}
+
+.btn-ghost {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  letter-spacing: 0.05em;
+  transition: color 0.2s;
+  font-family: 'DM Mono', monospace;
+}
+
+.btn-ghost:hover { color: var(--text); }
+
+/* ─── FORMULA ─── */
+.formula-section {
+  padding: 6rem 6vw;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.section-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 0.75rem;
+}
+
+.formula-visual {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 3rem 0;
+  flex-wrap: wrap;
+}
+
+.formula-block {
+  flex: 1;
+  min-width: 180px;
+  border: 1px solid var(--border);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  position: relative;
+  background: var(--bg);
+  transition: border-color 0.3s;
+}
+
+.formula-block:hover { border-color: var(--copper); }
+
+.formula-block-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+.formula-block h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--copper-light);
+}
+
+.formula-block p {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.formula-op {
+  font-family: 'DM Mono', monospace;
+  font-size: 2rem;
+  color: var(--copper);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.formula-result {
+  flex: 1.5;
+  min-width: 220px;
+  border: 2px solid var(--copper);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background: var(--copper-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.formula-result::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(200,133,42,0.1), transparent 70%);
+}
+
+.formula-result-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.formula-result h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ─── BEFORE / AFTER ─── */
+.compare-section {
+  padding: 6rem 6vw;
+  background: var(--bg);
+}
+
+.compare-tabs {
+  display: flex;
+  gap: 0;
+  margin-top: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.compare-tab {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  font-family: 'Noto Sans TC', sans-serif;
+  transition: all 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.compare-tab.active {
+  color: var(--copper);
+  border-bottom-color: var(--copper);
+}
+
+.scenario {
+  display: none;
+  margin-top: 2.5rem;
+}
+
+.scenario.active { display: block; }
+
+.scenario-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.scenario-desc {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5px;
+  background: var(--border);
+}
+
+.compare-col {
+  background: var(--bg);
+  padding: 0;
+}
+
+.compare-col-header {
+  padding: 1.2rem 1.5rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.col-before .compare-col-header { color: var(--red); }
+.col-ai-only .compare-col-header { color: var(--blue); }
+.col-roger .compare-col-header { color: var(--green); background: rgba(34,197,94,0.04); }
+
+.compare-items {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.compare-item {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text-mid);
+}
+
+.compare-item-icon { flex-shrink: 0; font-size: 1rem; margin-top: 1px; }
+
+.compare-verdict {
+  padding: 1.2rem 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+
+.col-before .compare-verdict { color: var(--red); }
+.col-ai-only .compare-verdict { color: var(--blue); }
+.col-roger .compare-verdict { color: var(--green); }
+
+/* ─── TIMELINE ─── */
+.timeline-section {
+  padding: 6rem 6vw;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+.timeline {
+  margin-top: 3rem;
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--copper), rgba(200,133,42,0.1));
+}
+
+.timeline-item {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.5s;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -2rem;
+  top: 4px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--copper);
+  border: 3px solid var(--bg);
+  flex-shrink: 0;
+}
+
+.timeline-time {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--copper);
+  min-width: 80px;
+  padding-top: 3px;
+  flex-shrink: 0;
+}
+
+.timeline-content h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+
+.timeline-content p {
+  font-size: 0.83rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.timeline-tag {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  padding: 2px 10px;
+  border-radius: 2px;
+  border: 1px solid;
+}
+
+.tag-ai { color: var(--copper); border-color: rgba(200,133,42,0.3); }
+.tag-exp { color: var(--blue); border-color: rgba(59,130,246,0.3); }
+.tag-result { color: var(--green); border-color: rgba(34,197,94,0.3); }
+
+/* ─── CLOSING ─── */
+.closing {
+  padding: 8rem 6vw;
+  background: var(--bg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.closing::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(200,133,42,0.08), transparent 70%);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.closing-quote {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 700;
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.5;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+}
+
+.closing-quote .hl { color: var(--copper); }
+
+.closing-sub {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  max-width: 500px;
+  margin: 0 auto 3rem;
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+}
+
+.closing-contact {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  position: relative;
+  z-index: 1;
+}
+
+.closing-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--copper-light);
+}
+
+.closing-phone {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--text-mid);
+  letter-spacing: 0.1em;
+}
+
+.closing-tagline {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  padding: 1.5rem 6vw;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+}
+
+footer span { color: var(--copper); }
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── MOBILE ─── */
+@media (max-width: 768px) {
+  .formula-visual { flex-direction: column; }
+  .formula-op { transform: rotate(90deg); }
+  .compare-grid { grid-template-columns: 1fr; gap: 1px; }
+  footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow">陳俊岳 × Claude AI ── 價值主張 2026</div>
+  <h1 class="hero-headline">
+    21年知道<span class="accent">問題在哪</span><br>
+    AI幫我用<span class="accent">最少資源</span>解決它
+  </h1>
+  <p class="hero-sub">這不是AI取代人的故事。這是一位有21年商務實戰經驗的人，用AI工具讓自己的判斷力乘以十倍的故事。</p>
+  <div class="hero-cta">
+    <a href="#compare" class="btn-primary">看看差距在哪裡</a>
+    <button class="btn-ghost" onclick="document.getElementById('timeline').scrollIntoView({behavior:'smooth'})">我的第一個月計畫 ↓</button>
+  </div>
+</section>
+
+<!-- FORMULA -->
+<section class="formula-section">
+  <div class="section-eyebrow">核心公式</div>
+  <h2 class="section-title reveal">為什麼是「陳俊岳 × AI」<br>而不只是「AI」？</h2>
+  <p style="color:var(--text-dim);max-width:580px;line-height:1.8;font-size:0.9rem;" class="reveal">
+    AI工具人人都能用。但沒有21年的商務歷練，AI不知道哪個問題值得解決、哪條路走過是死路、哪個客戶的話背後藏著什麼意思。<br><br>
+    <strong style="color:var(--text);">經驗提供判斷力，AI提供執行速度。缺一不可。</strong>
+  </p>
+  <div class="formula-visual reveal">
+    <div class="formula-block">
+      <div class="formula-block-icon">🧠</div>
+      <h3>21年商務實戰</h3>
+      <p>設備業務談判、客戶開發、團隊管理、跨部門協調的實戰判斷力</p>
+    </div>
+    <div class="formula-op">×</div>
+    <div class="formula-block">
+      <div class="formula-block-icon">⚡</div>
+      <h3>Claude AI工具</h3>
+      <p>資訊整合、報告生成、流程優化、決策輔助的執行加速引擎</p>
+    </div>
+    <div class="formula-op">=</div>
+    <div class="formula-result">
+      <div class="formula-result-label">最終產出</div>
+      <h3>用最少資源<br>做出最好結果<br>的執行者</h3>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE / AFTER -->
+<section class="compare-section" id="compare">
+  <div class="section-eyebrow">實戰場景對比</div>
+  <h2 class="section-title reveal">同一個問題<br>三種處理方式的差距</h2>
+  <p style="color:var(--text-dim);font-size:0.88rem;line-height:1.7;max-width:580px;margin-top:0.75rem;" class="reveal">
+    點擊不同場景，看看「只靠人工」「只靠AI」「陳俊岳 × AI」三種方式的實際差距。
+  </p>
+
+  <div class="compare-tabs reveal">
+    <button class="compare-tab active" onclick="switchTab(0)">場景一：重要客戶詢價</button>
+    <button class="compare-tab" onclick="switchTab(1)">場景二：資訊混亂決策慢</button>
+    <button class="compare-tab" onclick="switchTab(2)">場景三：跨部門溝通卡關</button>
+  </div>
+
+  <!-- 場景一 -->
+  <div class="scenario active" id="s0">
+    <div class="scenario-title">📋 場景：大客戶突然詢問161KV電纜報價</div>
+    <p class="scenario-desc">客戶上午來電，需要今天下午前收到完整報價，包含多品牌規格比較與建議。老闆正在開會，業務員不確定怎麼回。</p>
+    <div class="compare-grid">
+      <div class="compare-col col-before">
+        <div class="compare-col-header">❌ 只靠人工</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">⏱️</span>業務員翻目錄查規格，耗時2小時</div>
+          <div class="compare-item"><span class="compare-item-icon">📞</span>等老闆開完會才能確認報價策略</div>
+          <div class="compare-item"><span class="compare-item-icon">😟</span>資料格式不統一，客戶看了很亂</div>
+          <div class="compare-item"><span class="compare-item-icon">⏰</span>下午截止前勉強送出，品質堪憂</div>
+        </div>
+        <div class="compare-verdict">結果：客戶印象扣分，可能流失</div>
+      </div>
+      <div class="compare-col col-ai-only">
+        <div class="compare-col-header">🤖 只靠AI</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">⚡</span>快速生成規格表，但不知道哪家品牌對這客戶更合適</div>
+          <div class="compare-item"><span class="compare-item-icon">❓</span>報價策略沒有商業判斷，可能報太低或太高</div>
+          <div class="compare-item"><span class="compare-item-icon">📄</span>輸出格式標準，但缺乏針對性</div>
+          <div class="compare-item"><span class="compare-item-icon">⚠️</span>沒有實戰經驗支撐，建議缺乏說服力</div>
+        </div>
+        <div class="compare-verdict">結果：快但不準，風險難以評估</div>
+      </div>
+      <div class="compare-col col-roger">
+        <div class="compare-col-header">✅ 陳俊岳 × AI</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">🎯</span>判斷這客戶的需求重點（交期？品牌？價格？）</div>
+          <div class="compare-item"><span class="compare-item-icon">⚡</span>用AI 10分鐘生成多品牌規格對比表</div>
+          <div class="compare-item"><span class="compare-item-icon">🧠</span>根據21年業務經驗加入報價策略建議</div>
+          <div class="compare-item"><span class="compare-item-icon">📊</span>1小時內送出專業完整報價，附帶決策建議</div>
+        </div>
+        <div class="compare-verdict">結果：客戶感受到專業，成單率大增</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 場景二 -->
+  <div class="scenario" id="s1">
+    <div class="scenario-title">📊 場景：老闆要在週五做季度策略決策</div>
+    <p class="scenario-desc">週四下午，老闆需要一份本季業績、市場動態、銅價走勢、競品狀況的整合報告，才能做週五的決策。</p>
+    <div class="compare-grid">
+      <div class="compare-col col-before">
+        <div class="compare-col-header">❌ 只靠人工</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">😰</span>助理花整個下午東拼西湊，加班到晚上</div>
+          <div class="compare-item"><span class="compare-item-icon">📁</span>資料來自不同系統，格式混亂難整合</div>
+          <div class="compare-item"><span class="compare-item-icon">🌙</span>老闆收到已是深夜，沒時間細看</div>
+          <div class="compare-item"><span class="compare-item-icon">😤</span>決策品質下降，老闆壓力大</div>
+        </div>
+        <div class="compare-verdict">結果：老闆腦力耗盡，決策品質差</div>
+      </div>
+      <div class="compare-col col-ai-only">
+        <div class="compare-col-header">🤖 只靠AI</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">⚡</span>快速生成報告框架，但資料需人工輸入</div>
+          <div class="compare-item"><span class="compare-item-icon">❓</span>不知道哪些資料對老闆的決策最關鍵</div>
+          <div class="compare-item"><span class="compare-item-icon">📄</span>報告很長，但重點不突出</div>
+          <div class="compare-item"><span class="compare-item-icon">⚠️</span>缺乏商業洞察，只是數字堆疊</div>
+        </div>
+        <div class="compare-verdict">結果：有報告但沒有洞見</div>
+      </div>
+      <div class="compare-col col-roger">
+        <div class="compare-col-header">✅ 陳俊岳 × AI</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">🎯</span>先問老闆：這次決策最關鍵的三個問題是什麼？</div>
+          <div class="compare-item"><span class="compare-item-icon">⚡</span>用AI快速彙整所有資料，30分鐘完成</div>
+          <div class="compare-item"><span class="compare-item-icon">🧠</span>根據商務判斷力，篩選出真正影響決策的關鍵點</div>
+          <div class="compare-item"><span class="compare-item-icon">📊</span>送出一頁精華摘要＋完整附件，老闆5分鐘看完</div>
+        </div>
+        <div class="compare-verdict">結果：老闆省下3小時腦力，決策更清晰</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 場景三 -->
+  <div class="scenario" id="s2">
+    <div class="scenario-title">🔄 場景：業務、倉庫、財務資訊不同步</div>
+    <p class="scenario-desc">業務接了單，倉庫不知道；倉庫出了貨，財務沒收到通知；客戶打來催款，三個部門說法不一致，老闆被夾在中間。</p>
+    <div class="compare-grid">
+      <div class="compare-col col-before">
+        <div class="compare-col-header">❌ 只靠人工</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">🔥</span>老闆每天充當「人肉轉接站」，精力耗盡</div>
+          <div class="compare-item"><span class="compare-item-icon">📱</span>三個部門各自用不同方式傳訊息，資訊散落各地</div>
+          <div class="compare-item"><span class="compare-item-icon">😤</span>錯誤發生才知道，事後救火成常態</div>
+          <div class="compare-item"><span class="compare-item-icon">💸</span>客戶流失、關係受損，損失難以估計</div>
+        </div>
+        <div class="compare-verdict">結果：老闆每天救火，無暇思考成長</div>
+      </div>
+      <div class="compare-col col-ai-only">
+        <div class="compare-col-header">🤖 只靠AI</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">⚡</span>可以自動發送提醒，但設定複雜</div>
+          <div class="compare-item"><span class="compare-item-icon">❓</span>不懂公司實際流程，容易設錯觸發條件</div>
+          <div class="compare-item"><span class="compare-item-icon">🤖</span>人員抗拒使用新系統，推廣困難</div>
+          <div class="compare-item"><span class="compare-item-icon">⚠️</span>導入期間混亂，短期反而更糟</div>
+        </div>
+        <div class="compare-verdict">結果：工具買了卻沒人用</div>
+      </div>
+      <div class="compare-col col-roger">
+        <div class="compare-col-header">✅ 陳俊岳 × AI</div>
+        <div class="compare-items">
+          <div class="compare-item"><span class="compare-item-icon">🗺️</span>先用21年管理經驗梳理現有流程斷點在哪</div>
+          <div class="compare-item"><span class="compare-item-icon">⚡</span>用AI設計最簡單的資訊同步機制，降低人員抗拒</div>
+          <div class="compare-item"><span class="compare-item-icon">📊</span>建立每日一頁式狀態摘要，老闆3分鐘掌握全局</div>
+          <div class="compare-item"><span class="compare-item-icon">✅</span>問題預防取代事後救火，老闆終於能抬頭看遠方</div>
+        </div>
+        <div class="compare-verdict">結果：老闆從救火隊長變成戰略指揮官</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="section-eyebrow">進入泰通的第一個月</div>
+  <h2 class="section-title reveal">如果我明天上班<br>我的30天計畫</h2>
+  <p style="color:var(--text-dim);font-size:0.88rem;line-height:1.7;max-width:560px;margin-top:0.75rem;" class="reveal">
+    不是空談能力，是具體可執行的行動計畫。每一步都有21年經驗支撐，用AI加速落地。
+  </p>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-time">第1週</div>
+      <div class="timeline-content">
+        <h4>觀察、傾聽、建立信任</h4>
+        <p>不急著改變任何事。先花一週觀察現有流程、了解各部門痛點、建立與同事的信任關係。用21年經驗判斷哪裡最痛、哪裡最容易優化。</p>
+        <span class="timeline-tag tag-exp">經驗主導</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-time">第2週</div>
+      <div class="timeline-content">
+        <h4>建立老闆的「每日決策簡報」</h4>
+        <p>用AI整合銅價、訂單狀況、市場動態，每早8分鐘讓老闆掌握全局。讓老闆第一次感受到：有我在，資訊不再是負擔。</p>
+        <span class="timeline-tag tag-ai">AI執行</span>
+        <span class="timeline-tag tag-result">立即見效</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-time">第3週</div>
+      <div class="timeline-content">
+        <h4>優化一個最痛的跨部門流程</h4>
+        <p>找出造成最多摩擦的溝通斷點，設計最簡單的解決方案。不需要大型系統，一份清楚的標準作業流程＋AI輔助提醒，就能大幅減少落差。</p>
+        <span class="timeline-tag tag-exp">經驗判斷</span>
+        <span class="timeline-tag tag-ai">AI輔助</span>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-time">第4週</div>
+      <div class="timeline-content">
+        <h4>向老闆提交第一份「月度洞察報告」</h4>
+        <p>不只是數據匯總，而是帶有商業判斷的洞察報告：「這個月我觀察到的三個機會與兩個風險」。讓老闆看到：我不只是執行者，我是能幫你思考的夥伴。</p>
+        <span class="timeline-tag tag-result">建立不可替代性</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing">
+  <p class="closing-quote reveal">
+    「沒有永遠的<span class="hl">常勝將軍</span>，<br>只有戰無不勝的<span class="hl">優秀團隊</span>」
+  </p>
+  <p class="closing-sub reveal">
+    我帶來的不只是AI工具的使用能力，而是21年在高壓環境下磨練出的判斷力、執行力與溝通力。兩者結合，才是真正讓老闆省心的特助。
+  </p>
+  <div class="closing-contact reveal">
+    <div class="closing-name">陳俊岳 Roger Chen</div>
+    <div class="closing-phone">0983 · 607 · 002</div>
+    <div class="closing-tagline">期待與泰通電線電纜一起創造更好的成果</div>
+  </div>
+</section>
+
+<footer>
+  <span>陳俊岳 × Claude AI</span>
+  <span>價值主張展示頁 ／ 2026.05</span>
+  <span>為<span>泰通電線電纜</span>面試專屬製作</span>
+</footer>
+
+<script>
+// Tab switching
+function switchTab(idx) {
+  document.querySelectorAll('.compare-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.scenario').forEach((s, i) => {
+    s.classList.toggle('active', i === idx);
+  });
+}
+
+// Scroll reveal
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal, .timeline-item').forEach(el => revealObs.observe(el));
+</script>
+</body>
+</html>
