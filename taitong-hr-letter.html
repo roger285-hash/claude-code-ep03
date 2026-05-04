@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陳俊岳｜給泰通電線電纜人事主管的說明</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #FAFAF8;
+  --surface: #FFFFFF;
+  --border: #E5E2DC;
+  --ink: #1A1814;
+  --ink-mid: #4A4640;
+  --ink-dim: #8A8680;
+  --copper: #9B6B2E;
+  --copper-light: #C8952A;
+  --copper-bg: #FDF6EC;
+  --green: #2D6A4F;
+  --green-bg: #EAF4EE;
+  --blue: #1E4D8C;
+  --blue-bg: #EBF2FA;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  color: #fff;
+  padding: 3.5rem 6vw 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--copper), var(--copper-light), var(--copper));
+}
+
+.header-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+.header-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.header-title span { color: var(--copper-light); }
+
+.header-sub {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 560px;
+  line-height: 1.8;
+}
+
+.header-meta {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.header-meta-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.35);
+}
+
+.header-meta-item strong {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--copper-light);
+  font-family: 'Noto Serif TC', serif;
+  letter-spacing: 0;
+  margin-bottom: 2px;
+}
+
+/* ── SECTION ── */
+section {
+  padding: 4rem 6vw;
+  border-bottom: 1px solid var(--border);
+}
+
+section:last-of-type { border-bottom: none; }
+
+.section-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.section-num::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--copper);
+}
+
+.section-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 0.5rem;
+}
+
+.section-lead {
+  font-size: 0.95rem;
+  color: var(--ink-mid);
+  max-width: 620px;
+  line-height: 1.9;
+  margin-bottom: 2.5rem;
+}
+
+/* ── CONCERN CARDS ── */
+.concern-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  background: var(--border);
+  border: 1.5px solid var(--border);
+  margin-bottom: 2rem;
+}
+
+.concern-card {
+  background: var(--surface);
+  padding: 2rem 1.5rem;
+}
+
+.concern-q {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-dim);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.5;
+}
+
+.concern-q::before {
+  content: '疑慮：';
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--copper);
+  margin-bottom: 0.4rem;
+}
+
+.concern-a {
+  font-size: 0.88rem;
+  color: var(--ink-mid);
+  line-height: 1.8;
+}
+
+.concern-a strong {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* ── ROLE CLARITY ── */
+.role-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  margin-bottom: 1.5rem;
+}
+
+.role-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  background: var(--ink);
+  color: rgba(255,255,255,0.7);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  font-weight: 400;
+}
+
+.role-table td {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.role-table tr:last-child td { border-bottom: none; }
+
+.role-table tr:hover td { background: var(--copper-bg); }
+
+.role-table td:first-child {
+  font-weight: 600;
+  color: var(--copper);
+  width: 30%;
+}
+
+/* ── AGE ADVANTAGE ── */
+.age-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.age-card {
+  padding: 1.8rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+
+.age-card:hover { border-color: var(--copper); }
+
+.age-card-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+
+.label-risk { color: #A32D2D; }
+.label-fact { color: var(--green); }
+
+.age-card h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  line-height: 1.4;
+}
+
+.age-card p {
+  font-size: 0.83rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+/* ── AI BENEFIT ── */
+.benefit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1.5px solid var(--border);
+}
+
+.benefit-item {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  background: var(--surface);
+}
+
+.benefit-pain {
+  padding: 1.5rem;
+  border-right: 1px solid var(--border);
+}
+
+.benefit-solution {
+  padding: 1.5rem;
+  background: var(--green-bg);
+}
+
+.benefit-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.label-pain { color: var(--ink-dim); }
+.label-sol { color: var(--green); }
+
+.benefit-pain p, .benefit-solution p {
+  font-size: 0.85rem;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+.benefit-solution p { color: var(--green); font-weight: 500; }
+
+/* ── CLOSING ── */
+.closing {
+  background: var(--ink);
+  color: #fff;
+  padding: 4rem 6vw;
+  text-align: center;
+}
+
+.closing-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.closing-title span { color: var(--copper-light); }
+
+.closing-body {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.55);
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.9;
+}
+
+.closing-card {
+  display: inline-block;
+  border: 1px solid rgba(200,149,42,0.3);
+  padding: 1.5rem 3rem;
+  background: rgba(200,149,42,0.05);
+}
+
+.closing-name {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--copper-light);
+  margin-bottom: 0.3rem;
+}
+
+.closing-phone {
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.1em;
+}
+
+.closing-tagline {
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.3);
+  font-style: italic;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 1.2rem 6vw;
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.08em;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+footer span { color: var(--copper); }
+
+/* ── REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s, transform 0.6s;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  .concern-grid { grid-template-columns: 1fr; gap: 1px; }
+  .age-grid { grid-template-columns: 1fr; }
+  .benefit-item { grid-template-columns: 1fr; }
+  .benefit-pain { border-right: none; border-bottom: 1px solid var(--border); }
+  footer { flex-direction: column; text-align: center; }
+  .header-meta { gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-eyebrow">陳俊岳 ／ 給泰通電線電纜人事主管的說明 ／ 2026.05</div>
+  <h1 class="header-title">
+    我來這裡<br>
+    是讓每個人的工作<span>更好做</span>
+  </h1>
+  <p class="header-sub">這份說明，是希望讓您在安排面試之前，對我這個人有更完整的了解——不只是履歷上的條列，而是我的定位、我的心態，以及我能為泰通帶來什麼。</p>
+  <div class="header-meta">
+    <div class="header-meta-item"><strong>21年</strong>商務實戰經歷</div>
+    <div class="header-meta-item"><strong>47歲</strong>心態穩定的黃金年齡</div>
+    <div class="header-meta-item"><strong>0</strong>搶位子的意圖</div>
+    <div class="header-meta-item"><strong>100%</strong>來協助所有人</div>
+  </div>
+</header>
+
+<!-- SECTION 1：消除三個疑慮 -->
+<section>
+  <div class="section-num">Section 01</div>
+  <h2 class="section-title reveal">我理解您可能有的顧慮<br>讓我直接說清楚</h2>
+  <p class="section-lead reveal">任何新人進入一個團隊，都會帶來未知數。我希望在見面之前，先把最常見的三個顧慮，一一說明白。</p>
+  <div class="concern-grid reveal">
+    <div class="concern-card">
+      <div class="concern-q">他來了，會不會影響到我現有的工作範疇與重要性？</div>
+      <div class="concern-a">
+        我應徵的是「主管特助」，核心任務是<strong>協助主管處理跨部門事務與資訊整合</strong>，這是一個需要全新投入的工作，不是取代任何既有職位的工作。<br><br>
+        您對公司內部的熟悉度與人際關係，正是我進來之後最需要仰賴的資源。<strong>您的重要性不會因為我的加入而降低，只會更被需要。</strong>
+      </div>
+    </div>
+    <div class="concern-card">
+      <div class="concern-q">47歲了，會不會適應能力差、觀念保守、難以溝通？</div>
+      <div class="concern-a">
+        47歲在職場上代表的是：<strong>情緒穩定、不衝動、不計較小事、不搶功勞</strong>。這個年紀的人清楚自己的位置，不需要靠爭搶來證明自己。<br><br>
+        我從2023年開始深度使用AI工具，主動學習、持續更新——這本身就說明我的學習心態。<strong>年紀帶來的是判斷力，不是包袱。</strong>
+      </div>
+    </div>
+    <div class="concern-card">
+      <div class="concern-q">他有21年經驗，會不會反而很難管、自以為是？</div>
+      <div class="concern-a">
+        21年經驗讓我知道一件事：<strong>每家公司都有自己的文化與節奏，新人最重要的是先聽、先學、先融入。</strong><br><br>
+        我不是來改變泰通的，我是來用我的經驗與工具，幫泰通做得更好。主動配合、不造成管理負擔，是我對自己最基本的要求。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2：職責邊界 -->
+<section>
+  <div class="section-num">Section 02</div>
+  <h2 class="section-title reveal">我的工作範疇<br>與現有團隊完全不重疊</h2>
+  <p class="section-lead reveal">以下是我進來之後的核心工作內容，以及它與現有職位的明確分工。</p>
+  <table class="role-table reveal">
+    <thead>
+      <tr>
+        <th>我負責的事</th>
+        <th>具體說明</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>主管行程與資訊整合</td>
+        <td>用AI工具彙整市場資訊、銅價動態、競品動態，每日產出一頁決策摘要，讓主管不需要自己花時間整理。</td>
+      </tr>
+      <tr>
+        <td>跨部門事務協調</td>
+        <td>擔任部門之間的溝通橋樑，減少資訊傳遞的落差與摩擦，讓每個部門都能更順暢地執行工作。</td>
+      </tr>
+      <tr>
+        <td>會議記錄與追蹤</td>
+        <td>整理會議決議、建立追蹤清單，確保每一項決定都有人跟進，不在執行環節脫鉤。</td>
+      </tr>
+      <tr>
+        <td>行政流程優化</td>
+        <td>找出現有流程中最耗時的環節，用AI工具自動化或簡化，讓所有人都能省下不必要的重複工作。</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="background:var(--copper-bg);border-left:3px solid var(--copper);padding:1rem 1.5rem;font-size:0.88rem;color:var(--ink-mid);line-height:1.8;" class="reveal">
+    <strong style="color:var(--copper);">重要說明：</strong>以上每一項工作，都是在<strong>減少所有人的負擔</strong>，而不是增加新的管理層級或取代現有職能。我的存在讓每個人可以把精力放在自己最擅長的事情上。
+  </div>
+</section>
+
+<!-- SECTION 3：47歲的優勢 -->
+<section>
+  <div class="section-num">Section 03</div>
+  <h2 class="section-title reveal">47歲不是風險<br>是這個職位最需要的特質</h2>
+  <p class="section-lead reveal">主管特助最需要的不是衝勁，而是穩定、判斷力與情商。讓我說明為什麼47歲反而是優勢。</p>
+  <div class="age-grid">
+    <div class="age-card reveal">
+      <div class="age-card-label label-risk">常見的年齡顧慮</div>
+      <h4>年紀大，適應力差、觀念舊</h4>
+      <p>很多人擔心年長的員工無法跟上新技術、新工具，甚至抗拒改變。</p>
+    </div>
+    <div class="age-card reveal">
+      <div class="age-card-label label-fact">實際狀況</div>
+      <h4>2023年起主動深度導入AI工具</h4>
+      <p>不是被動接受，而是主動學習、主動應用。我製作了這個網頁本身，就是最直接的證明。</p>
+    </div>
+    <div class="age-card reveal">
+      <div class="age-card-label label-risk">常見的年齡顧慮</div>
+      <h4>資歷深，容易自以為是、難管理</h4>
+      <p>高資歷的人有時會用過去的成功經驗來否定現有做法，造成摩擦。</p>
+    </div>
+    <div class="age-card reveal">
+      <div class="age-card-label label-fact">實際狀況</div>
+      <h4>21年讓我學會：每家公司都不同</h4>
+      <p>豐富的經歷反而讓我更謙遜——我知道空降的人首先要做的是聽、學、融入，而不是改變。</p>
+    </div>
+    <div class="age-card reveal">
+      <div class="age-card-label label-risk">常見的年齡顧慮</div>
+      <h4>年紀大，待不久、穩定性差</h4>
+      <p>擔心做了幾個月又離職，造成公司人力成本浪費。</p>
+    </div>
+    <div class="age-card reveal">
+      <div class="age-card-label label-fact">實際狀況</div>
+      <h4>47歲正是需要穩定扎根的時候</h4>
+      <p>這個年紀不是在試探方向，而是清楚知道自己要什麼。我來泰通，是要長期投入，不是短期過渡。</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4：AI讓大家都受益 -->
+<section>
+  <div class="section-num">Section 04</div>
+  <h2 class="section-title reveal">AI工具的導入<br>讓每個人的工作都更輕鬆</h2>
+  <p class="section-lead reveal">我帶進來的AI能力，不是讓某個人變得更重要，而是讓整個團隊的行政負擔變輕。</p>
+  <div class="benefit-list reveal">
+    <div class="benefit-item">
+      <div class="benefit-pain">
+        <span class="benefit-label label-pain">現有痛點</span>
+        <p>每次開會後，決議事項散落在筆記本與口頭交代中，容易遺漏、難以追蹤。</p>
+      </div>
+      <div class="benefit-solution">
+        <span class="benefit-label label-sol">AI導入後</span>
+        <p>會議記錄自動整理為結構化清單，責任人與期限一目瞭然，所有人都知道自己要做什麼。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-pain">
+        <span class="benefit-label label-pain">現有痛點</span>
+        <p>銅價波動、市場資訊、客戶詢價需要人工整理，耗費大量時間，還可能漏掉重要訊息。</p>
+      </div>
+      <div class="benefit-solution">
+        <span class="benefit-label label-sol">AI導入後</span>
+        <p>每日自動彙整關鍵資訊，生成一頁摘要，讓主管與相關人員5分鐘掌握全局，不需要再花時間搜集。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-pain">
+        <span class="benefit-label label-pain">現有痛點</span>
+        <p>跨部門溝通常常靠口頭傳達，資訊在傳遞過程中失真，造成執行落差與不必要的摩擦。</p>
+      </div>
+      <div class="benefit-solution">
+        <span class="benefit-label label-sol">AI導入後</span>
+        <p>建立統一的資訊同步流程，每個部門都能即時掌握相關進度，減少「我不知道」的情況發生。</p>
+      </div>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-pain">
+        <span class="benefit-label label-pain">現有痛點</span>
+        <p>重複性的行政工作佔據大量時間，讓有能力的人無法專注在真正重要的事情上。</p>
+      </div>
+      <div class="benefit-solution">
+        <span class="benefit-label label-sol">AI導入後</span>
+        <p>將可自動化的流程交給AI處理，讓每個人的時間和精力用在更有價值的工作上。這是讓所有人都受益的改變。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<div class="closing">
+  <h2 class="closing-title reveal">
+    我是您的<span>後盾</span><br>不是您的威脅
+  </h2>
+  <p class="closing-body reveal">
+    我深知一個新人進入一個運作多年的團隊，需要的不是展示自己多厲害，而是讓每一個現有的人都感受到：他來了，我的工作更好做了。<br><br>
+    這是我對自己的要求，也是我希望您給我機會當面說明的原因。
+  </p>
+  <div class="closing-card reveal">
+    <div class="closing-name">陳俊岳 Roger Chen</div>
+    <div class="closing-phone">0983 · 607 · 002</div>
+    <div class="closing-tagline">期待與您當面深談，謝謝您撥冗閱讀</div>
+  </div>
+</div>
+
+<footer>
+  <span>陳俊岳</span>
+  <span>給泰通電線電纜人事主管的說明 ／ 2026.05</span>
+  <span>以 <span>Claude AI</span> 輔助製作</span>
+</footer>
+
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
