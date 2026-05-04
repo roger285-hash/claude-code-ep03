@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>泰通電線電纜｜AI產業智慧分析報告 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --copper: #B87333;
+  --copper-light: #D4956A;
+  --copper-dark: #8B5A2B;
+  --ink: #0F0F0F;
+  --paper: #F9F5EE;
+  --paper-dark: #EDE8DF;
+  --accent: #C41E3A;
+  --steel: #4A5568;
+  --steel-light: #718096;
+  --wire: #2D3748;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: var(--wire);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 6vw;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg, rgba(184,115,51,0.06) 0px, rgba(184,115,51,0.06) 1px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(0deg, rgba(184,115,51,0.06) 0px, rgba(184,115,51,0.06) 1px, transparent 1px, transparent 60px);
+}
+
+.hero-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.15;
+  max-width: 800px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+.hero h1 span {
+  color: var(--copper);
+  position: relative;
+}
+
+.hero-sub {
+  margin-top: 1.5rem;
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.6);
+  max-width: 520px;
+  line-height: 1.7;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+.hero-meta {
+  margin-top: 3rem;
+  display: flex;
+  gap: 3rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+
+.hero-meta-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.1em;
+}
+
+.hero-meta-item strong {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--copper-light);
+  font-family: 'Noto Serif TC', serif;
+  letter-spacing: 0;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 6vw;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.3);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 1.2s forwards;
+}
+
+.scroll-hint::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: rgba(255,255,255,0.2);
+}
+
+/* ── SECTION COMMON ── */
+section {
+  padding: 6rem 6vw;
+}
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: var(--copper);
+}
+
+.section-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+/* ── MARKET OVERVIEW ── */
+.market-overview {
+  background: var(--paper-dark);
+  border-top: 3px solid var(--copper);
+}
+
+.market-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.market-intro {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--steel);
+  max-width: 560px;
+}
+
+.market-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.stat-card {
+  background: #fff;
+  border-left: 3px solid var(--copper);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.stat-card:hover { transform: translateY(-4px); }
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at 100% 100%, rgba(184,115,51,0.08), transparent 70%);
+}
+
+.stat-num {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--copper-dark);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--steel-light);
+  line-height: 1.4;
+}
+
+.stat-trend {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: #2F855A;
+  margin-top: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+/* ── TREND CARDS ── */
+.trends {
+  background: var(--wire);
+  color: #fff;
+}
+
+.trends .section-title { color: #fff; }
+
+.trend-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  margin-top: 3rem;
+  background: rgba(184,115,51,0.2);
+  border: 1.5px solid rgba(184,115,51,0.2);
+}
+
+.trend-card {
+  background: var(--wire);
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: background 0.3s;
+}
+
+.trend-card:hover { background: #1a2332; }
+
+.trend-icon {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.trend-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--copper-light);
+  margin-bottom: 0.75rem;
+}
+
+.trend-card p {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+}
+
+.trend-tag {
+  display: inline-block;
+  margin-top: 1.2rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--copper);
+  border: 1px solid rgba(184,115,51,0.3);
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+
+/* ── AI APPLICATIONS ── */
+.ai-section {
+  background: var(--paper);
+}
+
+.ai-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.ai-card {
+  border: 1px solid var(--paper-dark);
+  padding: 2rem;
+  position: relative;
+  background: #fff;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.ai-card:hover {
+  border-color: var(--copper);
+  box-shadow: 4px 4px 0 var(--copper);
+  transform: translate(-2px, -2px);
+}
+
+.ai-card-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--copper);
+  margin-bottom: 1rem;
+}
+
+.ai-card h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.ai-card p {
+  font-size: 0.88rem;
+  color: var(--steel);
+  line-height: 1.8;
+}
+
+.ai-card-example {
+  margin-top: 1.2rem;
+  padding: 0.8rem 1rem;
+  background: var(--paper-dark);
+  border-left: 2px solid var(--copper);
+  font-size: 0.82rem;
+  color: var(--steel);
+  font-style: italic;
+  line-height: 1.6;
+}
+
+/* ── WORKFLOW ── */
+.workflow {
+  background: var(--paper-dark);
+}
+
+.workflow-steps {
+  display: flex;
+  gap: 0;
+  margin-top: 3rem;
+  position: relative;
+}
+
+.workflow-steps::before {
+  content: '';
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--copper), var(--copper-light), var(--copper));
+  z-index: 0;
+}
+
+.workflow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.step-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--copper);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px var(--paper-dark), 0 0 0 6px var(--copper-light);
+}
+
+.step-title {
+  font-family: 'Noto Serif TC', serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-desc {
+  font-size: 0.8rem;
+  color: var(--steel-light);
+  line-height: 1.6;
+}
+
+/* ── PROPOSAL ── */
+.proposal {
+  background: var(--ink);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.proposal::before {
+  content: 'AI';
+  position: absolute;
+  right: -2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Noto Serif TC', serif;
+  font-size: 20rem;
+  font-weight: 900;
+  color: rgba(184,115,51,0.05);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.proposal-inner {
+  max-width: 700px;
+  position: relative;
+  z-index: 1;
+}
+
+.proposal .section-title { color: #fff; }
+
+.proposal-list {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.proposal-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(184,115,51,0.15);
+  background: rgba(184,115,51,0.03);
+  transition: border-color 0.3s, background 0.3s;
+}
+
+.proposal-item:hover {
+  border-color: rgba(184,115,51,0.4);
+  background: rgba(184,115,51,0.07);
+}
+
+.proposal-item-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.proposal-item h4 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--copper-light);
+  margin-bottom: 0.4rem;
+}
+
+.proposal-item p {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.7;
+}
+
+/* ── AUTHOR ── */
+.author-section {
+  background: var(--paper-dark);
+  border-bottom: 3px solid var(--copper);
+}
+
+.author-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 3rem;
+  padding: 3rem;
+  background: #fff;
+  border-left: 4px solid var(--copper);
+  max-width: 800px;
+  margin-top: 3rem;
+}
+
+.author-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--copper), var(--copper-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Serif TC', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.author-info h3 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.3rem;
+}
+
+.author-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--copper);
+  margin-bottom: 1rem;
+}
+
+.author-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.author-tag {
+  background: var(--paper-dark);
+  border: 1px solid var(--paper-dark);
+  padding: 3px 12px;
+  font-size: 0.78rem;
+  color: var(--steel);
+  border-radius: 2px;
+}
+
+.author-quote {
+  font-size: 0.88rem;
+  color: var(--steel);
+  line-height: 1.8;
+  font-style: italic;
+  border-top: 1px solid var(--paper-dark);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--wire);
+  color: rgba(255,255,255,0.4);
+  padding: 2rem 6vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+footer span { color: var(--copper); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s, transform 0.7s;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── COPPER LINE DIVIDER ── */
+.copper-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--copper), transparent);
+  margin: 0 6vw;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .market-grid { grid-template-columns: 1fr; }
+  .trend-cards { grid-template-columns: 1fr; gap: 1px; }
+  .ai-grid { grid-template-columns: 1fr; }
+  .workflow-steps { flex-direction: column; align-items: flex-start; }
+  .workflow-steps::before { display: none; }
+  .workflow-step { flex-direction: row; text-align: left; gap: 1rem; }
+  .step-circle { margin-bottom: 0; }
+  .author-card { flex-direction: column; gap: 1.5rem; }
+  footer { flex-direction: column; gap: 1rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">AI 產業智慧分析報告 ／ 2026年版</div>
+  <h1>電線電纜產業<br>正迎來<span>結構性榮景</span><br>AI 如何協助掌握商機？</h1>
+  <p class="hero-sub">專為泰通電線電纜股份有限公司量身製作的產業趨勢分析與AI導入提案，由陳俊岳以 Claude AI 整合生成。</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <strong>109家</strong>
+      台灣電纜業者數量
+    </div>
+    <div class="hero-meta-item">
+      <strong>↑18%</strong>
+      近年獲利年增率
+    </div>
+    <div class="hero-meta-item">
+      <strong>2026</strong>
+      電網強韌計畫關鍵年
+    </div>
+  </div>
+  <div class="scroll-hint">向下閱讀</div>
+</section>
+
+<!-- MARKET OVERVIEW -->
+<section class="market-overview">
+  <div class="section-label">Section 01</div>
+  <h2 class="section-title reveal">台灣電線電纜<br>市場全景</h2>
+  <div class="market-grid">
+    <div class="market-intro reveal">
+      <p>台灣電線電纜產業正處於少見的結構性成長週期。受惠於三大驅動力——<strong>台電電網強韌計畫</strong>、<strong>AI資料中心用電需求爆增</strong>、以及<strong>再生能源電網建置</strong>，電力電纜需求持續創高。</p>
+      <br>
+      <p>作為多品牌授權經銷商，泰通電線電纜代理華新麗華、大東電業、太平洋電線電纜、大亞集團等台灣頂尖品牌，處於絕佳的市場位置，能以多元產品線服務不同規格需求的客戶。</p>
+      <br>
+      <p>然而，在市場熱絡的同時，<strong>資訊管理效率、客戶服務速度、業務資料整合</strong>將成為中型經銷商脫穎而出的關鍵。</p>
+    </div>
+    <div class="market-stats reveal">
+      <div class="stat-card">
+        <div class="stat-num">774.9億</div>
+        <div class="stat-label">2023年台灣電力用電線電纜銷售額（元）</div>
+        <div class="stat-trend">▲ 自2014年的373.6億倍增</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">↑24%</div>
+        <div class="stat-label">最新季度獲利較前次高峰增幅</div>
+        <div class="stat-trend">▲ 增長速度仍在加速</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">345KV</div>
+        <div class="stat-label">台電積極導入超高壓電纜規格，市場加速升級</div>
+        <div class="stat-trend">▲ 科技園區首要需求</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">8大</div>
+        <div class="stat-label">泰通代理品牌數，產品線覆蓋最廣</div>
+        <div class="stat-trend">▲ 多品牌優勢明顯</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="copper-line"></div>
+
+<!-- TRENDS -->
+<section class="trends">
+  <div class="section-label" style="color:var(--copper-light);">Section 02</div>
+  <h2 class="section-title reveal">三大驅動力<br>正在重塑市場格局</h2>
+  <div class="trend-cards">
+    <div class="trend-card reveal">
+      <div class="trend-icon">⚡</div>
+      <h3>電網強韌計畫</h3>
+      <p>台電積極推動輸配電系統升級，老舊電纜汰換需耗時40年以上。超高壓345KV電纜需求大幅增加，帶動整體電力電纜市場量價齊升。</p>
+      <span class="trend-tag">長期結構性需求</span>
+    </div>
+    <div class="trend-card reveal">
+      <div class="trend-icon">🤖</div>
+      <h3>AI資料中心用電爆增</h3>
+      <p>台積電、輝達等科技巨頭在台積極擴廠，AI運算需要龐大電力供應。科技園區周邊超高壓變電所建設，直接拉動高規格電纜訂單。</p>
+      <span class="trend-tag">即時高速成長</span>
+    </div>
+    <div class="trend-card reveal">
+      <div class="trend-icon">🌊</div>
+      <h3>再生能源電網建置</h3>
+      <p>離岸風電、太陽能等新能源發電廠大量設立，需要全新電纜建設。加上台商回台投資建廠潮，工業廠區用電需求持續攀升。</p>
+      <span class="trend-tag">政策驅動長期商機</span>
+    </div>
+  </div>
+</section>
+
+<!-- AI APPLICATIONS -->
+<section class="ai-section">
+  <div class="section-label">Section 03</div>
+  <h2 class="section-title reveal">AI 如何為泰通<br>創造實質價值</h2>
+  <p style="color:var(--steel);max-width:600px;line-height:1.8;margin-top:1rem;" class="reveal">以下四個應用場景，是導入 AI 工具後最能立即見效的工作流程優化方向，每一項都直接對應特助職務的核心工作內容。</p>
+  <div class="ai-grid">
+    <div class="ai-card reveal">
+      <div class="ai-card-num">01 ── 資訊整合</div>
+      <h3>銅價波動即時追蹤與報告</h3>
+      <p>電纜成本約八成來自銅價。AI可每日自動彙整LME銅價走勢、匯率變動、供應商報價，生成一頁式決策摘要，讓主管免除人工整理之苦。</p>
+      <div class="ai-card-example">「幫我整理本週銅價走勢與影響評估，並對比上月報價差異」——30秒出結果，過去需要半天。</div>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-card-num">02 ── 客戶服務</div>
+      <h3>客戶詢價快速回覆與對比分析</h3>
+      <p>客戶同時詢問多品牌同規格產品時，AI可快速整理各品牌規格差異、價格區間、交期，協助業務人員在最短時間內給出完整報價。</p>
+      <div class="ai-card-example">「客戶需要161KV電纜，請整理華新麗華與大亞集團的規格對比與建議報價策略」</div>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-card-num">03 ── 行政效率</div>
+      <h3>會議記錄自動整理與追蹤</h3>
+      <p>主管開會後，AI可將錄音或筆記快速轉化為結構化會議記錄，自動提取待辦事項、責任人、截止日期，並在期限前自動提醒跟催。</p>
+      <div class="ai-card-example">「請將今天的會議內容整理成決議事項清單，並列出各項負責人與完成期限」</div>
+    </div>
+    <div class="ai-card reveal">
+      <div class="ai-card-num">04 ── 市場情報</div>
+      <h3>競品動態與產業新聞彙整</h3>
+      <p>定期追蹤競爭對手動態、台電標案公告、產業政策新聞，AI自動篩選與泰通業務相關的重要訊息，讓主管掌握市場脈動無需親自搜尋。</p>
+      <div class="ai-card-example">「本週電線電纜產業重要動態摘要，重點標示與泰通業務相關項目」</div>
+    </div>
+  </div>
+</section>
+
+<div class="copper-line"></div>
+
+<!-- WORKFLOW -->
+<section class="workflow">
+  <div class="section-label">Section 04</div>
+  <h2 class="section-title reveal">AI 特助工作流程<br>一日標準作業</h2>
+  <div class="workflow-steps">
+    <div class="workflow-step reveal">
+      <div class="step-circle">早</div>
+      <div>
+        <div class="step-title">早晨情報彙整</div>
+        <div class="step-desc">AI自動生成昨日銅價、產業新聞、待辦提醒，主管8分鐘內掌握全局</div>
+      </div>
+    </div>
+    <div class="workflow-step reveal">
+      <div class="step-circle">午</div>
+      <div>
+        <div class="step-title">客戶與業務支援</div>
+        <div class="step-desc">即時回應客戶詢價、整理會議記錄、協調跨部門事務</div>
+      </div>
+    </div>
+    <div class="workflow-step reveal">
+      <div class="step-circle">晚</div>
+      <div>
+        <div class="step-title">決策資料準備</div>
+        <div class="step-desc">彙整當日重要事項，為明日主管決策預備所需資料與分析</div>
+      </div>
+    </div>
+    <div class="workflow-step reveal">
+      <div class="step-circle">週</div>
+      <div>
+        <div class="step-title">週報自動生成</div>
+        <div class="step-desc">市場動態週報、業務進度追蹤、下週行程規劃，一次完成</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSAL -->
+<section class="proposal">
+  <div class="proposal-inner">
+    <div class="section-label" style="color:var(--copper-light);">Section 05</div>
+    <h2 class="section-title reveal">我能為泰通<br>帶來什麼</h2>
+    <div class="proposal-list">
+      <div class="proposal-item reveal">
+        <div class="proposal-item-icon">🧠</div>
+        <div>
+          <h4>解決「資訊熵」困境</h4>
+          <p>每天湧入的市場資訊、客戶需求、供應商報價，往往讓主管耗費大量腦力整理。我能用 AI 工具將紛亂資訊快速轉化為可執行的決策邏輯。</p>
+        </div>
+      </div>
+      <div class="proposal-item reveal">
+        <div class="proposal-item-icon">⚙️</div>
+        <div>
+          <h4>22年實戰經驗 × AI工具</h4>
+          <p>從基層工程師到高階管理，累積跨部門協調、業務開發、客戶服務的完整歷練，結合 2023年起深度應用 AI 工具的實戰能力，兩者相乘才是真正的競爭力。</p>
+        </div>
+      </div>
+      <div class="proposal-item reveal">
+        <div class="proposal-item-icon">🌐</div>
+        <div>
+          <h4>海外視野帶回台灣</h4>
+          <p>多年海外工作歷練，在高壓環境中養成即時決策能力，處事穩定、情緒管理成熟，正是主管特助職位最需要的特質。</p>
+        </div>
+      </div>
+      <div class="proposal-item reveal">
+        <div class="proposal-item-icon">🚀</div>
+        <div>
+          <h4>立即上手，快速產出價值</h4>
+          <p>這份報告本身，就是最直接的能力展示。從產業研究、資料整合，到視覺化呈現，使用 AI 工具在短時間內完成——這就是我能為泰通帶來的工作效率。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHOR -->
+<section class="author-section">
+  <div class="section-label">製作者</div>
+  <h2 class="section-title reveal">關於這份報告的作者</h2>
+  <div class="author-card reveal">
+    <div class="author-avatar">陳</div>
+    <div class="author-info">
+      <h3>陳俊岳</h3>
+      <div class="author-title">ROGER CHEN ／ AI 導入實踐者</div>
+      <div class="author-tags">
+        <span class="author-tag">22年工作經驗</span>
+        <span class="author-tag">業務開發</span>
+        <span class="author-tag">營運管理</span>
+        <span class="author-tag">Claude AI應用</span>
+        <span class="author-tag">跨部門協調</span>
+        <span class="author-tag">海外歷練</span>
+      </div>
+      <div class="author-quote">
+        「沒有永遠的常勝將軍，只有戰無不勝的優秀團隊」<br><br>
+        這份報告由 Claude AI 輔助生成，從產業數據蒐集、內容架構規劃到視覺呈現，完整展示 AI 工具在行政與決策支援上的實際應用能力。<br><br>
+        📞 聯絡電話：0983-607-002
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>泰通電線電纜｜AI產業分析報告</span>
+  <span>製作者：陳俊岳 ／ 2026.05</span>
+  <span>使用 <span>Claude AI</span> 輔助生成</span>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, 100);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
