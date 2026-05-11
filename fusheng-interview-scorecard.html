@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>面試評分系統｜馥笙保全</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:       #0e1117;
+  --bg2:      #161b24;
+  --bg3:      #1e2535;
+  --border:   #2a3548;
+  --border2:  #3a4a62;
+  --gold:     #e8a020;
+  --gold2:    #f5c060;
+  --gold-dim: rgba(232,160,32,.12);
+  --text:     #e2e8f0;
+  --muted:    #7a8fa8;
+  --dim:      #4a5a72;
+  --green:    #2dd4a0;
+  --red:      #f06060;
+  --blue:     #5090e0;
+  --radius:   8px;
+  --mono:     'DM Mono',monospace;
+  --sans:     'Noto Sans TC',sans-serif;
+}
+
+body{
+  font-family:var(--sans);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  padding-bottom:80px;
+}
+
+/* ── header ── */
+.header{
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  padding:0 24px;
+  height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-mark{
+  width:36px;height:36px;background:var(--gold);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:18px;font-weight:700;color:var(--bg);
+}
+.logo-text{font-size:14px;font-weight:700;letter-spacing:.04em}
+.logo-sub{font-size:11px;color:var(--muted);margin-top:1px}
+.header-actions{display:flex;gap:8px}
+.hbtn{
+  font-family:var(--sans);font-size:12px;font-weight:500;
+  padding:7px 14px;border-radius:6px;cursor:pointer;
+  border:1px solid var(--border2);background:var(--bg3);color:var(--muted);
+  transition:all .15s;
+}
+.hbtn:hover{border-color:var(--gold);color:var(--gold)}
+.hbtn.primary{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:700}
+.hbtn.primary:hover{background:var(--gold2)}
+
+/* ── layout ── */
+.app{max-width:900px;margin:0 auto;padding:24px 16px}
+
+/* ── tabs ── */
+.tabs{display:flex;gap:4px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:4px;margin-bottom:24px}
+.tab{
+  flex:1;padding:9px;text-align:center;font-size:13px;font-weight:500;
+  border-radius:7px;cursor:pointer;color:var(--muted);transition:all .15s;
+}
+.tab.active{background:var(--bg3);color:var(--text);border:1px solid var(--border2)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* ── card ── */
+.card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);margin-bottom:16px;overflow:hidden;
+}
+.card-head{
+  padding:12px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.card-head-left{display:flex;align-items:center;gap:10px}
+.section-tag{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  background:var(--gold-dim);color:var(--gold);
+  padding:3px 8px;border-radius:4px;border:1px solid rgba(232,160,32,.3);
+  letter-spacing:.06em;
+}
+.card-title{font-size:13px;font-weight:700;letter-spacing:.04em;color:var(--text)}
+.card-body{padding:18px}
+
+/* ── fields ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:560px){.g2,.g3{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:6px}
+.label{
+  font-size:11px;font-weight:700;color:var(--muted);
+  letter-spacing:.07em;text-transform:uppercase;
+}
+.label .req{color:var(--gold);margin-left:2px}
+input,select,textarea{
+  font-family:var(--sans);font-size:14px;color:var(--text);
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:6px;padding:9px 12px;width:100%;outline:none;
+  transition:border-color .15s;-webkit-appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+select option{background:var(--bg3)}
+textarea{resize:vertical;min-height:80px}
+input[readonly]{color:var(--muted);cursor:default}
+
+/* ── score criteria ── */
+.criteria-grid{display:flex;flex-direction:column;gap:2px}
+.criteria-row{
+  display:grid;grid-template-columns:1fr 80px 200px;
+  align-items:center;gap:12px;
+  padding:11px 14px;border-radius:6px;
+  transition:background .12s;
+}
+.criteria-row:hover{background:var(--bg3)}
+.criteria-name{font-size:13px;font-weight:500}
+.criteria-weight{
+  font-family:var(--mono);font-size:11px;color:var(--muted);
+  text-align:right;
+}
+.star-group{display:flex;gap:4px;justify-content:flex-end}
+.star{
+  width:28px;height:28px;border-radius:5px;
+  border:1px solid var(--border2);
+  font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .12s;color:var(--dim);background:var(--bg3);
+  user-select:none;-webkit-user-select:none;
+}
+.star:hover{border-color:var(--gold);color:var(--gold)}
+.star.lit{background:var(--gold-dim);border-color:var(--gold);color:var(--gold2)}
+.score-badge{
+  font-family:var(--mono);font-size:12px;font-weight:700;
+  padding:3px 8px;border-radius:4px;text-align:center;min-width:36px;
+}
+
+/* ── weighted total ── */
+.total-bar{
+  background:var(--bg3);border:1px solid var(--border2);
+  border-radius:8px;padding:16px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;
+}
+.total-label{font-size:12px;color:var(--muted);letter-spacing:.05em}
+.total-score{
+  font-family:var(--mono);font-size:28px;font-weight:700;color:var(--gold);
+}
+.total-grade{
+  font-size:13px;font-weight:700;padding:4px 12px;border-radius:6px;
+}
+.grade-A{background:rgba(45,212,160,.15);color:var(--green)}
+.grade-B{background:rgba(80,144,224,.15);color:var(--blue)}
+.grade-C{background:rgba(232,160,32,.15);color:var(--gold)}
+.grade-D{background:rgba(240,96,96,.15);color:var(--red)}
+.progress-bar{
+  height:6px;background:var(--border);border-radius:3px;
+  margin-top:10px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;border-radius:3px;background:var(--gold);
+  transition:width .4s ease;
+}
+
+/* ── candidate list ── */
+.cand-list{display:flex;flex-direction:column;gap:8px}
+.cand-card{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px 18px;
+  display:flex;align-items:center;gap:16px;
+  cursor:pointer;transition:border-color .15s;
+}
+.cand-card:hover{border-color:var(--border2)}
+.cand-card.selected{border-color:var(--gold)}
+.cand-rank{
+  font-family:var(--mono);font-size:18px;font-weight:700;
+  color:var(--gold);min-width:28px;text-align:center;
+}
+.cand-rank.rank-1{color:var(--gold2)}
+.cand-rank.rank-2{color:var(--muted)}
+.cand-rank.rank-3{color:var(--dim)}
+.cand-info{flex:1}
+.cand-name{font-size:15px;font-weight:700}
+.cand-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.cand-score-wrap{text-align:right}
+.cand-score{font-family:var(--mono);font-size:22px;font-weight:700}
+.cand-grade-pill{
+  font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px;
+  display:inline-block;margin-top:2px;
+}
+.delete-btn{
+  background:none;border:none;color:var(--dim);font-size:18px;
+  cursor:pointer;padding:4px 8px;border-radius:4px;transition:all .12s;
+}
+.delete-btn:hover{background:rgba(240,96,96,.15);color:var(--red)}
+
+.empty-state{
+  text-align:center;padding:48px 24px;color:var(--muted);
+  font-size:13px;
+}
+.empty-icon{font-size:40px;margin-bottom:12px;opacity:.4}
+
+/* ── compare table ── */
+.compare-wrap{overflow-x:auto}
+.compare-table{width:100%;border-collapse:collapse;font-size:13px}
+.compare-table th{
+  background:var(--bg3);color:var(--muted);font-size:11px;
+  font-weight:700;letter-spacing:.06em;text-align:left;
+  padding:10px 12px;border-bottom:1px solid var(--border);
+}
+.compare-table td{
+  padding:10px 12px;border-bottom:1px solid var(--border);
+  vertical-align:middle;
+}
+.compare-table tr:last-child td{border-bottom:none}
+.compare-table tr:hover td{background:rgba(255,255,255,.02)}
+.bar-cell{display:flex;align-items:center;gap:8px}
+.mini-bar{flex:1;height:5px;background:var(--border);border-radius:3px;overflow:hidden;min-width:60px}
+.mini-fill{height:100%;background:var(--gold);border-radius:3px}
+.mono-text{font-family:var(--mono);font-weight:500}
+
+/* ── recommendation ── */
+.rec-box{
+  border:1px solid var(--border2);border-radius:var(--radius);
+  padding:16px;background:var(--bg3);
+}
+.rec-box label{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.06em;display:block;margin-bottom:8px}
+.rec-options{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.rec-opt{
+  padding:7px 14px;border-radius:6px;border:1px solid var(--border2);
+  font-size:12px;font-weight:700;cursor:pointer;color:var(--muted);
+  transition:all .15s;user-select:none;-webkit-user-select:none;
+}
+.rec-opt.active.hire{border-color:var(--green);background:rgba(45,212,160,.12);color:var(--green)}
+.rec-opt.active.hold{border-color:var(--gold);background:var(--gold-dim);color:var(--gold)}
+.rec-opt.active.pass{border-color:var(--red);background:rgba(240,96,96,.12);color:var(--red)}
+
+/* ── toast ── */
+.toast{
+  display:none;position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%);
+  background:var(--bg2);border:1px solid var(--gold);
+  color:var(--text);padding:12px 24px;border-radius:8px;
+  font-size:13px;font-weight:500;z-index:999;
+  white-space:nowrap;
+  animation:slideUp .2s ease;
+}
+@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(8px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* ── print ── */
+@media print{
+  .header,.tabs,.hbtn,.delete-btn,.rec-opt,.card-head .hbtn{display:none!important}
+  body{background:#fff;color:#000}
+  .card{background:#fff;border:1px solid #ccc;break-inside:avoid}
+  .card-head{background:#f4f6f9}
+  .total-bar,.cand-card{background:#f9f9f9}
+  :root{--text:#111;--muted:#555;--bg2:#fff;--bg3:#f4f6f9;--border:#ddd}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-mark">F</div>
+    <div>
+      <div class="logo-text">馥笙保全｜面試評分系統</div>
+      <div class="logo-sub">Interview Scorecard v1.0</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button class="hbtn" onclick="window.print()">列印報表</button>
+    <button class="hbtn primary" onclick="saveCandidate()">儲存本筆評分</button>
+  </div>
+</header>
+
+<div class="app">
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('score')">評分填寫</div>
+    <div class="tab" onclick="switchTab('list')">應徵者名單 <span id="cand-count-badge" style="font-family:var(--mono);font-size:10px;background:var(--gold-dim);color:var(--gold);padding:1px 6px;border-radius:10px;margin-left:4px">0</span></div>
+    <div class="tab" onclick="switchTab('compare')">比較分析</div>
+  </div>
+
+  <!-- ══ TAB 1: 評分填寫 ══ -->
+  <div class="tab-panel active" id="tab-score">
+
+    <!-- 基本資料 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="section-tag">01</span>
+          <span class="card-title">應徵者基本資料</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="g3" style="margin-bottom:14px">
+          <div class="field">
+            <span class="label">姓名 <span class="req">*</span></span>
+            <input type="text" id="c-name" placeholder="應徵者姓名">
+          </div>
+          <div class="field">
+            <span class="label">應徵職位</span>
+            <select id="c-position">
+              <option>營運幕僚</option>
+              <option>區域督導</option>
+              <option>案場保全</option>
+              <option>行政人員</option>
+              <option>其他</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="label">面試日期</span>
+            <input type="date" id="c-date">
+          </div>
+        </div>
+        <div class="g3">
+          <div class="field">
+            <span class="label">學歷</span>
+            <select id="c-edu">
+              <option>高中職</option>
+              <option>專科</option>
+              <option>大學</option>
+              <option>碩士以上</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="label">相關年資</span>
+            <input type="text" id="c-exp" placeholder="例：5年">
+          </div>
+          <div class="field">
+            <span class="label">面試官</span>
+            <input type="text" id="c-interviewer" placeholder="姓名／職稱">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 評分項目 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="section-tag">02</span>
+          <span class="card-title">評分項目</span>
+        </div>
+        <span style="font-family:var(--mono);font-size:11px;color:var(--muted)">★★★★★ = 5分最高</span>
+      </div>
+      <div class="card-body" style="padding:8px 12px">
+        <div class="criteria-grid" id="criteria-grid"></div>
+        <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+        <div class="total-bar">
+          <div>
+            <div class="total-label">加權總分</div>
+            <div class="total-score" id="total-display">—</div>
+          </div>
+          <div style="text-align:right">
+            <div class="total-grade" id="grade-display">尚未評分</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:4px" id="answered-display">已完成 0 / 8 項</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 推薦意見 -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="section-tag">03</span>
+          <span class="card-title">錄取建議</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="rec-box">
+          <label>面試官建議</label>
+          <div class="rec-options">
+            <div class="rec-opt hire" onclick="setRec(this,'hire')">建議錄取</div>
+            <div class="rec-opt hold" onclick="setRec(this,'hold')">列為備取</div>
+            <div class="rec-opt pass" onclick="setRec(this,'pass')">不予錄取</div>
+          </div>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <span class="label">優點紀錄</span>
+          <textarea id="c-pro" placeholder="應徵者表現突出之處..."></textarea>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <span class="label">待改善 / 疑慮</span>
+          <textarea id="c-con" placeholder="需要注意或進一步確認之處..."></textarea>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <span class="label">面試官綜合備註</span>
+          <textarea id="c-note" placeholder="其他觀察、薪資期待、可到職日等..."></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-score -->
+
+  <!-- ══ TAB 2: 名單 ══ -->
+  <div class="tab-panel" id="tab-list">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="section-tag">LIST</span>
+          <span class="card-title">應徵者名單（依總分排序）</span>
+        </div>
+        <button class="hbtn" onclick="clearAll()" style="font-size:11px;padding:5px 10px">清空全部</button>
+      </div>
+      <div class="card-body">
+        <div class="cand-list" id="cand-list">
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            尚無評分紀錄<br>請在「評分填寫」頁填寫後儲存
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TAB 3: 比較 ══ -->
+  <div class="tab-panel" id="tab-compare">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="section-tag">CMP</span>
+          <span class="card-title">應徵者比較分析</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0">
+        <div class="compare-wrap">
+          <table class="compare-table" id="compare-table">
+            <thead>
+              <tr>
+                <th>姓名</th>
+                <th>職位</th>
+                <th>加權總分</th>
+                <th>等級</th>
+                <th>建議</th>
+              </tr>
+            </thead>
+            <tbody id="compare-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)">尚無資料</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 各項目比較 -->
+    <div class="card" id="detail-compare-card" style="display:none">
+      <div class="card-head">
+        <div class="card-head-left">
+          <span class="section-tag">詳細</span>
+          <span class="card-title">各評分項目比較</span>
+        </div>
+      </div>
+      <div class="card-body" style="padding:0">
+        <div class="compare-wrap">
+          <table class="compare-table" id="detail-table">
+            <thead id="detail-thead"></thead>
+            <tbody id="detail-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── 評分項目定義 ── */
+const CRITERIA = [
+  { id:'appearance', name:'儀容儀態',       weight:8  },
+  { id:'exp',        name:'相關工作經驗',     weight:15 },
+  { id:'comm',       name:'溝通表達能力',     weight:15 },
+  { id:'attitude',   name:'工作態度與積極性', weight:15 },
+  { id:'stress',     name:'情緒管理與抗壓性', weight:12 },
+  { id:'manage',     name:'管理協調能力',     weight:15 },
+  { id:'problem',    name:'問題解決能力',     weight:12 },
+  { id:'culture',    name:'企業文化契合度',   weight:8  },
+];
+
+/* ── 狀態 ── */
+let scores = {};     // id → 1~5
+let recVal  = '';
+let candidates = JSON.parse(localStorage.getItem('fs_candidates') || '[]');
+
+/* ── 初始化 ── */
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('c-date').value = new Date().toISOString().slice(0,10);
+  buildCriteria();
+  renderList();
+  renderCompare();
+});
+
+/* ── 建立評分格 ── */
+function buildCriteria() {
+  const grid = document.getElementById('criteria-grid');
+  CRITERIA.forEach(c => {
+    const row = document.createElement('div');
+    row.className = 'criteria-row';
+    row.innerHTML = `
+      <div class="criteria-name">${c.name}</div>
+      <div class="criteria-weight">權重 ${c.weight}%</div>
+      <div class="star-group" id="stars-${c.id}">
+        ${[1,2,3,4,5].map(n => `<div class="star" data-id="${c.id}" data-val="${n}" onclick="setScore('${c.id}',${n})">★</div>`).join('')}
+      </div>
+    `;
+    grid.appendChild(row);
+  });
+}
+
+function setScore(id, val) {
+  scores[id] = val;
+  document.querySelectorAll(`[data-id="${id}"]`).forEach(s => {
+    s.classList.toggle('lit', parseInt(s.dataset.val) <= val);
+  });
+  calcTotal();
+}
+
+function calcTotal() {
+  const answered = Object.keys(scores).length;
+  const total    = CRITERIA.length;
+  let weighted   = 0;
+  CRITERIA.forEach(c => {
+    if (scores[c.id]) weighted += (scores[c.id] / 5) * c.weight;
+  });
+
+  document.getElementById('prog').style.width = (answered/total*100)+'%';
+  document.getElementById('answered-display').textContent = `已完成 ${answered} / ${total} 項`;
+
+  if (answered === 0) {
+    document.getElementById('total-display').textContent = '—';
+    document.getElementById('grade-display').textContent = '尚未評分';
+    document.getElementById('grade-display').className = 'total-grade';
+    return;
+  }
+
+  const score = Math.round(weighted * 10) / 10;
+  document.getElementById('total-display').textContent = score.toFixed(1);
+
+  let grade, cls;
+  if (score >= 85)      { grade='A  強烈推薦'; cls='grade-A'; }
+  else if (score >= 70) { grade='B  建議錄取'; cls='grade-B'; }
+  else if (score >= 55) { grade='C  考慮備取'; cls='grade-C'; }
+  else                  { grade='D  不建議';   cls='grade-D'; }
+  document.getElementById('grade-display').textContent = grade;
+  document.getElementById('grade-display').className = 'total-grade '+cls;
+}
+
+/* ── 推薦設定 ── */
+function setRec(el, val) {
+  document.querySelectorAll('.rec-opt').forEach(o => o.classList.remove('active'));
+  el.classList.add('active');
+  recVal = val;
+}
+
+/* ── 儲存 ── */
+function saveCandidate() {
+  const name = document.getElementById('c-name').value.trim();
+  if (!name) { showToast('請填寫應徵者姓名'); return; }
+  if (Object.keys(scores).length === 0) { showToast('請至少填寫一項評分'); return; }
+
+  let weighted = 0;
+  CRITERIA.forEach(c => { if (scores[c.id]) weighted += (scores[c.id]/5)*c.weight; });
+
+  const cand = {
+    id:          Date.now(),
+    name,
+    position:    document.getElementById('c-position').value,
+    date:        document.getElementById('c-date').value,
+    edu:         document.getElementById('c-edu').value,
+    exp:         document.getElementById('c-exp').value,
+    interviewer: document.getElementById('c-interviewer').value,
+    scores:      { ...scores },
+    total:       Math.round(weighted * 10) / 10,
+    rec:         recVal,
+    pro:         document.getElementById('c-pro').value,
+    con:         document.getElementById('c-con').value,
+    note:        document.getElementById('c-note').value,
+  };
+
+  candidates.push(cand);
+  localStorage.setItem('fs_candidates', JSON.stringify(candidates));
+  renderList();
+  renderCompare();
+  resetForm();
+  showToast('✓ 已儲存「' + name + '」的評分');
+}
+
+function resetForm() {
+  ['c-name','c-exp','c-interviewer','c-pro','c-con','c-note'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('c-date').value = new Date().toISOString().slice(0,10);
+  scores = {}; recVal = '';
+  document.querySelectorAll('.star').forEach(s => s.classList.remove('lit'));
+  document.querySelectorAll('.rec-opt').forEach(o => o.classList.remove('active'));
+  document.getElementById('criteria-grid').innerHTML = '';
+  buildCriteria();
+  calcTotal();
+}
+
+/* ── 刪除 ── */
+function deleteCandidate(id) {
+  candidates = candidates.filter(c => c.id !== id);
+  localStorage.setItem('fs_candidates', JSON.stringify(candidates));
+  renderList(); renderCompare();
+}
+function clearAll() {
+  if (!confirm('確定要清空所有評分紀錄？')) return;
+  candidates = [];
+  localStorage.removeItem('fs_candidates');
+  renderList(); renderCompare();
+}
+
+/* ── 等級工具 ── */
+function gradeInfo(s) {
+  if (s >= 85) return { label:'A', cls:'grade-A', color:'#2dd4a0' };
+  if (s >= 70) return { label:'B', cls:'grade-B', color:'#5090e0' };
+  if (s >= 55) return { label:'C', cls:'grade-C', color:'#e8a020' };
+  return               { label:'D', cls:'grade-D', color:'#f06060' };
+}
+function recLabel(r) {
+  if (r==='hire') return '<span style="color:#2dd4a0;font-weight:700">建議錄取</span>';
+  if (r==='hold') return '<span style="color:#e8a020;font-weight:700">列為備取</span>';
+  if (r==='pass') return '<span style="color:#f06060;font-weight:700">不予錄取</span>';
+  return '<span style="color:#4a5a72">—</span>';
+}
+
+/* ── 渲染名單 ── */
+function renderList() {
+  const sorted = [...candidates].sort((a,b) => b.total - a.total);
+  const list   = document.getElementById('cand-list');
+  document.getElementById('cand-count-badge').textContent = candidates.length;
+
+  if (sorted.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="empty-icon">📋</div>尚無評分紀錄<br>請在「評分填寫」頁填寫後儲存</div>';
+    return;
+  }
+
+  list.innerHTML = sorted.map((c, i) => {
+    const g = gradeInfo(c.total);
+    const rankCls = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+    return `
+    <div class="cand-card">
+      <div class="cand-rank ${rankCls}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':'#'+(i+1)}</div>
+      <div class="cand-info">
+        <div class="cand-name">${c.name}</div>
+        <div class="cand-meta">${c.position}｜${c.exp||'年資未填'}｜${c.date}｜面試官：${c.interviewer||'—'}</div>
+      </div>
+      <div class="cand-score-wrap">
+        <div class="cand-score" style="color:${g.color}">${c.total}</div>
+        <div class="cand-grade-pill ${g.cls}">${g.label} 級</div>
+      </div>
+      <button class="delete-btn" onclick="deleteCandidate(${c.id})" title="刪除">×</button>
+    </div>`;
+  }).join('');
+}
+
+/* ── 渲染比較 ── */
+function renderCompare() {
+  const sorted = [...candidates].sort((a,b) => b.total - a.total);
+  const tbody  = document.getElementById('compare-tbody');
+
+  if (sorted.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted)">尚無資料</td></tr>';
+    document.getElementById('detail-compare-card').style.display = 'none';
+    return;
+  }
+
+  tbody.innerHTML = sorted.map(c => {
+    const g = gradeInfo(c.total);
+    const pct = Math.round(c.total / 100 * 100);
+    return `<tr>
+      <td style="font-weight:700">${c.name}</td>
+      <td style="color:var(--muted)">${c.position}</td>
+      <td><div class="bar-cell">
+        <div class="mini-bar"><div class="mini-fill" style="width:${pct}%;background:${g.color}"></div></div>
+        <span class="mono-text" style="color:${g.color}">${c.total}</span>
+      </div></td>
+      <td><span class="total-grade ${g.cls}" style="font-size:12px;padding:2px 10px">${g.label}</span></td>
+      <td>${recLabel(c.rec)}</td>
+    </tr>`;
+  }).join('');
+
+  if (sorted.length >= 2) {
+    document.getElementById('detail-compare-card').style.display = 'block';
+    const thead = document.getElementById('detail-thead');
+    const dtbody = document.getElementById('detail-tbody');
+    thead.innerHTML = '<tr><th>評分項目</th>' + sorted.map(c=>`<th>${c.name}</th>`).join('') + '</tr>';
+    dtbody.innerHTML = CRITERIA.map(cr => {
+      const cells = sorted.map(c => {
+        const s = c.scores[cr.id];
+        if (!s) return '<td style="color:var(--dim)">—</td>';
+        const stars = '★'.repeat(s) + '☆'.repeat(5-s);
+        return `<td><span class="mono-text" style="color:var(--gold2);font-size:12px">${stars}</span> <span style="color:var(--muted);font-size:11px">(${s})</span></td>`;
+      }).join('');
+      return `<tr><td style="font-weight:500">${cr.name}<span style="color:var(--dim);font-size:11px;margin-left:6px">${cr.weight}%</span></td>${cells}</tr>`;
+    }).join('');
+  }
+}
+
+/* ── Tab 切換 ── */
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['score','list','compare'][i]===name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if (name==='list') renderList();
+  if (name==='compare') renderCompare();
+}
+
+/* ── Toast ── */
+function showToast(msg, dur=2800) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.style.display='none', dur);
+}
+</script>
+</body>
+</html>
