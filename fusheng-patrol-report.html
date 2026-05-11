@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>案場巡查回報單｜馥笙保全</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d1b2a;
+    --navy2: #1a2d42;
+    --steel: #2c4a6e;
+    --accent: #e8a020;
+    --accent2: #f0c060;
+    --light: #f4f6f9;
+    --mid: #dde3ec;
+    --text: #1a2435;
+    --muted: #5a6a80;
+    --ok: #1a9e5c;
+    --warn: #d94f2a;
+    --border: #c8d2e0;
+    --radius: 6px;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Noto Sans TC', sans-serif;
+  }
+
+  body {
+    font-family: var(--sans);
+    background: var(--light);
+    color: var(--text);
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 2px solid var(--accent);
+  }
+  .site-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .brand-icon {
+    width: 32px; height: 32px;
+    background: var(--accent);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 700; color: var(--navy);
+    font-family: var(--mono);
+  }
+  .brand-name { font-size: 14px; font-weight: 700; letter-spacing: .04em; }
+  .brand-sub  { font-size: 11px; color: #8aa0bc; margin-top: 1px; }
+  .header-right { font-family: var(--mono); font-size: 12px; color: #8aa0bc; }
+
+  /* ── Form shell ── */
+  .form-wrap {
+    max-width: 680px;
+    margin: 24px auto;
+    padding: 0 16px;
+  }
+
+  /* ── Section card ── */
+  .card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .card-head {
+    background: var(--navy2);
+    color: #fff;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .06em;
+  }
+  .card-head .tag {
+    background: var(--accent);
+    color: var(--navy);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: .04em;
+  }
+  .card-body { padding: 16px; }
+
+  /* ── Grid ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  @media(max-width:480px){
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  /* ── Field ── */
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+  }
+  .field label .req { color: var(--accent); margin-left: 2px; }
+  .field input,
+  .field select,
+  .field textarea {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    width: 100%;
+    transition: border-color .15s, background .15s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--steel);
+    background: #fff;
+  }
+  .field textarea { resize: vertical; min-height: 80px; }
+
+  /* ── Checklist table ── */
+  .check-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .check-table th {
+    background: var(--light);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-align: center;
+    padding: 8px 6px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .check-table th:first-child { text-align: left; padding-left: 10px; }
+  .check-table td {
+    padding: 9px 6px;
+    border-bottom: 1px solid var(--mid);
+    vertical-align: middle;
+  }
+  .check-table td:first-child { padding-left: 10px; font-weight: 500; }
+  .check-table tr:last-child td { border-bottom: none; }
+  .check-table tr:hover td { background: #f8fafc; }
+
+  .radio-group { display: flex; gap: 8px; justify-content: center; }
+  .radio-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 28px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    transition: all .12s;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .radio-btn[data-val="ok"]   { color: var(--ok); }
+  .radio-btn[data-val="warn"] { color: var(--warn); }
+  .radio-btn[data-val="na"]   { color: var(--muted); }
+  .radio-btn.active[data-val="ok"]   { background: var(--ok);   border-color: var(--ok);   color: #fff; }
+  .radio-btn.active[data-val="warn"] { background: var(--warn); border-color: var(--warn); color: #fff; }
+  .radio-btn.active[data-val="na"]   { background: var(--muted);border-color: var(--muted);color: #fff; }
+
+  .note-field {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text);
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 5px 8px;
+    outline: none;
+    transition: border-color .12s;
+  }
+  .note-field:focus { border-color: var(--steel); background: #fff; }
+
+  /* ── Anomaly log ── */
+  .anomaly-list { display: flex; flex-direction: column; gap: 10px; }
+  .anomaly-item {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    position: relative;
+    background: var(--light);
+  }
+  .anomaly-item.full-row { grid-column: 1/-1; }
+  .remove-btn {
+    position: absolute; top: 8px; right: 8px;
+    background: none; border: none;
+    color: var(--muted); font-size: 16px;
+    cursor: pointer; line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background .12s, color .12s;
+  }
+  .remove-btn:hover { background: #fde8e3; color: var(--warn); }
+  .add-btn {
+    display: flex; align-items: center; gap: 6px;
+    background: none;
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--steel);
+    cursor: pointer;
+    width: 100%;
+    transition: border-color .12s, background .12s;
+  }
+  .add-btn:hover { border-color: var(--steel); background: #f0f4fa; }
+
+  /* ── Signature area ── */
+  .sig-canvas {
+    width: 100%; height: 110px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    cursor: crosshair;
+    display: block;
+    touch-action: none;
+  }
+  .sig-actions { display: flex; gap: 8px; margin-top: 8px; }
+  .sig-clear {
+    font-family: var(--sans); font-size: 12px;
+    border: 1px solid var(--border);
+    background: var(--light);
+    color: var(--muted);
+    border-radius: 4px; padding: 5px 12px;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .sig-clear:hover { background: var(--mid); }
+
+  /* ── Status badge ── */
+  .status-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .status-opt {
+    flex: 1; min-width: 80px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .12s;
+    user-select: none;
+    -webkit-user-select: none;
+    color: var(--muted);
+  }
+  .status-opt span { display: block; font-size: 18px; margin-bottom: 3px; }
+  .status-opt[data-s="normal"].active  { border-color: var(--ok); background: #e6f7ef; color: var(--ok); }
+  .status-opt[data-s="minor"].active   { border-color: #c08010; background: #fdf3dc; color: #8a5a00; }
+  .status-opt[data-s="serious"].active { border-color: var(--warn); background: #fdecea; color: var(--warn); }
+
+  /* ── Submit ── */
+  .submit-bar {
+    margin-top: 8px;
+    display: flex; gap: 10px;
+  }
+  .btn-primary {
+    flex: 1;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    padding: 14px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    cursor: pointer;
+    border-bottom: 3px solid #000;
+    transition: opacity .12s, transform .08s;
+  }
+  .btn-primary:hover  { opacity: .88; }
+  .btn-primary:active { transform: translateY(1px); }
+  .btn-secondary {
+    background: var(--light);
+    color: var(--steel);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .12s;
+  }
+  .btn-secondary:hover { background: var(--mid); }
+
+  /* ── Toast ── */
+  .toast {
+    display: none;
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%);
+    background: var(--navy);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 999;
+    white-space: nowrap;
+    animation: fadeUp .2s ease;
+  }
+  @keyframes fadeUp { from { opacity:0; transform:translateX(-50%) translateY(8px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+
+  /* ── Counter bar ── */
+  .counter-bar {
+    background: var(--navy2);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+    color: #fff;
+    font-size: 12px;
+    font-family: var(--mono);
+  }
+  .counter-item { text-align: center; }
+  .counter-num  { font-size: 22px; font-weight: 700; display: block; }
+  .counter-num.ok   { color: #40d090; }
+  .counter-num.warn { color: #f07050; }
+  .counter-num.na   { color: #8aa0bc; }
+  .counter-label    { font-size: 10px; color: #8aa0bc; letter-spacing: .06em; }
+
+  /* print */
+  @media print {
+    .site-header, .submit-bar, .add-btn, .remove-btn, .sig-actions { display: none !important; }
+    body { background: #fff; }
+    .card { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-icon">F</div>
+    <div>
+      <div class="brand-name">馥笙物業管理機構</div>
+      <div class="brand-sub">案場巡查回報系統</div>
+    </div>
+  </div>
+  <div class="header-right" id="live-time"></div>
+</header>
+
+<div class="form-wrap">
+
+  <!-- 即時統計 -->
+  <div class="counter-bar">
+    <div class="counter-item">
+      <span class="counter-num ok"  id="cnt-ok">0</span>
+      <span class="counter-label">正常</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-num warn" id="cnt-warn">0</span>
+      <span class="counter-label">異常</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-num na"   id="cnt-na">0</span>
+      <span class="counter-label">N/A</span>
+    </div>
+    <div class="counter-item">
+      <span class="counter-num" id="cnt-pct" style="color:var(--accent2)">—</span>
+      <span class="counter-label">完成率</span>
+    </div>
+  </div>
+
+  <!-- 基本資訊 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">01</span>基本資訊</div>
+    <div class="card-body">
+      <div class="grid-2" style="margin-bottom:12px">
+        <div class="field">
+          <label>案場名稱 <span class="req">*</span></label>
+          <input type="text" id="site-name" placeholder="例：台北信義大廈">
+        </div>
+        <div class="field">
+          <label>案場地址</label>
+          <input type="text" id="site-addr" placeholder="完整地址">
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="field">
+          <label>巡查日期 <span class="req">*</span></label>
+          <input type="date" id="patrol-date">
+        </div>
+        <div class="field">
+          <label>巡查時間 <span class="req">*</span></label>
+          <input type="time" id="patrol-time">
+        </div>
+        <div class="field">
+          <label>天氣狀況</label>
+          <select id="weather">
+            <option value="">請選擇</option>
+            <option>晴天</option>
+            <option>陰天</option>
+            <option>小雨</option>
+            <option>大雨</option>
+            <option>颱風</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 人員狀況 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">02</span>人員狀況</div>
+    <div class="card-body">
+      <div class="grid-3" style="margin-bottom:12px">
+        <div class="field">
+          <label>應到人數</label>
+          <input type="number" id="staff-required" placeholder="0" min="0">
+        </div>
+        <div class="field">
+          <label>實到人數</label>
+          <input type="number" id="staff-actual" placeholder="0" min="0">
+        </div>
+        <div class="field">
+          <label>缺勤人數</label>
+          <input type="number" id="staff-absent" placeholder="0" min="0" readonly style="background:#f4f6f9;color:var(--muted)">
+        </div>
+      </div>
+      <div class="field">
+        <label>缺勤原因 / 補位說明</label>
+        <textarea id="staff-note" placeholder="填寫缺勤人員姓名及原因，或機動補位安排"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 巡查項目 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">03</span>巡查項目檢核</div>
+    <div class="card-body" style="padding:0">
+      <table class="check-table" id="check-table">
+        <thead>
+          <tr>
+            <th style="width:42%">檢核項目</th>
+            <th>正常</th>
+            <th>異常</th>
+            <th>N/A</th>
+            <th style="width:28%">備註</th>
+          </tr>
+        </thead>
+        <tbody id="check-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 整體狀態 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">04</span>整體案場狀態</div>
+    <div class="card-body">
+      <div class="status-row" id="overall-status">
+        <div class="status-opt" data-s="normal">
+          <span>✓</span>正常
+        </div>
+        <div class="status-opt" data-s="minor">
+          <span>!</span>輕微異常
+        </div>
+        <div class="status-opt" data-s="serious">
+          <span>✕</span>重大異常
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 異常事項 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">05</span>異常事項登錄</div>
+    <div class="card-body">
+      <div class="anomaly-list" id="anomaly-list"></div>
+      <button class="add-btn" onclick="addAnomaly()">＋ 新增異常事項</button>
+    </div>
+  </div>
+
+  <!-- 督導意見 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">06</span>督導意見與改善建議</div>
+    <div class="card-body">
+      <div class="field">
+        <label>本次巡查重點說明</label>
+        <textarea id="supervisor-note" placeholder="填寫觀察重點、人員表現、環境特殊狀況等" style="min-height:100px"></textarea>
+      </div>
+      <div class="field" style="margin-top:12px">
+        <label>改善要求（限期處理事項）</label>
+        <textarea id="action-items" placeholder="列明需改善事項、負責人、完成期限"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 簽名 -->
+  <div class="card">
+    <div class="card-head"><span class="tag">07</span>督導簽名確認</div>
+    <div class="card-body">
+      <div class="grid-2" style="margin-bottom:14px">
+        <div class="field">
+          <label>督導姓名 <span class="req">*</span></label>
+          <input type="text" id="supervisor-name" placeholder="請輸入姓名">
+        </div>
+        <div class="field">
+          <label>聯絡電話</label>
+          <input type="tel" id="supervisor-phone" placeholder="0912-345-678">
+        </div>
+      </div>
+      <div class="field">
+        <label>手寫簽名</label>
+        <canvas class="sig-canvas" id="sig-canvas"></canvas>
+        <div class="sig-actions">
+          <button class="sig-clear" onclick="clearSig()">清除重簽</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 送出 -->
+  <div class="submit-bar">
+    <button class="btn-secondary" onclick="printReport()">列印 / 存PDF</button>
+    <button class="btn-primary" onclick="submitReport()">確認送出回報單</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── 巡查項目清單 ── */
+const ITEMS = [
+  { cat:'門禁安全', items:['主要出入口門禁正常運作','訪客登記確實執行','保全人員在崗位','各出入口上鎖確認'] },
+  { cat:'環境秩序', items:['公共區域整潔無雜物','走廊通道無阻塞','垃圾處理場整潔','停車場秩序正常'] },
+  { cat:'設備設施', items:['監視錄影系統運作正常','緊急廣播系統正常','消防器材完好無缺','照明設備正常'] },
+  { cat:'安全管理', items:['消防逃生通道暢通','危險品存放符合規定','廠商施工管控確實','夜間照明充足'] },
+];
+
+/* ── 初始化 ── */
+window.addEventListener('DOMContentLoaded', () => {
+  setDefaults();
+  buildCheckTable();
+  initSig();
+  initStatusOpts();
+  setInterval(updateTime, 1000);
+  updateTime();
+
+  document.getElementById('staff-required').addEventListener('input', calcAbsent);
+  document.getElementById('staff-actual').addEventListener('input', calcAbsent);
+});
+
+function setDefaults() {
+  const now = new Date();
+  document.getElementById('patrol-date').value = now.toISOString().slice(0,10);
+  document.getElementById('patrol-time').value = now.toTimeString().slice(0,5);
+}
+
+function updateTime() {
+  const d = new Date();
+  document.getElementById('live-time').textContent =
+    d.toLocaleDateString('zh-TW') + ' ' + d.toLocaleTimeString('zh-TW', {hour:'2-digit',minute:'2-digit'});
+}
+
+function calcAbsent() {
+  const r = parseInt(document.getElementById('staff-required').value)||0;
+  const a = parseInt(document.getElementById('staff-actual').value)||0;
+  document.getElementById('staff-absent').value = Math.max(0, r - a);
+}
+
+/* ── 建立檢核表 ── */
+function buildCheckTable() {
+  const tbody = document.getElementById('check-tbody');
+  ITEMS.forEach(group => {
+    const catRow = document.createElement('tr');
+    catRow.innerHTML = `<td colspan="5" style="background:var(--light);font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--mid)">${group.cat}</td>`;
+    tbody.appendChild(catRow);
+
+    group.items.forEach((item, i) => {
+      const id = `chk_${group.cat}_${i}`;
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item}</td>
+        <td><div class="radio-group">
+          <div class="radio-btn" data-id="${id}" data-val="ok"   onclick="setCheck(this)">✓</div>
+        </div></td>
+        <td><div class="radio-group">
+          <div class="radio-btn" data-id="${id}" data-val="warn" onclick="setCheck(this)">✕</div>
+        </div></td>
+        <td><div class="radio-group">
+          <div class="radio-btn" data-id="${id}" data-val="na"   onclick="setCheck(this)">—</div>
+        </div></td>
+        <td><input class="note-field" placeholder="備註"></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+function setCheck(btn) {
+  const id = btn.dataset.id;
+  document.querySelectorAll(`[data-id="${id}"]`).forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateCounter();
+}
+
+function updateCounter() {
+  const ok   = document.querySelectorAll('.radio-btn.active[data-val="ok"]').length;
+  const warn = document.querySelectorAll('.radio-btn.active[data-val="warn"]').length;
+  const na   = document.querySelectorAll('.radio-btn.active[data-val="na"]').length;
+  const total = document.querySelectorAll('.radio-btn[data-val="ok"]').length;
+  const done  = ok + warn + na;
+
+  document.getElementById('cnt-ok').textContent   = ok;
+  document.getElementById('cnt-warn').textContent  = warn;
+  document.getElementById('cnt-na').textContent    = na;
+  document.getElementById('cnt-pct').textContent   = total ? Math.round(done/total*100)+'%' : '—';
+}
+
+/* ── 整體狀態 ── */
+function initStatusOpts() {
+  document.querySelectorAll('.status-opt').forEach(opt => {
+    opt.addEventListener('click', function() {
+      document.querySelectorAll('.status-opt').forEach(o => o.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+}
+
+/* ── 異常登錄 ── */
+let anomalyCount = 0;
+function addAnomaly() {
+  anomalyCount++;
+  const id = anomalyCount;
+  const div = document.createElement('div');
+  div.className = 'anomaly-item';
+  div.id = `anomaly-${id}`;
+  div.innerHTML = `
+    <button class="remove-btn" onclick="removeAnomaly(${id})" title="刪除">×</button>
+    <div class="field">
+      <label>異常地點</label>
+      <input type="text" placeholder="例：B2停車場入口">
+    </div>
+    <div class="field">
+      <label>發現時間</label>
+      <input type="time">
+    </div>
+    <div class="field" style="grid-column:1/-1">
+      <label>異常描述</label>
+      <textarea placeholder="詳述異常狀況" style="min-height:64px"></textarea>
+    </div>
+    <div class="field">
+      <label>處理方式</label>
+      <select>
+        <option value="">請選擇</option>
+        <option>現場立即處理</option>
+        <option>通報主管</option>
+        <option>聯絡廠商維修</option>
+        <option>通報業主/管委會</option>
+        <option>列入追蹤改善</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>處理狀態</label>
+      <select>
+        <option value="">請選擇</option>
+        <option>已處理完畢</option>
+        <option>處理中</option>
+        <option>待追蹤</option>
+      </select>
+    </div>
+  `;
+  document.getElementById('anomaly-list').appendChild(div);
+}
+
+function removeAnomaly(id) {
+  const el = document.getElementById(`anomaly-${id}`);
+  if (el) el.remove();
+}
+
+/* ── 簽名畫布 ── */
+let sigCtx, sigDrawing = false;
+function initSig() {
+  const canvas = document.getElementById('sig-canvas');
+  sigCtx = canvas.getContext('2d');
+  canvas.width  = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  sigCtx.strokeStyle = '#0d1b2a';
+  sigCtx.lineWidth = 2;
+  sigCtx.lineCap = 'round';
+
+  const getPos = e => {
+    const r = canvas.getBoundingClientRect();
+    const p = e.touches ? e.touches[0] : e;
+    return { x: p.clientX - r.left, y: p.clientY - r.top };
+  };
+  canvas.addEventListener('mousedown',  e => { sigDrawing=true; const p=getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x,p.y); });
+  canvas.addEventListener('mousemove',  e => { if(!sigDrawing) return; const p=getPos(e); sigCtx.lineTo(p.x,p.y); sigCtx.stroke(); });
+  canvas.addEventListener('mouseup',    () => sigDrawing=false);
+  canvas.addEventListener('mouseleave', () => sigDrawing=false);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); sigDrawing=true; const p=getPos(e); sigCtx.beginPath(); sigCtx.moveTo(p.x,p.y); }, {passive:false});
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if(!sigDrawing) return; const p=getPos(e); sigCtx.lineTo(p.x,p.y); sigCtx.stroke(); }, {passive:false});
+  canvas.addEventListener('touchend',   () => sigDrawing=false);
+}
+function clearSig() {
+  const canvas = document.getElementById('sig-canvas');
+  sigCtx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+/* ── 送出 ── */
+function submitReport() {
+  const site = document.getElementById('site-name').value.trim();
+  const sup  = document.getElementById('supervisor-name').value.trim();
+  if (!site) { showToast('請填寫案場名稱'); return; }
+  if (!sup)  { showToast('請填寫督導姓名'); return; }
+  showToast('✓ 回報單已送出！（' + new Date().toLocaleTimeString('zh-TW') + '）');
+}
+
+function printReport() { window.print(); }
+
+function showToast(msg, dur=3000) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.style.display='none', dur);
+}
+</script>
+</body>
+</html>
