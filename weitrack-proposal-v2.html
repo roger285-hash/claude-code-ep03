@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>偉翔到貨通 — 合作提案</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --surface: #ffffff;
+      --border: #e8e4de;
+      --text-primary: #1a1a1a;
+      --text-secondary: #5a5a5a;
+      --text-muted: #9a9490;
+      --accent: #2d6a4f;
+      --accent-light: #e8f4f0;
+      --accent-warm: #b5451b;
+      --accent-warm-light: #fdf0eb;
+      --tag-bg: #f0ede8;
+      --shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 0 40px;
+    }
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-family: 'Noto Serif TC', serif;
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+    }
+    .meta-item label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .meta-item span {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Greeting banner ── */
+    .greeting {
+      background: var(--accent-light);
+      border-left: 3px solid var(--accent);
+      max-width: 860px;
+      margin: 36px auto 0;
+      padding: 20px 28px;
+      border-radius: 0 8px 8px 0;
+      font-size: 14px;
+      color: var(--accent);
+      line-height: 1.8;
+    }
+    .greeting strong { font-weight: 600; }
+
+    /* ── Main content ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 32px 80px;
+    }
+
+    /* ── Section ── */
+    .section { margin-bottom: 64px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 28px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-num {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      font-weight: 500;
+      min-width: 24px;
+    }
+    .section-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .badge {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .badge-new { background: var(--accent-light); color: var(--accent); }
+    .badge-collab { background: var(--accent-warm-light); color: var(--accent-warm); }
+
+    /* ── Role cards ── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      box-shadow: var(--shadow);
+    }
+    .card-icon { font-size: 22px; margin-bottom: 12px; }
+    .card-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 3px 10px;
+      background: var(--tag-bg);
+      border-radius: 20px;
+      color: var(--text-secondary);
+    }
+
+    /* ── LINE feature ── */
+    .line-block {
+      background: #06C755;
+      border: none;
+      border-radius: 16px;
+      padding: 32px 28px 28px;
+      box-shadow: 0 4px 24px rgba(6,199,85,0.25);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .line-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Crect x='4' y='8' width='36' height='26' rx='8' fill='white' opacity='0.07'/%3E%3Cpolygon points='10,34 6,44 20,34' fill='white' opacity='0.07'/%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Crect x='2' y='5' width='24' height='18' rx='6' fill='white' opacity='0.05'/%3E%3Cpolygon points='6,23 4,30 14,23' fill='white' opacity='0.05'/%3E%3C/svg%3E");
+      background-position: 90% 20%, 10% 70%;
+      background-repeat: no-repeat;
+      background-size: 180px, 120px;
+      pointer-events: none;
+    }
+    .line-block::after {
+      content: 'LINE';
+      position: absolute;
+      right: -10px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-15deg);
+      font-size: 120px;
+      font-weight: 900;
+      color: white;
+      opacity: 0.05;
+      letter-spacing: -4px;
+      pointer-events: none;
+      font-family: 'Noto Sans TC', sans-serif;
+      user-select: none;
+    }
+    .line-block-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #ffffff;
+      position: relative;
+      z-index: 1;
+    }
+    .line-block-desc {
+      font-size: 14px;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.75;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .feature-item {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .feature-item-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #ffffff;
+    }
+    .feature-item-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.5;
+    }
+
+    /* ── Node flow ── */
+    .flow-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .nodes {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+    .node-wrap {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      width: 80px;
+    }
+    .node-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg);
+    }
+    .node-circle.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-light);
+    }
+    .node-label {
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+    .node-push {
+      font-size: 10px;
+      color: var(--accent);
+      font-weight: 500;
+      text-align: center;
+    }
+    .node-connector {
+      width: 20px;
+      height: 2px;
+      background: var(--border);
+      flex-shrink: 0;
+      margin-top: -24px;
+    }
+    .flow-note {
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: var(--bg);
+      border-radius: 8px;
+      padding: 12px 16px;
+      line-height: 1.6;
+    }
+
+    /* ── Timeline ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-period {
+      font-size: 12px;
+      color: var(--text-muted);
+      padding-top: 2px;
+    }
+    .timeline-period strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+    .timeline-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: var(--tag-bg);
+      color: var(--text-secondary);
+    }
+    .tag.highlight {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    /* ── Collab cards ── */
+    .collab-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .collab-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+    }
+    .collab-icon { font-size: 20px; margin-bottom: 12px; }
+    .collab-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .collab-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Risk table ── */
+    .risk-list { display: flex; flex-direction: column; gap: 12px; }
+    .risk-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+    }
+    .risk-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      padding-top: 1px;
+    }
+    .risk-label span { font-size: 14px; }
+    .risk-action {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Confirm section ── */
+    .confirm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .confirm-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 20px;
+      box-shadow: var(--shadow);
+      border-top: 3px solid var(--accent);
+    }
+    .confirm-title {
+      font-family: 'Noto Serif TC', serif;
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .confirm-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+      padding: 28px 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    @media (max-width: 600px) {
+      .header-inner, main { padding-left: 20px; padding-right: 20px; }
+      .timeline-item { grid-template-columns: 1fr; gap: 6px; }
+      .risk-item { grid-template-columns: 1fr; gap: 8px; }
+      .nodes { gap: 0; }
+      .node { width: 68px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <p class="eyebrow">WeiTrack · 合作提案文件</p>
+    <h1>偉翔到貨通</h1>
+    <p class="subtitle">物流查詢系統 — 四方架構 × LINE 整合 × 主動推播</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <label>文件日期</label>
+        <span>2026 / 05 / 18</span>
+      </div>
+      <div class="meta-item">
+        <label>提案方</label>
+        <span>偉翔通運</span>
+      </div>
+      <div class="meta-item">
+        <label>合作對象</label>
+        <span>網緹科技</span>
+      </div>
+      <div class="meta-item">
+        <label>雛形期限</label>
+        <span>30 天內</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Greeting -->
+<div style="max-width:860px; margin: 0 auto; padding: 0 32px;">
+  <div class="greeting">
+    廖先生您好，這份文件是偉翔通運針對「到貨通」系統整理的功能規劃提案。<br />
+    我們希望以這份提案為基礎，<strong>與網緹一起討論、調整與推進</strong>，期待與您密切溝通，共同規劃出最合適的實作路徑。
+  </div>
+</div>
+
+<main>
+
+  <!-- 01 四方使用者角色 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">四方使用者角色</h2>
+    </div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <div class="card-title">終端買家</div>
+        <div class="card-desc">無需登入，輸入單號即可查詢包裹位置與預計到台時間。</div>
+        <span class="card-tag">無需登入</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🏭</div>
+        <div class="card-title">集運商</div>
+        <div class="card-desc">帳號登入後批次查詢與更新物流狀態，管理多筆訂單。</div>
+        <span class="card-tag">帳號登入</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">📦</div>
+        <div class="card-title">大陸賣家</div>
+        <div class="card-desc">登記出貨資訊、確認入倉狀態，掌握貨件去向。</div>
+        <span class="card-tag">出貨登記</span>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎧</div>
+        <div class="card-title">偉翔客服</div>
+        <div class="card-desc">全覽查詢後台、異常處理、備註記錄，支援分權登入。</div>
+        <span class="card-tag">帳號 + 權限</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 LINE 查件功能 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">LINE 查件功能</h2>
+      <span class="badge badge-new">新增功能</span>
+    </div>
+    <div class="line-block">
+      <div class="line-block-title">💬 LINE 到貨通知整合</div>
+      <div class="line-block-desc">
+        客戶加入偉翔 LINE 官方帳號後，輸入單號即可綁定訂單，全程追蹤貨物狀態。無需下載 App 或登入任何後台，利用台灣買家最熟悉的管道，零門檻導入。
+      </div>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-title">單號查件</div>
+          <div class="feature-item-desc">對話框輸入單號，即時回傳當前物流節點狀態</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-title">主動推播</div>
+          <div class="feature-item-desc">到台、派送、簽收三節點自動發送通知訊息</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-title">圖文選單</div>
+          <div class="feature-item-desc">常見問題快速回覆，有效降低客服回應負擔</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-title">無需 App</div>
+          <div class="feature-item-desc">台灣買家最熟悉的管道，導入門檻極低</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 全程 7 節點 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">全程 7 節點物流狀態</h2>
+    </div>
+    <div class="flow-card">
+      <div class="nodes">
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle">01</div>
+            <div class="node-label">大陸賣家<br/>出貨</div>
+            <div class="node-push" style="color:transparent">　</div>
+          </div>
+          <div class="node-connector"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle">02</div>
+            <div class="node-label">集運倉<br/>收件</div>
+            <div class="node-push" style="color:transparent">　</div>
+          </div>
+          <div class="node-connector"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle">03</div>
+            <div class="node-label">海運<br/>出發</div>
+            <div class="node-push" style="color:transparent">　</div>
+          </div>
+          <div class="node-connector"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle">04</div>
+            <div class="node-label">台灣<br/>清關中</div>
+            <div class="node-push" style="color:transparent">　</div>
+          </div>
+          <div class="node-connector"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle active">05</div>
+            <div class="node-label">偉翔倉<br/>收件</div>
+            <div class="node-push">LINE 推播</div>
+          </div>
+          <div class="node-connector"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle active">06</div>
+            <div class="node-label">派送中</div>
+            <div class="node-push">LINE 推播</div>
+          </div>
+          <div class="node-connector"></div>
+        </div>
+        <div class="node-wrap">
+          <div class="node">
+            <div class="node-circle active">07</div>
+            <div class="node-label">完成<br/>簽收</div>
+            <div class="node-push">LINE 推播</div>
+          </div>
+        </div>
+      </div>
+      <div class="flow-note">
+        綠色節點為 LINE 主動推播觸發點（到台 / 派送中 / 完成簽收）；每個節點需與網緹共同確認責任上傳人與掃碼時機，避免狀態斷點。
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 三階段建構計畫 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">三階段建構計畫</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-period">
+          <strong>第一階段</strong>
+          0 – 30 天
+        </div>
+        <div>
+          <div class="timeline-title">雛形提案</div>
+          <div class="tag-list">
+            <span class="tag">現有流程訪談與痛點記錄</span>
+            <span class="tag">四方需求規格定義</span>
+            <span class="tag highlight">與網緹確認 API 能力</span>
+            <span class="tag">架構圖 + 推進計畫</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-period">
+          <strong>第二階段</strong>
+          30 – 60 天
+        </div>
+        <div>
+          <div class="timeline-title">四方介面建構</div>
+          <div class="tag-list">
+            <span class="tag">買家查詢網頁（手機優先）</span>
+            <span class="tag">集運商 / 賣家後台介面</span>
+            <span class="tag">偉翔客服全覽後台</span>
+          </div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-period">
+          <strong>第三階段</strong>
+          60 – 90 天
+        </div>
+        <div>
+          <div class="timeline-title">主動通知上線</div>
+          <div class="tag-list">
+            <span class="tag highlight">LINE 官方帳號查件</span>
+            <span class="tag highlight">LINE 主動推播（3 節點）</span>
+            <span class="tag">簡訊通知（到台 / 派送 / 簽收）</span>
+            <span class="tag">微信通知（大陸賣家端）</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 與網緹的合作期待 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">與網緹的合作期待</h2>
+      <span class="badge badge-collab">致廖先生</span>
+    </div>
+    <div class="collab-grid">
+      <div class="collab-card">
+        <div class="collab-icon">👥</div>
+        <div class="collab-title">四方角色分權</div>
+        <div class="collab-desc">支援不同角色登入與視圖隔離，不同使用者看到對應資訊，期待與您討論最適合的權限架構。</div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">📱</div>
+        <div class="collab-title">手機查詢介面</div>
+        <div class="collab-desc">買家端 RWD 響應式設計，操作直覺，手機體驗優先，歡迎您提供現有設計建議。</div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">💬</div>
+        <div class="collab-title">LINE 推播串接</div>
+        <div class="collab-desc">支援 LINE Official Account 或 Notify API，希望與您確認整合到第三階段的可行路徑。</div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">🔌</div>
+        <div class="collab-title">API 串接確認</div>
+        <div class="collab-desc">希望了解現有後台系統的 API 能力，避免重複建置資料層，這是我們最希望第一步確認的事項。</div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">💰</div>
+        <div class="collab-title">報價與時程討論</div>
+        <div class="collab-desc">初期建置費、月費與維護費，希望在一個月雛形期限內共同找到合適的合作模式。</div>
+      </div>
+      <div class="collab-card">
+        <div class="collab-icon">📍</div>
+        <div class="collab-title">本地溝通效率</div>
+        <div class="collab-desc">台灣在地團隊，溝通效率高，我們希望保持密切聯繫，快速響應每一個決策節點。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 關鍵風險與對策 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">關鍵風險與對策</h2>
+    </div>
+    <div class="risk-list">
+      <div class="risk-item">
+        <div class="risk-label"><span>⚠️</span>資料斷點</div>
+        <div class="risk-action">先定義每節點責任人與掃碼時機，確保全程狀態不中斷。</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-label"><span>⚠️</span>單號規則混亂</div>
+        <div class="risk-action">建立統一主單號邏輯，子單號對應，與偉翔內部對齊設計規則，再共同確認。</div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-label"><span>⚠️</span>買家習慣養成</div>
+        <div class="risk-action">同步設計客服引導話術，主動推廣 LINE 查件管道。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 我們希望一起確認的事項 -->
+  <section class="section">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">我們希望一起確認的事項</h2>
+    </div>
+    <div class="confirm-grid">
+      <div class="confirm-card">
+        <div class="confirm-title">確認現有 API 能力</div>
+        <div class="confirm-desc">現有系統是否有查詢 API 或公開查詢頁功能，評估擴充可行性，以決定後續技術路線。</div>
+      </div>
+      <div class="confirm-card">
+        <div class="confirm-title">對齊單號規則</div>
+        <div class="confirm-desc">確定主單號設計方式，子單號對應邏輯，統一全系統識別基礎，避免後續開發混亂。</div>
+      </div>
+      <div class="confirm-card">
+        <div class="confirm-title">規劃推進節奏</div>
+        <div class="confirm-desc">共同討論三階段的推進節奏與溝通頻率，讓雙方都能掌握進度，即時調整方向。</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <strong>偉翔通運股份有限公司</strong><br />
+  新北市五股區中興路三段 1-11 號<br />
+  WeiTrack 合作提案 · 2026 / 05 / 18
+</footer>
+
+</body>
+</html>
