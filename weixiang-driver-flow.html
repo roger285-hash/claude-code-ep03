@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運 — 司機出庫送貨完整流程</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blue:    #185FA5;
+    --blue-bg: #E6F1FB;
+    --amber:   #854F0B;
+    --amber-bg:#FAEEDA;
+    --green:   #3B6D11;
+    --green-bg:#EAF3DE;
+    --red:     #A32D2D;
+    --red-bg:  #FCEBEB;
+    --gray:    #5F5E5A;
+    --gray-bg: #F1EFE8;
+    --border:  rgba(0,0,0,0.10);
+    --text:    #1a1a18;
+    --text-sub:#5F5E5A;
+    --bg:      #F7F5F0;
+    --card-bg: #ffffff;
+  }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 32px 16px 48px;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--blue);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -.01em;
+    margin-bottom: 6px;
+  }
+  .header p {
+    font-size: 13px;
+    color: var(--text-sub);
+  }
+
+  /* ── Phase tabs ── */
+  .phases {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .phase-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--text-sub);
+    transition: all .18s;
+    font-family: inherit;
+  }
+  .phase-btn .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .phase-btn.active, .phase-btn:hover { border-color: currentColor; }
+  .phase-btn[data-phase="before"].active { color: var(--blue); background: var(--blue-bg); border-color: var(--blue); }
+  .phase-btn[data-phase="during"].active { color: var(--amber); background: var(--amber-bg); border-color: var(--amber); }
+  .phase-btn[data-phase="after"].active  { color: var(--green); background: var(--green-bg); border-color: var(--green); }
+
+  /* ── Progress bar ── */
+  .progress-wrap { max-width: 680px; margin: 0 auto 24px; }
+  .progress-track { background: var(--border); border-radius: 4px; height: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 4px; background: var(--blue); transition: width .35s ease, background .35s; }
+  .progress-label { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--text-sub); }
+
+  /* ── Step dots ── */
+  .dots-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .step-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .18s;
+  }
+  .step-dot.done  { background: var(--gray-bg); color: var(--gray); border-color: var(--gray); }
+  .step-dot.active-before { background: var(--blue);  color: #fff; border-color: var(--blue);  transform: scale(1.15); }
+  .step-dot.active-during { background: var(--amber); color: #fff; border-color: var(--amber); transform: scale(1.15); }
+  .step-dot.active-after  { background: var(--green); color: #fff; border-color: var(--green); transform: scale(1.15); }
+
+  /* ── Main card ── */
+  .card {
+    max-width: 680px;
+    margin: 0 auto 28px;
+    background: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 32px 36px 28px;
+    min-height: 300px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    animation: fadein .25s ease;
+  }
+  @keyframes fadein { from { opacity:.4; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+
+  .step-phase {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -.02em;
+  }
+  .step-subtitle {
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-bottom: 18px;
+  }
+  .badge {
+    display: inline-block;
+    border-radius: 6px;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    margin-bottom: 20px;
+  }
+  .badge-sys   { background: var(--blue-bg);  color: var(--blue); }
+  .badge-field { background: var(--amber-bg); color: var(--amber); }
+  .badge-gap   { background: var(--red-bg);   color: var(--red); }
+
+  .detail-list { display: flex; flex-direction: column; gap: 12px; }
+  .detail-row  { display: flex; gap: 12px; align-items: flex-start; }
+  .detail-num  {
+    min-width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    flex-shrink: 0; margin-top: 1px;
+  }
+  .detail-text { font-size: 14px; line-height: 1.65; color: var(--text); }
+  .detail-text .tag {
+    display: inline-block;
+    background: var(--gray-bg);
+    color: var(--gray);
+    border-radius: 4px;
+    padding: 0 6px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-right: 4px;
+  }
+  .warn-box {
+    margin-top: 18px;
+    background: var(--red-bg);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--red);
+    line-height: 1.6;
+  }
+  .note-box {
+    margin-top: 18px;
+    background: var(--amber-bg);
+    border-left: 3px solid var(--amber);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--amber);
+    line-height: 1.6;
+  }
+
+  /* ── Nav ── */
+  .nav {
+    max-width: 680px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+  .nav-btn {
+    padding: 10px 28px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--card-bg);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    transition: all .15s;
+    font-family: inherit;
+  }
+  .nav-btn:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+  .nav-btn:disabled { opacity: .3; cursor: default; }
+  .nav-btn.primary {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: #fff;
+  }
+  .nav-btn.primary:hover:not(:disabled) { background: #0C447C; border-color: #0C447C; color: #fff; }
+  .nav-count { font-size: 12px; color: var(--text-sub); white-space: nowrap; }
+
+  /* ── Footer ── */
+  .footer {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 11px;
+    color: var(--text-sub);
+    line-height: 1.8;
+  }
+
+  /* ── Summary panel (last step extra) ── */
+  .gap-list { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .gap-item {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: var(--red-bg);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .gap-icon { font-size: 16px; flex-shrink: 0; }
+  .gap-text { font-size: 13px; color: var(--red); line-height: 1.6; }
+  .gap-text b { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-badge">偉翔通運管理系統</div>
+  <h1>司機出庫送貨完整流程</h1>
+  <p>wscar.zzz.tw　｜　供網緹資訊廖先生參考說明</p>
+</div>
+
+<div class="phases">
+  <button class="phase-btn active" data-phase="before" onclick="jumpPhase('before')">
+    <span class="dot" style="background:var(--blue)"></span>出發前（系統操作）
+  </button>
+  <button class="phase-btn" data-phase="during" onclick="jumpPhase('during')">
+    <span class="dot" style="background:var(--amber)"></span>途中（送貨現場）
+  </button>
+  <button class="phase-btn" data-phase="after" onclick="jumpPhase('after')">
+    <span class="dot" style="background:var(--green)"></span>回倉後（系統更新）
+  </button>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  <div class="progress-label"><span id="prog-txt"></span><span id="prog-pct"></span></div>
+</div>
+
+<div class="dots-row" id="dots-row"></div>
+
+<div class="card" id="main-card"></div>
+
+<div class="nav">
+  <button class="nav-btn" id="btn-prev" onclick="move(-1)">← 上一步</button>
+  <span class="nav-count" id="nav-count"></span>
+  <button class="nav-btn primary" id="btn-next" onclick="move(1)">下一步 →</button>
+</div>
+
+<div class="footer">
+  此文件由偉翔通運提供給網緹資訊有限公司廖先生，說明現行系統出庫流程及待改善需求。<br>
+  製作日期：2026年5月
+</div>
+
+<script>
+const STEPS = [
+  {
+    phase: 'before',
+    phaseLabel: '出發前 — 系統操作',
+    title: '登入系統',
+    subtitle: '訂單作業 → 瀏覽頁籤',
+    badge: 'sys', badgeText: '系統操作',
+    items: [
+      { tag: '帳號', text: '用人員編號（如 04001 台中001）+ 密碼登入' },
+      { tag: '倉庫', text: '系統自動對應到負責倉庫，如台中倉' },
+      { tag: '進入', text: '點選「訂單作業」→ 切換至「瀏覽」頁籤' },
+    ],
+  },
+  {
+    phase: 'before',
+    phaseLabel: '出發前 — 系統操作',
+    title: '確認今日出貨清單',
+    subtitle: 'F6 查詢 → 篩選今日待出庫訂單',
+    badge: 'sys', badgeText: '系統操作',
+    items: [
+      { tag: 'F6', text: '按 F6 查詢，輸入今日日期或貨櫃編號（如「雙貓-0512」）' },
+      { tag: '清單', text: '顯示：貨櫃編號、訂單號碼、提單號碼、入庫日期、客戶名稱、電話' },
+      { tag: '確認', text: '出庫日期欄位為空者，即為今日待配送訂單' },
+    ],
+  },
+  {
+    phase: 'before',
+    phaseLabel: '出發前 — 系統操作',
+    title: '列印出貨單（紙本憑證）',
+    subtitle: 'F9 列印 → 報表類別：訂單明細表',
+    badge: 'sys', badgeText: '系統操作',
+    items: [
+      { tag: 'F9', text: '按 F9，輸出方式選 PDF 或 Excel' },
+      { tag: '選擇', text: '報表類別選「訂單明細表」' },
+      { tag: '內容', text: '紙本含：客戶姓名、地址、電話、提單號碼、品名、件數、代收款金額' },
+    ],
+    note: '紙本出貨單是司機送貨途中唯一的作業憑證，目前無行動裝置介面。',
+  },
+  {
+    phase: 'before',
+    phaseLabel: '出發前 — 系統操作',
+    title: '執行出庫登記',
+    subtitle: 'F11 出庫 → 填寫出庫資訊',
+    badge: 'sys', badgeText: '系統操作',
+    items: [
+      { tag: '選取', text: '在清單勾選要出庫的訂單，按 F11 出庫' },
+      { tag: '填寫', text: '彈出視窗填入：出庫日期（今天）、出庫倉庫（按「?」選取）' },
+      { tag: '確認', text: '按「確認」→ 系統記錄出庫日期，訂單正式標記為已發出' },
+    ],
+    warn: '⚠ 目前出庫頁籤沒有掃碼功能（掃碼僅存在於入庫頁籤），需手動逐筆操作，請廖先生協助評估補上出庫掃碼功能。',
+  },
+  {
+    phase: 'during',
+    phaseLabel: '途中 — 現場作業',
+    title: '倉庫領貨裝車',
+    subtitle: '比對入庫標籤紙與紙本出貨單',
+    badge: 'field', badgeText: '現場作業',
+    items: [
+      { tag: '找貨', text: '依紙本出貨單，至倉庫找到對應貨物（已貼入庫標籤紙含 QR Code）' },
+      { tag: '核對', text: '核對提單號碼、品名、件數是否與紙本相符' },
+      { tag: '裝車', text: '確認無誤後裝車，注意易碎品與一般貨物分開' },
+    ],
+    note: '入庫標籤紙（含 QR Code）在拆櫃時已由文書人員列印並貼上，每件貨物均可追溯。',
+  },
+  {
+    phase: 'during',
+    phaseLabel: '途中 — 現場作業',
+    title: '聯繫客戶確認送達',
+    subtitle: '出發前或途中電話通知',
+    badge: 'field', badgeText: '現場作業',
+    items: [
+      { tag: '電話', text: '出發前或途中電話通知客戶預計到達時間' },
+      { tag: '查詢', text: '客戶電話直接在紙本出貨單上查閱' },
+      { tag: '確認', text: '確認客戶在家或有人可代收，無人則先跳下一家再回頭' },
+    ],
+  },
+  {
+    phase: 'during',
+    phaseLabel: '途中 — 現場作業',
+    title: '送達交貨 + 收取簽收單',
+    subtitle: '客戶確認收貨並在紙本上簽名',
+    badge: 'field', badgeText: '現場作業',
+    items: [
+      { tag: '交貨', text: '將貨物交給客戶，請客戶當場確認件數與品名無誤' },
+      { tag: '代收', text: '若有代收款（貨到付款），向客戶收取現金並在紙本記錄金額' },
+      { tag: '簽收', text: '請客戶在紙本簽收欄簽名，完成該筆配送' },
+    ],
+    warn: '⚠ 目前系統無數位簽收功能，客戶簽名僅在紙本上，無法即時回傳系統。建議請廖先生評估新增送達簽收記錄功能。',
+  },
+  {
+    phase: 'after',
+    phaseLabel: '回倉後 — 系統更新',
+    title: '更新貨態',
+    subtitle: '訂單作業 → 編輯頁籤 → 貨態',
+    badge: 'sys', badgeText: '系統操作',
+    items: [
+      { tag: '進入', text: '回倉後進入訂單作業，選定已送達的訂單' },
+      { tag: '切換', text: '切換至編輯頁籤下的「貨態」子頁籤' },
+      { tag: '更新', text: '貨態欄位含：子單號、箱號、品名、應到/已到/出庫件數' },
+      { tag: '填入', text: '依實際送達狀況更新出庫件數，如有缺送需備註原因' },
+    ],
+  },
+  {
+    phase: 'after',
+    phaseLabel: '回倉後 — 系統更新',
+    title: '繳回簽收單 + 代收款',
+    subtitle: '目前為人工作業，系統無對應功能',
+    badge: 'gap', badgeText: '系統缺口',
+    items: [
+      { tag: '繳回', text: '將紙本簽收單全部繳回倉管人員存檔' },
+      { tag: '交款', text: '代收款現金交給財務或主管，由人工記帳核對' },
+    ],
+    gaps: [
+      { icon: '🔴', title: '出庫掃碼', text: '出庫頁籤無掃碼按鈕，入庫已有 html5-qrcode，技術上可延伸至出庫' },
+      { icon: '🔴', title: '逐件裝車確認', text: '無法逐件掃描確認裝車數量，容易漏件或多件' },
+      { icon: '🟡', title: '數位簽收回傳', text: '客戶簽收後無法在系統記錄，需靠紙本人工補登' },
+      { icon: '🟡', title: '代收款確認機制', text: '系統有代收款欄位，但無「已收款」確認與核對功能' },
+    ],
+  },
+];
+
+const PHASE_COLOR = { before: 'var(--blue)', during: 'var(--amber)', after: 'var(--green)' };
+const PHASE_CLASS = { before: 'active-before', during: 'active-during', after: 'active-after' };
+
+let cur = 0;
+
+function render() {
+  const s = STEPS[cur];
+  const total = STEPS.length;
+  const pct = Math.round(((cur + 1) / total) * 100);
+
+  // Progress
+  const fill = document.getElementById('prog-fill');
+  fill.style.width = pct + '%';
+  fill.style.background = PHASE_COLOR[s.phase];
+  document.getElementById('prog-txt').textContent = s.phaseLabel;
+  document.getElementById('prog-pct').textContent = pct + '%';
+
+  // Dots
+  const dotsRow = document.getElementById('dots-row');
+  dotsRow.innerHTML = STEPS.map((st, i) => {
+    let cls = 'step-dot';
+    if (i === cur) cls += ' ' + PHASE_CLASS[st.phase];
+    else if (i < cur) cls += ' done';
+    return `<div class="${cls}" onclick="jumpTo(${i})" title="${st.title}">${i + 1}</div>`;
+  }).join('');
+
+  // Phase buttons
+  document.querySelectorAll('.phase-btn').forEach(btn => btn.classList.remove('active'));
+  const activePhaseBtn = document.querySelector(`.phase-btn[data-phase="${s.phase}"]`);
+  if (activePhaseBtn) activePhaseBtn.classList.add('active');
+
+  // Card
+  const card = document.getElementById('main-card');
+
+  let itemsHTML = s.items.map((it, idx) => `
+    <div class="detail-row">
+      <div class="detail-num" style="background:${PHASE_COLOR[s.phase]}22;color:${PHASE_COLOR[s.phase]}">${idx + 1}</div>
+      <div class="detail-text"><span class="tag">${it.tag}</span>${it.text}</div>
+    </div>
+  `).join('');
+
+  let extraHTML = '';
+  if (s.warn) {
+    extraHTML += `<div class="warn-box">${s.warn}</div>`;
+  }
+  if (s.note) {
+    extraHTML += `<div class="note-box">${s.note}</div>`;
+  }
+  if (s.gaps) {
+    extraHTML += `<div style="margin-top:20px;font-size:13px;font-weight:700;color:var(--red);margin-bottom:10px">🔴 待向網緹廖先生提出的改善需求</div>`;
+    extraHTML += `<div class="gap-list">` + s.gaps.map(g => `
+      <div class="gap-item">
+        <span class="gap-icon">${g.icon}</span>
+        <div class="gap-text"><b>${g.title}</b><br>${g.text}</div>
+      </div>
+    `).join('') + `</div>`;
+  }
+
+  card.innerHTML = `
+    <div class="step-phase" style="color:${PHASE_COLOR[s.phase]}">${s.phaseLabel.toUpperCase()}</div>
+    <div class="step-title">步驟 ${cur + 1}：${s.title}</div>
+    <div class="step-subtitle">${s.subtitle}</div>
+    <span class="badge badge-${s.badge}">${s.badgeText}</span>
+    <div class="detail-list">${itemsHTML}</div>
+    ${extraHTML}
+  `;
+
+  // Nav
+  document.getElementById('nav-count').textContent = `${cur + 1} / ${total}`;
+  document.getElementById('btn-prev').disabled = cur === 0;
+  const nextBtn = document.getElementById('btn-next');
+  if (cur === total - 1) {
+    nextBtn.textContent = '✓ 完成';
+    nextBtn.disabled = true;
+  } else {
+    nextBtn.textContent = '下一步 →';
+    nextBtn.disabled = false;
+  }
+}
+
+function move(d) {
+  cur = Math.max(0, Math.min(STEPS.length - 1, cur + d));
+  render();
+}
+
+function jumpTo(i) {
+  cur = i;
+  render();
+}
+
+function jumpPhase(phase) {
+  const idx = STEPS.findIndex(s => s.phase === phase);
+  if (idx !== -1) { cur = idx; render(); }
+}
+
+render();
+</script>
+</body>
+</html>
