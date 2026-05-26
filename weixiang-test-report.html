@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運管理系統 — 測試進度報告</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --blue:#185FA5; --blue-l:#E6F1FB; --blue-m:#378ADD;
+  --green:#3B6D11; --green-l:#EAF3DE;
+  --amber:#854F0B; --amber-l:#FAEEDA;
+  --red:#A32D2D;   --red-l:#FCEBEB;
+  --gray:#5F5E5A;  --gray-l:#F1EFE8;
+  --text:#1a1a18;  --text2:#5F5E5A; --text3:#9c9a92;
+  --bg:#F4F2EC;    --card:#ffffff;
+  --bd:rgba(0,0,0,0.09);
+}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── TOP HEADER ── */
+.top-bar{background:var(--blue);color:#fff;padding:28px 40px 24px;}
+.top-bar-inner{max-width:900px;margin:0 auto;}
+.top-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;opacity:.7;margin-bottom:8px;}
+.top-title{font-size:28px;font-weight:900;letter-spacing:-.02em;margin-bottom:4px;}
+.top-sub{font-size:13px;opacity:.75;}
+.top-meta{display:flex;gap:24px;margin-top:18px;flex-wrap:wrap;}
+.top-meta-item{background:rgba(255,255,255,.12);border-radius:8px;padding:8px 16px;font-size:12px;}
+.top-meta-item b{display:block;font-size:10px;letter-spacing:.06em;opacity:.7;margin-bottom:2px;}
+
+/* ── NAV TABS ── */
+.nav-tabs{background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:100;}
+.nav-tabs-inner{max-width:900px;margin:0 auto;display:flex;gap:0;}
+.tab-btn{padding:14px 24px;font-size:13px;font-weight:500;color:var(--text2);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;transition:all .18s;font-family:inherit;white-space:nowrap;}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
+.tab-btn:hover{color:var(--text);}
+
+/* ── CONTENT ── */
+.content{max-width:900px;margin:0 auto;padding:32px 24px 60px;}
+.section{display:none;}
+.section.active{display:block;}
+
+/* ── OVERVIEW CARDS ── */
+.overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:32px;}
+.ov-card{background:var(--card);border-radius:14px;border:1px solid var(--bd);padding:22px 24px;position:relative;overflow:hidden;}
+.ov-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:14px 14px 0 0;}
+.ov-card.blue::before{background:var(--blue);}
+.ov-card.green::before{background:var(--green);}
+.ov-card.amber::before{background:var(--amber);}
+.ov-card.red::before{background:var(--red);}
+.ov-num{font-size:36px;font-weight:900;letter-spacing:-.03em;margin-bottom:2px;}
+.ov-card.blue .ov-num{color:var(--blue);}
+.ov-card.green .ov-num{color:var(--green);}
+.ov-card.amber .ov-num{color:var(--amber);}
+.ov-card.red .ov-num{color:var(--red);}
+.ov-label{font-size:13px;color:var(--text2);}
+.ov-sub{font-size:11px;color:var(--text3);margin-top:4px;}
+
+/* ── SECTION TITLE ── */
+.sec-title{font-size:18px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.sec-title::before{content:'';width:4px;height:20px;border-radius:2px;background:var(--blue);display:inline-block;}
+
+/* ── FUNCTION TABLE ── */
+.func-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--bd);margin-bottom:32px;}
+.func-table th{background:var(--gray-l);font-size:12px;font-weight:700;padding:10px 16px;text-align:left;color:var(--text2);letter-spacing:.04em;}
+.func-table td{padding:13px 16px;font-size:13px;border-top:1px solid var(--bd);vertical-align:top;}
+.func-table tr:hover td{background:var(--bg);}
+.func-name{font-weight:500;color:var(--text);}
+.func-desc{font-size:12px;color:var(--text2);margin-top:2px;}
+.status-badge{display:inline-flex;align-items:center;gap:5px;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700;}
+.status-ok   {background:var(--green-l);color:var(--green);}
+.status-part {background:var(--amber-l);color:var(--amber);}
+.status-gap  {background:var(--red-l);  color:var(--red);}
+.status-wip  {background:var(--gray-l); color:var(--gray);}
+.dot-ok   {width:6px;height:6px;border-radius:50%;background:var(--green);}
+.dot-part {width:6px;height:6px;border-radius:50%;background:var(--amber);}
+.dot-gap  {width:6px;height:6px;border-radius:50%;background:var(--red);}
+.dot-wip  {width:6px;height:6px;border-radius:50%;background:var(--gray);}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap{margin-bottom:32px;}
+.prog-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.prog-label{min-width:80px;font-size:12px;font-weight:500;color:var(--text2);}
+.prog-bar{flex:1;background:var(--bd);border-radius:4px;height:8px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;transition:width .6s ease;}
+.prog-pct{min-width:36px;text-align:right;font-size:12px;font-weight:700;}
+
+/* ── ISSUE CARDS ── */
+.issue-list{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;}
+.issue-card{background:var(--card);border-radius:12px;border:1px solid var(--bd);border-left:4px solid var(--red);padding:18px 20px;}
+.issue-card.amber{border-left-color:var(--amber);}
+.issue-card.blue{border-left-color:var(--blue);}
+.issue-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.issue-tag{font-size:10px;font-weight:700;letter-spacing:.06em;padding:2px 8px;border-radius:4px;}
+.issue-tag.high{background:var(--red-l);color:var(--red);}
+.issue-tag.mid {background:var(--amber-l);color:var(--amber);}
+.issue-tag.low {background:var(--blue-l);color:var(--blue);}
+.issue-title{font-size:14px;font-weight:700;}
+.issue-body{font-size:13px;color:var(--text2);line-height:1.65;}
+.issue-module{font-size:11px;color:var(--text3);margin-top:6px;}
+
+/* ── REQUIREMENT LIST ── */
+.req-list{display:flex;flex-direction:column;gap:10px;margin-bottom:32px;}
+.req-item{background:var(--card);border-radius:12px;border:1px solid var(--bd);padding:16px 20px;display:flex;gap:14px;align-items:flex-start;}
+.req-num{min-width:28px;height:28px;border-radius:8px;background:var(--blue);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.req-body{}
+.req-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.req-desc{font-size:13px;color:var(--text2);line-height:1.6;}
+.req-priority{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 8px;border-radius:4px;margin-top:6px;}
+.req-priority.p1{background:var(--red-l);color:var(--red);}
+.req-priority.p2{background:var(--amber-l);color:var(--amber);}
+.req-priority.p3{background:var(--blue-l);color:var(--blue);}
+.req-note{font-size:12px;color:var(--text3);margin-top:4px;}
+
+/* ── SUMMARY BOX ── */
+.summary-box{background:var(--blue);color:#fff;border-radius:14px;padding:24px 28px;margin-bottom:24px;}
+.summary-box h3{font-size:16px;font-weight:700;margin-bottom:12px;opacity:.85;}
+.summary-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;font-size:13px;line-height:1.6;}
+.summary-row::before{content:'▸';flex-shrink:0;margin-top:1px;opacity:.7;}
+
+.info-box{background:var(--blue-l);border-radius:10px;padding:14px 18px;font-size:13px;color:var(--blue);line-height:1.7;margin-bottom:16px;}
+
+/* ── FOOTER ── */
+.footer{text-align:center;padding:24px;font-size:11px;color:var(--text3);border-top:1px solid var(--bd);margin-top:40px;}
+</style>
+</head>
+<body>
+
+<!-- TOP HEADER -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <div class="top-eyebrow">內部測試進度報告</div>
+    <div class="top-title">偉翔通運管理系統</div>
+    <div class="top-sub">wscar.zzz.tw　｜　開發商：網緹資訊有限公司</div>
+    <div class="top-meta">
+      <div class="top-meta-item"><b>報告日期</b>2026年5月</div>
+      <div class="top-meta-item"><b>測試階段</b>功能測試中</div>
+      <div class="top-meta-item"><b>整體完成度</b>約 75%</div>
+      <div class="top-meta-item"><b>待解決問題</b>4 項</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <div class="nav-tabs-inner">
+    <button class="tab-btn active" onclick="switchTab('overview')">系統總覽</button>
+    <button class="tab-btn" onclick="switchTab('functions')">功能完成度</button>
+    <button class="tab-btn" onclick="switchTab('issues')">問題與缺口</button>
+    <button class="tab-btn" onclick="switchTab('requirements')">改善需求清單</button>
+  </div>
+</div>
+
+<!-- ══════ SECTION 1: 總覽 ══════ -->
+<div class="content">
+<div class="section active" id="sec-overview">
+
+  <div class="overview-grid">
+    <div class="ov-card blue">
+      <div class="ov-num">4</div>
+      <div class="ov-label">主要功能模組</div>
+      <div class="ov-sub">基本資料 / 訂單作業 / 統計報表 / 登入登出</div>
+    </div>
+    <div class="ov-card green">
+      <div class="ov-num">3</div>
+      <div class="ov-label">功能正常模組</div>
+      <div class="ov-sub">基本資料、訂單入庫、Excel 匯入</div>
+    </div>
+    <div class="ov-card amber">
+      <div class="ov-num">1</div>
+      <div class="ov-label">部分待改善</div>
+      <div class="ov-sub">出庫流程缺乏掃碼與數位簽收</div>
+    </div>
+    <div class="ov-card red">
+      <div class="ov-num">1</div>
+      <div class="ov-label">尚未開發</div>
+      <div class="ov-sub">統計報表功能（連結為空）</div>
+    </div>
+  </div>
+
+  <div class="sec-title">整體進度概況</div>
+  <div class="prog-wrap">
+    <div class="prog-row">
+      <span class="prog-label">倉庫資料</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--green)"></div></div>
+      <span class="prog-pct" style="color:var(--green)">100%</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">操作人員</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--green)"></div></div>
+      <span class="prog-pct" style="color:var(--green)">100%</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">訂單匯入</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;background:var(--green)"></div></div>
+      <span class="prog-pct" style="color:var(--green)">100%</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">入庫作業</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:95%;background:var(--green)"></div></div>
+      <span class="prog-pct" style="color:var(--green)">95%</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">出庫作業</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:50%;background:var(--amber)"></div></div>
+      <span class="prog-pct" style="color:var(--amber)">50%</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">簽收回饋</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--red)"></div></div>
+      <span class="prog-pct" style="color:var(--red)">0%</span>
+    </div>
+    <div class="prog-row">
+      <span class="prog-label">統計報表</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:0%;background:var(--gray)"></div></div>
+      <span class="prog-pct" style="color:var(--gray)">0%</span>
+    </div>
+  </div>
+
+  <div class="summary-box">
+    <h3>董事長摘要</h3>
+    <div class="summary-row">系統基礎架構穩固，倉庫資料、操作人員帳號管理、Excel 批次匯入訂單、入庫掃碼等核心功能運作正常。</div>
+    <div class="summary-row">目前最關鍵的缺口在於「出庫流程」：司機領貨、裝車、送達的過程中，系統缺乏掃碼確認與數位簽收功能，仍依賴紙本作業，容易出錯。</div>
+    <div class="summary-row">統計報表功能尚未開發，目前無法從系統查看送貨績效與倉庫數據。</div>
+    <div class="summary-row">已整理 4 項具體改善需求，並已發函給網緹廖先生，請其評估開發時程與費用。</div>
+  </div>
+
+</div>
+
+<!-- ══════ SECTION 2: 功能完成度 ══════ -->
+<div class="section" id="sec-functions">
+
+  <div class="sec-title">基本資料模組</div>
+  <table class="func-table">
+    <thead><tr><th>功能</th><th>說明</th><th>狀態</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="func-name">倉庫資料維護</div><div class="func-desc">stk.prg</div></td>
+        <td>新增、修改、刪除倉庫；支援總倉／分倉階層架構；F9 輸出 Excel/PDF</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">操作人員管理</div><div class="func-desc">per.prg</div></td>
+        <td>人員帳號新增修改；權限分管理員／一般人員；密碼 MD5 加密；所屬倉庫綁定</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sec-title">訂單作業模組</div>
+  <table class="func-table">
+    <thead><tr><th>功能</th><th>說明</th><th>狀態</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="func-name">Excel 批次匯入</div><div class="func-desc">轉入頁籤</div></td>
+        <td>上傳 .xlsx，設定訂單日期與貨櫃編號，進度條顯示，雙欄預覽確認</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">訂單維護（CRUD）</div><div class="func-desc">瀏覽／編輯頁籤</div></td>
+        <td>新增、查詢、修改、刪除訂單；主檔含客戶資料、提單號碼、代收款；明細含品名、件數、重量</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">入庫作業（掃碼）</div><div class="func-desc">入庫頁籤</div></td>
+        <td>支援 QR Code 掃碼或手動輸入提單號碼查詢；缺貨對話框（應到／實到件數）；入庫日期記錄</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">列印報表</div><div class="func-desc">F9 列印／PDF Viewer</div></td>
+        <td>訂單明細表、入庫標籤紙（含 QR Code）；Excel 或 PDF 格式；頁面內嵌預覽</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">出庫作業</div><div class="func-desc">出庫頁籤</div></td>
+        <td>手動查詢訂單後執行出庫登記；記錄出庫日期與出庫倉庫</td>
+        <td><span class="status-badge status-part"><span class="dot-part"></span>部分待改善</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">送達簽收回傳</div><div class="func-desc">—</div></td>
+        <td>客戶收貨後的數位簽收確認</td>
+        <td><span class="status-badge status-gap"><span class="dot-gap"></span>尚未開發</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="sec-title">其他功能</div>
+  <table class="func-table">
+    <thead><tr><th>功能</th><th>說明</th><th>狀態</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="func-name">統計報表</div><div class="func-desc">—</div></td>
+        <td>送貨績效、倉庫數據統計查詢</td>
+        <td><span class="status-badge status-wip"><span class="dot-wip"></span>尚未開發</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">登入／登出</div><div class="func-desc">logout.prg</div></td>
+        <td>人員帳號登入；登出功能</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>正常</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+
+<!-- ══════ SECTION 3: 問題與缺口 ══════ -->
+<div class="section" id="sec-issues">
+
+  <div class="info-box">以下問題已在測試過程中發現，並透過 HTML 原始碼確認屬實。紅色為高優先度、橘色為中優先度、藍色為低優先度。</div>
+
+  <div class="issue-list">
+
+    <div class="issue-card">
+      <div class="issue-top">
+        <span class="issue-tag high">高優先</span>
+        <span class="issue-title">出庫頁籤無掃碼功能</span>
+      </div>
+      <div class="issue-body">入庫頁籤已有 QR Code 掃碼按鈕（html5-qrcode），但出庫頁籤完全沒有對應功能。司機領貨時只能手動輸入查詢訂單，無法掃描貨物上的入庫標籤紙執行出庫，容易造成錯誤或遺漏。</div>
+      <div class="issue-module">影響模組：訂單作業 → 出庫頁籤　｜　程式碼確認：出庫頁籤無 id="ordo_btnScan" 按鈕</div>
+    </div>
+
+    <div class="issue-card">
+      <div class="issue-top">
+        <span class="issue-tag high">高優先</span>
+        <span class="issue-title">無逐件掃碼裝車確認機制</span>
+      </div>
+      <div class="issue-body">目前出庫以整筆訂單為單位操作，但一張訂單可能含多個子單號與箱號。司機裝車時無法逐件掃描確認，系統亦無勾選已裝車明細的功能，存在漏件或多件裝車的風險。</div>
+      <div class="issue-module">影響模組：訂單作業 → 出庫頁籤</div>
+    </div>
+
+    <div class="issue-card amber">
+      <div class="issue-top">
+        <span class="issue-tag mid">中優先</span>
+        <span class="issue-title">客戶簽收無數位化功能</span>
+      </div>
+      <div class="issue-body">司機送達客戶後，目前系統無任何「客戶簽收確認」的欄位或回傳機制。送達時間、簽收狀態（已簽收／無人／拒收）均只能靠紙本記錄，倉管人員無法即時掌握配送結果，需等司機回倉後人工更新。</div>
+      <div class="issue-module">影響模組：訂單作業 → 貨態頁籤</div>
+    </div>
+
+    <div class="issue-card amber">
+      <div class="issue-top">
+        <span class="issue-tag mid">中優先</span>
+        <span class="issue-title">代收款無系統確認機制</span>
+      </div>
+      <div class="issue-body">訂單主檔雖有「代收款」金額欄位，但系統無「已向客戶收取」的確認按鈕或記錄欄位。實際代收款的收取與核對完全依賴人工，無法從系統查核每筆代收款的收款狀態。</div>
+      <div class="issue-module">影響模組：訂單作業 → 編輯頁籤（代收款欄位）</div>
+    </div>
+
+    <div class="issue-card blue">
+      <div class="issue-top">
+        <span class="issue-tag low">待開發</span>
+        <span class="issue-title">統計報表功能尚未開發</span>
+      </div>
+      <div class="issue-body">主選單中的「統計報表」連結目前為空（href=""），點擊後無任何反應。目前無法從系統查看送貨量、倉庫庫存狀況、司機績效等數據報表，管理決策需仰賴人工統計。</div>
+      <div class="issue-module">影響模組：統計報表（主選單）　｜　HTML 確認：href 屬性為空字串</div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ══════ SECTION 4: 改善需求清單 ══════ -->
+<div class="section" id="sec-requirements">
+
+  <div class="info-box">以下需求已整理後發函給網緹廖先生，請其評估開發可行性、時程與費用。</div>
+
+  <div class="sec-title">已提出改善需求（共 4 項）</div>
+  <div class="req-list">
+
+    <div class="req-item">
+      <div class="req-num">1</div>
+      <div class="req-body">
+        <div class="req-title">出庫頁籤新增掃碼功能</div>
+        <div class="req-desc">在出庫頁籤新增「掃碼」按鈕，讓司機或倉管人員可掃描貨物上的 QR Code 標籤，系統自動帶出對應訂單並執行出庫登記，取代目前手動輸入查詢的流程。</div>
+        <span class="req-priority p1">最高優先</span>
+        <div class="req-note">技術基礎：系統已載入 html5-qrcode 套件，入庫頁籤已有掃碼實作，延伸至出庫頁籤難度相對低。</div>
+      </div>
+    </div>
+
+    <div class="req-item">
+      <div class="req-num">2</div>
+      <div class="req-body">
+        <div class="req-title">逐件裝車確認機制</div>
+        <div class="req-desc">出庫時能逐件掃描子單號／箱號，系統逐一勾選已裝車明細，確保裝車數量與訂單明細完全吻合，防止漏件或多件。</div>
+        <span class="req-priority p1">最高優先</span>
+      </div>
+    </div>
+
+    <div class="req-item">
+      <div class="req-num">3</div>
+      <div class="req-body">
+        <div class="req-title">送達簽收狀態記錄</div>
+        <div class="req-desc">司機送達後，能在系統記錄實際送達時間與簽收狀態（已簽收／無人在家／拒收／改期）。倉管人員可即時從系統查看每筆訂單的配送結果，不再依賴紙本回報。</div>
+        <span class="req-priority p2">中優先</span>
+      </div>
+    </div>
+
+    <div class="req-item">
+      <div class="req-num">4</div>
+      <div class="req-body">
+        <div class="req-title">代收款收取確認機制</div>
+        <div class="req-desc">在貨態頁籤新增「代收款已收取」確認欄位，記錄實際收款金額與時間，讓財務人員可從系統核對每筆代收款的收款狀況。</div>
+        <span class="req-priority p2">中優先</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="sec-title">後續追蹤事項</div>
+  <table class="func-table">
+    <thead><tr><th>事項</th><th>負責方</th><th>狀態</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="func-name">發送改善需求說明函</div><div class="func-desc">含互動式出庫流程說明 HTML 檔</div></td>
+        <td>偉翔通運</td>
+        <td><span class="status-badge status-ok"><span class="dot-ok"></span>已完成</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">網緹評估開發可行性與報價</div></td>
+        <td>網緹廖先生</td>
+        <td><span class="status-badge status-part"><span class="dot-part"></span>等待回覆</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">確認統計報表開發時程</div></td>
+        <td>網緹廖先生</td>
+        <td><span class="status-badge status-part"><span class="dot-part"></span>等待回覆</span></td>
+      </tr>
+      <tr>
+        <td><div class="func-name">出庫掃碼功能上線測試</div></td>
+        <td>雙方</td>
+        <td><span class="status-badge status-wip"><span class="dot-wip"></span>待排程</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
+</div><!-- end content -->
+
+<div class="footer">
+  偉翔通運股份有限公司　｜　系統測試進度報告　｜　2026年5月<br>
+  本報告依據系統實際測試結果與 HTML 原始碼分析整理而成
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top: 80, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
