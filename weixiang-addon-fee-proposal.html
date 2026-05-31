@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>附加作業費用管理提案 — 偉翔通運</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d10;
+  --surface:#16161c;
+  --surface2:#1e1e26;
+  --border:#2a2a36;
+  --border2:#3a3a4a;
+  --text:#e8e6e0;
+  --text2:#9b98a8;
+  --text3:#5a5768;
+  --red:#e84444;
+  --red-dim:#3a1a1a;
+  --red-mid:#c03030;
+  --amber:#d4930a;
+  --amber-dim:#2e2008;
+  --teal:#18a87a;
+  --teal-dim:#0a2820;
+  --blue:#4a8fd4;
+  --blue-dim:#0e1e34;
+  --accent:#7c6ef0;
+  --accent-dim:#1e1a40;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Noto Sans TC',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+  line-height:1.75;
+  overflow-x:hidden;
+}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:80px 60px;
+  overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 80% at 80% 50%,#1a0f2e 0%,transparent 70%),
+             radial-gradient(ellipse 40% 60% at 20% 80%,#1a0808 0%,transparent 60%),
+             var(--bg);
+}
+.grid-lines{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 70% at center,black 0%,transparent 80%);
+}
+.hero-content{position:relative;z-index:2;max-width:700px}
+.doc-meta{
+  font-family:'DM Mono',monospace;
+  font-size:11px;
+  letter-spacing:.14em;
+  color:var(--text3);
+  text-transform:uppercase;
+  margin-bottom:24px;
+  display:flex;
+  gap:20px;
+}
+.doc-meta span{position:relative;padding-right:20px}
+.doc-meta span::after{content:'·';position:absolute;right:0;color:var(--border2)}
+.doc-meta span:last-child::after{display:none}
+h1{
+  font-family:'Noto Serif TC',serif;
+  font-size:clamp(36px,5vw,58px);
+  font-weight:600;
+  line-height:1.18;
+  letter-spacing:-.02em;
+  color:#fff;
+  margin-bottom:20px;
+}
+h1 em{
+  font-style:normal;
+  color:var(--red);
+}
+.hero-sub{
+  font-size:16px;
+  color:var(--text2);
+  max-width:520px;
+  line-height:1.7;
+  margin-bottom:40px;
+}
+.scroll-cue{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;color:var(--text3);letter-spacing:.08em;
+  text-transform:uppercase;
+  animation:bobY 2.4s ease-in-out infinite;
+}
+@keyframes bobY{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+.scroll-cue::before{
+  content:'';display:block;width:1px;height:32px;
+  background:linear-gradient(to bottom,var(--text3),transparent);
+}
+
+/* ── NUMBERS BAR ── */
+.numbers-bar{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.num-cell{
+  padding:36px 40px;
+  border-right:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.num-cell:last-child{border-right:none}
+.num-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:8px}
+.num-val{font-family:'Noto Serif TC',serif;font-size:42px;font-weight:600;line-height:1;color:#fff;margin-bottom:4px}
+.num-val.red{color:var(--red)}
+.num-val.amber{color:var(--amber)}
+.num-desc{font-size:12px;color:var(--text2)}
+.num-cell::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  opacity:.6;
+}
+.num-cell:nth-child(1)::after{background:var(--red)}
+.num-cell:nth-child(2)::after{background:var(--amber)}
+.num-cell:nth-child(3)::after{background:var(--teal)}
+
+/* ── SECTIONS ── */
+.section{padding:80px 60px;border-bottom:1px solid var(--border)}
+.section-tag{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.section-tag::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
+h2{
+  font-family:'Noto Serif TC',serif;
+  font-size:clamp(24px,3vw,34px);
+  font-weight:600;color:#fff;
+  line-height:1.25;
+  margin-bottom:36px;
+  letter-spacing:-.01em;
+}
+h2 .sub{display:block;font-size:.5em;font-weight:300;color:var(--text2);margin-top:6px;letter-spacing:0}
+
+/* ── PROBLEM DIAGRAM (SVG) ── */
+.diagram-wrap{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:32px;
+}
+
+/* ── FLOW TABLE ── */
+.flow-table{width:100%;border-collapse:collapse;font-size:13.5px}
+.flow-table th{
+  text-align:left;padding:10px 16px;
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);background:var(--surface);
+  border-bottom:1px solid var(--border);
+  font-weight:400;
+}
+.flow-table td{padding:13px 16px;border-bottom:1px solid var(--border);color:var(--text2)}
+.flow-table tr:last-child td{border-bottom:none}
+.flow-table tr:hover td{background:rgba(255,255,255,.02);color:var(--text)}
+.pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:500;letter-spacing:.04em;
+  white-space:nowrap;
+}
+.pill-red{background:var(--red-dim);color:var(--red)}
+.pill-teal{background:var(--teal-dim);color:var(--teal)}
+.pill-amber{background:var(--amber-dim);color:var(--amber)}
+
+/* ── CALLOUT ── */
+.callout{
+  border:1px solid var(--red-mid);
+  background:var(--red-dim);
+  border-radius:10px;
+  padding:20px 24px;
+  display:flex;gap:16px;
+  align-items:flex-start;
+}
+.callout-icon{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--red-mid);
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;color:#fff;font-size:16px;margin-top:2px;
+}
+.callout-text{font-size:14px;color:#e0a0a0;line-height:1.7}
+.callout-text strong{color:var(--red);font-weight:500}
+
+/* ── OPTIONS ── */
+.options-grid{display:flex;flex-direction:column;gap:20px}
+.option{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  transition:border-color .25s,transform .25s;
+  cursor:default;
+}
+.option:hover{border-color:var(--border2);transform:translateX(4px)}
+.option-accent{position:absolute;left:0;top:0;bottom:0;width:3px}
+.opt-a .option-accent{background:var(--blue)}
+.opt-b .option-accent{background:var(--amber)}
+.opt-c .option-accent{background:var(--teal)}
+.option-head{
+  padding:22px 28px 18px 32px;
+  display:flex;align-items:flex-start;gap:16px;
+  border-bottom:1px solid var(--border);
+}
+.opt-badge{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.12em;
+  padding:4px 10px;border-radius:4px;
+  flex-shrink:0;margin-top:2px;
+  font-weight:500;
+}
+.opt-a .opt-badge{background:var(--blue-dim);color:var(--blue)}
+.opt-b .opt-badge{background:var(--amber-dim);color:var(--amber)}
+.opt-c .opt-badge{background:var(--teal-dim);color:var(--teal)}
+.opt-title{font-size:16px;font-weight:500;color:#fff;line-height:1.4}
+.opt-subtitle{font-size:13px;color:var(--text2);margin-top:4px}
+.option-body{padding:20px 28px 22px 32px}
+.opt-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.pros-cons{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
+.pc{border-radius:8px;padding:14px 16px}
+.pc-pros{background:rgba(24,168,122,.08);border:1px solid rgba(24,168,122,.2)}
+.pc-cons{background:rgba(232,68,68,.08);border:1px solid rgba(232,68,68,.2)}
+.pc-head{font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;margin-bottom:8px}
+.pc-pros .pc-head{color:var(--teal)}
+.pc-cons .pc-head{color:var(--red)}
+.pc-list{list-style:none;font-size:13px;line-height:1.65}
+.pc-list li{padding:2px 0;color:var(--text2)}
+.pc-list li::before{content:'— ';opacity:.5}
+.timing{font-size:12px;color:var(--text3);padding-top:12px;border-top:1px solid var(--border)}
+.timing span{color:var(--text2)}
+
+/* ── CLOSING ── */
+.closing{padding:80px 60px;text-align:center}
+.closing-box{
+  max-width:620px;margin:0 auto;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:48px 40px;position:relative;overflow:hidden;
+}
+.closing-box::before{
+  content:'';position:absolute;top:-60px;right:-60px;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle,var(--accent-dim) 0%,transparent 70%);
+}
+.closing-tag{
+  font-family:'DM Mono',monospace;
+  font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:16px;
+}
+.closing-text{font-size:15px;color:var(--text2);line-height:1.8;margin-bottom:28px}
+.closing-text strong{color:var(--text)}
+.sig{
+  font-size:13px;color:var(--text3);
+  display:flex;justify-content:center;gap:24px;
+  flex-wrap:wrap;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.fade-up{opacity:0;animation:fadeUp .7s ease forwards}
+.delay-1{animation-delay:.1s}
+.delay-2{animation-delay:.22s}
+.delay-3{animation-delay:.36s}
+.delay-4{animation-delay:.5s}
+
+/* ── COUNT-UP ── */
+.count-up{display:inline-block}
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-lines"></div>
+  <div class="hero-content">
+    <div class="doc-meta fade-up">
+      <span>偉翔通運股份有限公司</span>
+      <span>內部管理提案</span>
+      <span>2026 / 05 / 31</span>
+      <span>提案人：陳俊岳</span>
+    </div>
+    <h1 class="fade-up delay-1">附加作業費用<br>管理<em>失衡</em>問題<br>分析與改善提案</h1>
+    <p class="hero-sub fade-up delay-2">司機在執行配送任務時，現場產生的三類附加費用全數由司機私收，但衍生的所有成本由公司承擔，形成持續性的利益侵蝕。本提案分析問題根源，並提出三套可落地的改善方案。</p>
+    <div class="scroll-cue fade-up delay-3">向下展開報告</div>
+  </div>
+</section>
+
+<!-- ══ NUMBERS ══ -->
+<div class="numbers-bar">
+  <div class="num-cell">
+    <div class="num-label">核心附加費項目</div>
+    <div class="num-val red count-up" data-target="3" data-suffix="項">0項</div>
+    <div class="num-desc">上樓費 · 拆木架費 · 回收費</div>
+  </div>
+  <div class="num-cell">
+    <div class="num-label">公司承擔成本類別</div>
+    <div class="num-val amber count-up" data-target="4" data-suffix="項">0項</div>
+    <div class="num-desc">車資 · 油料 · 罰單 · 清運 · 工時</div>
+  </div>
+  <div class="num-cell">
+    <div class="num-label">可採行解決方案</div>
+    <div class="num-val count-up" data-target="3" data-suffix="套">0套</div>
+    <div class="num-desc">依公司現況彈性選擇推進節奏</div>
+  </div>
+</div>
+
+<!-- ══ SECTION 1 ══ -->
+<section class="section">
+  <div class="section-tag">01 · 現況說明</div>
+  <h2>誰在賺？誰在承擔？<span class="sub">司機收入與公司成本的結構性失衡</span></h2>
+
+  <!-- SVG Diagram -->
+  <div class="diagram-wrap">
+    <svg width="100%" viewBox="0 0 800 340" role="img">
+      <title>費用流向示意圖</title>
+      <defs>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="arr-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#e84444" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- Background -->
+      <rect width="800" height="340" fill="#16161c"/>
+
+      <!-- LEFT: Client -->
+      <rect x="30" y="110" width="120" height="120" rx="10" fill="#1e1e26" stroke="#3a3a4a" stroke-width="1"/>
+      <text x="90" y="158" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8" letter-spacing="1">客戶現場</text>
+      <text x="90" y="180" text-anchor="middle" font-family="Noto Serif TC,serif" font-size="14" fill="#e8e6e0" font-weight="600">附加</text>
+      <text x="90" y="200" text-anchor="middle" font-family="Noto Serif TC,serif" font-size="14" fill="#e8e6e0" font-weight="600">費用</text>
+
+      <!-- MIDDLE: Driver -->
+      <rect x="290" y="80" width="220" height="180" rx="12" fill="#1e1e26" stroke="#5a5768" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text x="400" y="110" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="10" fill="#7c6ef0" letter-spacing="2">司機</text>
+      <rect x="312" y="125" width="176" height="34" rx="6" fill="#2e2008" stroke="#4a3010" stroke-width=".5"/>
+      <text x="400" y="147" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#d4930a">上樓費 (現金)</text>
+      <rect x="312" y="167" width="176" height="34" rx="6" fill="#2e2008" stroke="#4a3010" stroke-width=".5"/>
+      <text x="400" y="189" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#d4930a">拆木架費 (現金)</text>
+      <rect x="312" y="209" width="176" height="34" rx="6" fill="#2e2008" stroke="#4a3010" stroke-width=".5"/>
+      <text x="400" y="231" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#d4930a">回收木架費 (現金)</text>
+
+      <!-- RIGHT: Company -->
+      <rect x="640" y="60" width="130" height="220" rx="10" fill="#1e1e26" stroke="#e84444" stroke-width="1" stroke-opacity=".4"/>
+      <text x="705" y="88" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="10" fill="#e84444" letter-spacing="2">公司承擔</text>
+      <text x="705" y="116" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">🚛 車輛 + 油料</text>
+      <text x="705" y="144" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">📄 違停罰單</text>
+      <text x="705" y="172" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">🗑 廢木清運費</text>
+      <text x="705" y="200" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">👷 助手工時</text>
+      <text x="705" y="228" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">⛽ 燃料耗損</text>
+      <text x="705" y="256" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#5a5768">零分潤</text>
+
+      <!-- Arrow: client → driver (money) -->
+      <line x1="152" y1="170" x2="288" y2="170" stroke="#d4930a" stroke-width="2" marker-end="url(#arr)" stroke-opacity=".8"/>
+      <text x="220" y="162" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="10" fill="#d4930a">現金流入</text>
+
+      <!-- Arrow: driver → company (costs, red dashed) -->
+      <line x1="512" y1="140" x2="638" y2="140" stroke="#e84444" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#arr-red)" stroke-opacity=".7"/>
+      <text x="575" y="130" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="10" fill="#e84444">成本轉嫁</text>
+
+      <!-- Driver → pocket label -->
+      <text x="400" y="272" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#7c6ef0">全數入口袋，未回公司帳戶</text>
+
+      <!-- X cross -->
+      <text x="705" y="285" text-anchor="middle" font-family="DM Mono,monospace" font-size="11" fill="#3a1a1a">0 收入分潤</text>
+    </svg>
+  </div>
+
+  <!-- Detail table -->
+  <table class="flow-table" style="background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:28px">
+    <thead>
+      <tr>
+        <th>作業項目</th>
+        <th>費用歸屬</th>
+        <th>公司承擔的對應成本</th>
+        <th>失衡程度</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>上樓搬運費</td>
+        <td><span class="pill pill-amber">司機現金收取</span></td>
+        <td>車輛油料 + 助手上班工時</td>
+        <td><span class="pill pill-red">高</span></td>
+      </tr>
+      <tr>
+        <td>拆木架費</td>
+        <td><span class="pill pill-amber">司機現金收取</span></td>
+        <td>車輛油料 + 違停罰單風險</td>
+        <td><span class="pill pill-red">高</span></td>
+      </tr>
+      <tr>
+        <td>回收木架費</td>
+        <td><span class="pill pill-amber">司機現金收取</span></td>
+        <td>廢棄木架清運費（公司付款）</td>
+        <td><span class="pill pill-red">極高</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-icon">!</div>
+    <div class="callout-text">
+      <strong>核心問題定性：</strong>司機使用公司車輛、油料與上班工時創造的附加收入，衍生的所有成本（罰單、清運、工時）卻由公司全額吸收。長期放任，將持續侵蝕毛利且難以量化追蹤。
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 2 ══ -->
+<section class="section">
+  <div class="section-tag">02 · 解決方案</div>
+  <h2>三套改善方案<span class="sub">依推行阻力與制度完整度分層</span></h2>
+
+  <div class="options-grid">
+
+    <!-- Option A -->
+    <div class="option opt-a">
+      <div class="option-accent"></div>
+      <div class="option-head">
+        <div class="opt-badge">方案 A</div>
+        <div>
+          <div class="opt-title">公司統一收費，月結分潤給司機</div>
+          <div class="opt-subtitle">公司掌握全部收入 → 月底依筆數核算獎金</div>
+        </div>
+      </div>
+      <div class="option-body">
+        <p class="opt-desc">公司統一訂定附加費用收費標準，費用列入客戶報價單，款項收歸公司帳戶，月底依各司機實際執行筆數核算，以獎金或補貼形式發放。</p>
+        <div class="pros-cons">
+          <div class="pc pc-pros">
+            <div class="pc-head">優點</div>
+            <ul class="pc-list">
+              <li>費用完整透明，可全面稽核</li>
+              <li>公司掌握所有附加收入</li>
+              <li>符合正規財務規範</li>
+              <li>制度最健全</li>
+            </ul>
+          </div>
+          <div class="pc pc-cons">
+            <div class="pc-head">缺點</div>
+            <ul class="pc-list">
+              <li>司機現金即收→月底領，心理落差最大</li>
+              <li>需重新與客戶溝通收費流程</li>
+              <li>推行阻力最高，需充足溝通期</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timing">適用時機：<span>司機信任基礎已建立，或以新進司機為主要對象時</span></div>
+      </div>
+    </div>
+
+    <!-- Option B -->
+    <div class="option opt-b">
+      <div class="option-accent"></div>
+      <div class="option-head">
+        <div class="opt-badge">方案 B</div>
+        <div>
+          <div class="opt-title">司機現場收費，依比例上繳公司</div>
+          <div class="opt-subtitle">維持現有習慣 → 訂定上繳比例（建議 30～50%）</div>
+        </div>
+      </div>
+      <div class="option-body">
+        <p class="opt-desc">維持司機現場收現金的習慣，但制定明確上繳比例，每次作業填寫回報單，日結或週結時繳回公司，公司再扣除清運成本後核算餘額。</p>
+        <div class="pros-cons">
+          <div class="pc pc-pros">
+            <div class="pc-head">優點</div>
+            <ul class="pc-list">
+              <li>對司機衝擊最小</li>
+              <li>不改變客戶端流程</li>
+              <li>可快速上路試行</li>
+              <li>過渡期最佳起點</li>
+            </ul>
+          </div>
+          <div class="pc pc-cons">
+            <div class="pc-head">缺點</div>
+            <ul class="pc-list">
+              <li>現金難以稽核，依賴司機誠實申報</li>
+              <li>若無查核配套，易流於形式</li>
+              <li>長期仍有漏報風險</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timing">適用時機：<span>過渡期或試行階段，或老司機年資深難以強制改變習慣時</span></div>
+      </div>
+    </div>
+
+    <!-- Option C -->
+    <div class="option opt-c">
+      <div class="option-accent"></div>
+      <div class="option-head">
+        <div class="opt-badge">方案 C</div>
+        <div>
+          <div class="opt-title">重新訂定報價，附加費正式納入服務體系</div>
+          <div class="opt-subtitle">最長遠制度解 → 客戶換約時機導入最佳</div>
+        </div>
+      </div>
+      <div class="option-body">
+        <p class="opt-desc">與客戶重新協商，將上樓費、拆木架費、回收費正式列入服務報價單，由公司統一開立發票收款，司機以「附加作業獎金」形式獲得分潤，並同步訂定清運成本核算標準。</p>
+        <div class="pros-cons">
+          <div class="pc pc-pros">
+            <div class="pc-head">優點</div>
+            <ul class="pc-list">
+              <li>制度最完整、財務最乾淨</li>
+              <li>收入結構完全透明可查</li>
+              <li>可作為其他附加服務基礎架構</li>
+              <li>長期最有利公司</li>
+            </ul>
+          </div>
+          <div class="pc pc-cons">
+            <div class="pc-head">缺點</div>
+            <ul class="pc-list">
+              <li>需重新與客戶談判，部分客戶可能反彈</li>
+              <li>前期溝通成本最高</li>
+              <li>換約或重談時機需審慎拿捏</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timing">適用時機：<span>客戶關係穩定、具備談判籌碼，或合約到期換約時最適合導入</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 3 — Comparison SVG ══ -->
+<section class="section">
+  <div class="section-tag">03 · 方案比較</div>
+  <h2>三方案一覽對照<span class="sub">推行阻力 vs 制度完整度</span></h2>
+  <div class="diagram-wrap">
+    <svg width="100%" viewBox="0 0 800 300" role="img">
+      <title>方案對照雷達圖</title>
+      <rect width="800" height="300" fill="#16161c"/>
+
+      <!-- Header row -->
+      <text x="120" y="50" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#5a5768">評估維度</text>
+      <text x="310" y="50" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#4a8fd4">方案 A</text>
+      <text x="480" y="50" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#d4930a">方案 B</text>
+      <text x="650" y="50" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#18a87a">方案 C</text>
+
+      <!-- Divider -->
+      <line x1="30" y1="60" x2="770" y2="60" stroke="#2a2a36" stroke-width="1"/>
+
+      <!-- Rows -->
+      <!-- Row 1 -->
+      <rect x="30" y="65" width="740" height="44" fill="rgba(255,255,255,.015)" rx="4"/>
+      <text x="120" y="92" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">推行阻力</text>
+      <rect x="220" y="75" width="180" height="24" rx="4" fill="#3a1a1a"/>
+      <rect x="220" y="75" width="162" height="24" rx="4" fill="#e84444" fill-opacity=".7"/>
+      <text x="310" y="92" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#fff">高</text>
+      <rect x="390" y="75" width="180" height="24" rx="4" fill="#2e2008"/>
+      <rect x="390" y="75" width="60" height="24" rx="4" fill="#d4930a" fill-opacity=".6"/>
+      <text x="480" y="92" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8">低</text>
+      <rect x="560" y="75" width="180" height="24" rx="4" fill="#0a2820"/>
+      <rect x="560" y="75" width="110" height="24" rx="4" fill="#18a87a" fill-opacity=".5"/>
+      <text x="650" y="92" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8">中</text>
+
+      <!-- Row 2 -->
+      <text x="120" y="136" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">制度完整度</text>
+      <rect x="220" y="119" width="180" height="24" rx="4" fill="#0e1e34"/>
+      <rect x="220" y="119" width="180" height="24" rx="4" fill="#4a8fd4" fill-opacity=".6"/>
+      <text x="310" y="136" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#fff">高</text>
+      <rect x="390" y="119" width="180" height="24" rx="4" fill="#2e2008"/>
+      <rect x="390" y="119" width="80" height="24" rx="4" fill="#d4930a" fill-opacity=".5"/>
+      <text x="480" y="136" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8">中低</text>
+      <rect x="560" y="119" width="180" height="24" rx="4" fill="#0a2820"/>
+      <rect x="560" y="119" width="180" height="24" rx="4" fill="#18a87a" fill-opacity=".65"/>
+      <text x="650" y="136" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#fff">最高</text>
+
+      <!-- Row 3 -->
+      <rect x="30" y="152" width="740" height="44" fill="rgba(255,255,255,.015)" rx="4"/>
+      <text x="120" y="179" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">稽核可行性</text>
+      <rect x="220" y="162" width="180" height="24" rx="4" fill="#0e1e34"/>
+      <rect x="220" y="162" width="180" height="24" rx="4" fill="#4a8fd4" fill-opacity=".6"/>
+      <text x="310" y="179" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#fff">高（公司收款）</text>
+      <rect x="390" y="162" width="180" height="24" rx="4" fill="#2e2008"/>
+      <rect x="390" y="162" width="55" height="24" rx="4" fill="#d4930a" fill-opacity=".5"/>
+      <text x="480" y="179" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8">低（現金為主）</text>
+      <rect x="560" y="162" width="180" height="24" rx="4" fill="#0a2820"/>
+      <rect x="560" y="162" width="180" height="24" rx="4" fill="#18a87a" fill-opacity=".65"/>
+      <text x="650" y="179" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#fff">高（發票制）</text>
+
+      <!-- Row 4 -->
+      <text x="120" y="223" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="12" fill="#9b98a8">導入速度</text>
+      <rect x="220" y="206" width="180" height="24" rx="4" fill="#0e1e34"/>
+      <rect x="220" y="206" width="90" height="24" rx="4" fill="#4a8fd4" fill-opacity=".4"/>
+      <text x="310" y="223" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8">中（需溝通期）</text>
+      <rect x="390" y="206" width="180" height="24" rx="4" fill="#2e2008"/>
+      <rect x="390" y="206" width="180" height="24" rx="4" fill="#d4930a" fill-opacity=".65"/>
+      <text x="480" y="223" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#fff">快（可即時試行）</text>
+      <rect x="560" y="206" width="180" height="24" rx="4" fill="#0a2820"/>
+      <rect x="560" y="206" width="55" height="24" rx="4" fill="#18a87a" fill-opacity=".4"/>
+      <text x="650" y="223" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#9b98a8">慢（換約時機）</text>
+
+      <!-- Bottom note -->
+      <text x="400" y="278" text-anchor="middle" font-family="Noto Sans TC,sans-serif" font-size="11" fill="#3a3a4a">顏色深度 = 各維度表現強度</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ══ CLOSING ══ -->
+<div class="closing">
+  <div class="closing-box">
+    <div class="closing-tag">結語 · 建議</div>
+    <p class="closing-text">
+      三套方案各有其適用情境與推行條件。<strong>方案 B</strong> 阻力最小，適合作為過渡期快速試行起點；<strong>方案 A</strong> 在司機信任基礎建立後可穩健推進；<strong>方案 C</strong> 為最長遠的制度解法，建議於合約換約時機點系統性導入。<br><br>
+      推進節奏與方案選擇，由奕迪依現階段司機結構與客戶關係決策；俊岳配合進行制度草案起草、執行細節規劃與後續追蹤。
+    </p>
+    <div class="sig">
+      <span>偉翔通運股份有限公司</span>
+      <span>提案人：陳俊岳</span>
+      <span>2026.05.31</span>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const counters=document.querySelectorAll('.count-up');
+  const animate=(el)=>{
+    const target=+el.dataset.target;
+    const suffix=el.dataset.suffix||'';
+    let current=0;
+    const step=Math.ceil(target/18);
+    const timer=setInterval(()=>{
+      current=Math.min(current+step,target);
+      el.textContent=current+suffix;
+      if(current>=target)clearInterval(timer);
+    },60);
+  };
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{if(e.isIntersecting){animate(e.target);obs.unobserve(e.target);}});
+  },{threshold:.5});
+  counters.forEach(c=>obs.observe(c));
+
+  const options=document.querySelectorAll('.option');
+  const fadeObs=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{
+      if(e.isIntersecting){
+        setTimeout(()=>{
+          e.target.style.opacity='1';
+          e.target.style.transform='translateX(0)';
+        },i*120);
+        fadeObs.unobserve(e.target);
+      }
+    });
+  },{threshold:.15});
+  options.forEach(o=>{
+    o.style.opacity='0';
+    o.style.transform='translateX(-20px)';
+    o.style.transition='opacity .5s ease, transform .5s ease, border-color .25s, transform .25s';
+    fadeObs.observe(o);
+  });
+});
+</script>
+</body>
+</html>
