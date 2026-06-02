@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運｜六個月現金流完整分析</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Microsoft JhengHei', sans-serif; background: #f5f4f0; color: #2c2c2a; padding: 24px; }
+h1 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #5f5e5a; margin-bottom: 24px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.kpi { background: #fff; border-radius: 10px; border: 0.5px solid #d3d1c7; padding: 16px; }
+.kpi-label { font-size: 12px; color: #888780; margin-bottom: 6px; }
+.kpi-value { font-size: 24px; font-weight: 500; }
+.red { color: #E24B4A; } .green { color: #639922; } .amber { color: #BA7517; } .blue { color: #378ADD; }
+.section { background: #fff; border-radius: 10px; border: 0.5px solid #d3d1c7; padding: 20px; margin-bottom: 20px; }
+.section-title { font-size: 13px; font-weight: 500; color: #888780; margin-bottom: 16px; letter-spacing: 0.02em; }
+.legend { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 12px; font-size: 12px; color: #5f5e5a; }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.dot { width: 10px; height: 10px; border-radius: 2px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #f5f4f0; padding: 9px 12px; text-align: left; font-weight: 500; color: #888780; border-bottom: 0.5px solid #d3d1c7; }
+td { padding: 9px 12px; border-bottom: 0.5px solid #f1efe8; }
+tr.total-row td { font-weight: 500; background: #f5f4f0; }
+.badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+.badge-red { background: #FCEBEB; color: #A32D2D; }
+.badge-green { background: #EAF3DE; color: #3B6D11; }
+.badge-amber { background: #FAEEDA; color: #854F0B; }
+.insight-box { border-left: 3px solid #E24B4A; padding: 10px 14px; background: #FCEBEB; border-radius: 0 8px 8px 0; margin-bottom: 10px; font-size: 13px; color: #501313; line-height: 1.7; }
+.insight-box.amber { border-color: #BA7517; background: #FAEEDA; color: #412402; }
+.insight-box.green { border-color: #3B6D11; background: #EAF3DE; color: #173404; }
+.chart-wrap { position: relative; width: 100%; }
+</style>
+</head>
+<body>
+
+<h1>偉翔通運｜六個月現金流完整分析</h1>
+<div class="subtitle">2025年11月 ～ 2026年4月｜第一銀行對帳單｜統編 43144294</div>
+
+<div class="kpi-grid">
+  <div class="kpi">
+    <div class="kpi-label">總支出（6個月）</div>
+    <div class="kpi-value red">4,817萬</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">總存入（6個月）</div>
+    <div class="kpi-value green">4,795萬</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">累計淨流出</div>
+    <div class="kpi-value red">▼ 22萬</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">最大單月缺口</div>
+    <div class="kpi-value red">12月 −187萬</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">最佳月份</div>
+    <div class="kpi-value green">2月 +135萬</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">連續虧損月份</div>
+    <div class="kpi-value amber">3月、4月</div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">月度存入 vs 支出（單位：萬元）</div>
+  <div class="legend">
+    <span><span class="dot" style="background:#639922"></span>當月存入</span>
+    <span><span class="dot" style="background:#E24B4A"></span>當月支出</span>
+  </div>
+  <div class="chart-wrap" style="height:280px;">
+    <canvas id="cfBar" role="img" aria-label="偉翔通運六個月存入與支出對比柱狀圖">12月與3月支出明顯超出存入，為資金最緊張月份。</canvas>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">月底淨現金流走勢（單位：萬元）</div>
+  <div class="chart-wrap" style="height:200px;">
+    <canvas id="cfLine" role="img" aria-label="偉翔通運六個月淨現金流折線圖">12月谷底-187萬，2月峰值+135萬，近兩月持續負值。</canvas>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">月度明細表 ✅ 可複製至 Excel / Obsidian</div>
+  <table>
+    <thead>
+      <tr>
+        <th>月份</th>
+        <th style="text-align:right">支出（元）</th>
+        <th style="text-align:right">存入（元）</th>
+        <th style="text-align:right">月底淨額（元）</th>
+        <th>狀態</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>2025年11月</td>
+        <td class="red" style="text-align:right">6,170,808</td>
+        <td class="green" style="text-align:right">6,380,862</td>
+        <td class="green" style="text-align:right">+210,054</td>
+        <td><span class="badge badge-green">微幅正數</span></td>
+      </tr>
+      <tr>
+        <td>2025年12月</td>
+        <td class="red" style="text-align:right">10,044,176</td>
+        <td class="green" style="text-align:right">8,175,605</td>
+        <td class="red" style="text-align:right">−1,868,571</td>
+        <td><span class="badge badge-red">⚠ 最大缺口</span></td>
+      </tr>
+      <tr>
+        <td>2026年1月</td>
+        <td class="red" style="text-align:right">6,479,013</td>
+        <td class="green" style="text-align:right">6,918,095</td>
+        <td class="green" style="text-align:right">+439,082</td>
+        <td><span class="badge badge-green">小幅正數</span></td>
+      </tr>
+      <tr>
+        <td>2026年2月</td>
+        <td class="red" style="text-align:right">7,210,167</td>
+        <td class="green" style="text-align:right">8,559,545</td>
+        <td class="green" style="text-align:right">+1,349,378</td>
+        <td><span class="badge badge-green">最佳月份</span></td>
+      </tr>
+      <tr>
+        <td>2026年3月</td>
+        <td class="red" style="text-align:right">10,301,349</td>
+        <td class="green" style="text-align:right">9,686,292</td>
+        <td class="red" style="text-align:right">−615,057</td>
+        <td><span class="badge badge-red">支出超標</span></td>
+      </tr>
+      <tr>
+        <td>2026年4月</td>
+        <td class="red" style="text-align:right">7,970,404</td>
+        <td class="green" style="text-align:right">7,229,422</td>
+        <td class="red" style="text-align:right">−740,982</td>
+        <td><span class="badge badge-red">連續超支</span></td>
+      </tr>
+      <tr class="total-row">
+        <td>六個月合計</td>
+        <td class="red" style="text-align:right">48,175,917</td>
+        <td class="green" style="text-align:right">47,949,821</td>
+        <td class="red" style="text-align:right">−226,096</td>
+        <td><span class="badge badge-amber">整體緊繃</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">現金流診斷與行動建議</div>
+
+  <div class="insight-box">
+    ⚠️ <strong>問題一：12月、3月為系統性大月，支出突破千萬</strong><br>
+    12月支出 1,004萬（比平均高 40%），3月支出 1,030萬。觀察兩個月的共同點：均有大量「偉翔通運」自體轉帳與大額外包費用集中支出。建議釐清這兩個月是否有季節性採購或年度結算行為，提前備好資金。
+  </div>
+
+  <div class="insight-box">
+    ⚠️ <strong>問題二：單一大客戶入帳時間決定當月生死</strong><br>
+    1月5日盛形通運入帳 105萬，是1月轉正的主因；2月的 135萬正值，也依賴商榮龍運和盛形的集中入帳。一旦任何主力客戶延遲5天付款，當月立即出現缺口。這是「結構性脆弱」，不是偶發現象。
+  </div>
+
+  <div class="insight-box amber">
+    ⚠️ <strong>問題三：鉅泰創新每月消耗 40～50萬，屬剛性支出</strong><br>
+    每月出現 4～5筆「鉅泰創新」，每筆約 100,010元，全年預計消耗逾 500萬。建議確認是否為融資租賃/貸款，並評估是否有重新談判還款結構的空間。
+  </div>
+
+  <div class="insight-box amber">
+    ⚠️ <strong>問題四：1月初單日 72萬支出，無配套收款</strong><br>
+    2026/01/02 單日支出超過 72萬，當日僅有「沖正」123,933入帳（疑似誤轉回沖）。開年首日資金即大量流出，是「先付後收」問題的典型案例。
+  </div>
+
+  <div class="insight-box green">
+    💡 <strong>解法：建立「收款觸發付款」機制</strong><br>
+    建議奕迪推動以下三步：<br>
+    ① 要求前五大客戶簽訂「每月25日前月結」協議<br>
+    ② 收款入帳後第3個工作日，財務才開放當批付款授權<br>
+    ③ 建立4週滾動現金流預測表，每週一更新，讓董事長即時看到缺口預警
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const labels = ['11月','12月','1月','2月','3月','4月'];
+const income = [638, 818, 692, 856, 969, 723];
+const expense = [617, 1004, 648, 721, 1030, 797];
+const net = income.map((v,i) => Math.round(v - expense[i]));
+
+new Chart(document.getElementById('cfBar'), {
+  type: 'bar',
+  data: {
+    labels,
+    datasets: [
+      { label: '存入', data: income, backgroundColor: 'rgba(99,153,34,0.75)', borderColor: '#639922', borderWidth: 1, borderRadius: 3 },
+      { label: '支出', data: expense, backgroundColor: 'rgba(226,75,74,0.65)', borderColor: '#E24B4A', borderWidth: 1, borderRadius: 3 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.raw + '萬' } } },
+    scales: {
+      x: { ticks: { autoSkip: false, font: { size: 12 }, color: '#5f5e5a' }, grid: { display: false } },
+      y: { ticks: { callback: v => v + '萬', font: { size: 11 }, color: '#5f5e5a' }, grid: { color: 'rgba(136,135,128,0.12)' } }
+    }
+  }
+});
+
+new Chart(document.getElementById('cfLine'), {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [{
+      label: '月底淨額',
+      data: net,
+      borderColor: '#378ADD',
+      pointBackgroundColor: net.map(v => v >= 0 ? '#639922' : '#E24B4A'),
+      pointRadius: 7,
+      pointBorderColor: '#fff',
+      pointBorderWidth: 2,
+      tension: 0.35,
+      fill: false,
+      borderWidth: 2
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: ctx => '淨額: ' + (ctx.raw > 0 ? '+' : '') + ctx.raw + '萬' } },
+      annotation: {}
+    },
+    scales: {
+      x: { ticks: { autoSkip: false, font: { size: 12 }, color: '#5f5e5a' }, grid: { display: false } },
+      y: {
+        ticks: { callback: v => (v > 0 ? '+' : '') + v + '萬', font: { size: 11 }, color: '#5f5e5a' },
+        grid: { color: 'rgba(136,135,128,0.12)' },
+        suggestedMin: -210, suggestedMax: 160
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
