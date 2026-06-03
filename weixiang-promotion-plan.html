@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運｜組織架構升任計畫</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #F5F0E8;
+    --stone: #E8E0D0;
+    --gold: #C4933F;
+    --gold-light: #E8BA6A;
+    --gold-pale: #F5E6C8;
+    --navy: #1C2B4A;
+    --navy-mid: #2E4070;
+    --teal: #2A7A6F;
+    --teal-light: #3DA090;
+    --rust: #B85C38;
+    --rust-light: #D4785A;
+    --slate: #4A5568;
+    --text-dark: #1A1A2E;
+    --text-mid: #3D3D5C;
+    --text-light: #6B7280;
+    --shadow-soft: 0 4px 24px rgba(28,43,74,0.08);
+    --shadow-card: 0 8px 40px rgba(28,43,74,0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── 背景紋理 ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 10% 20%, rgba(196,147,63,0.07) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(42,122,111,0.07) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C4933F' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+    color: var(--gold-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    padding: 6px 20px;
+    border-radius: 40px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+
+  .header-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold-light);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .header h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(28px, 4vw, 46px);
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
+  }
+
+  .header h1 span {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .header-sub {
+    color: var(--text-light);
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: 300;
+  }
+
+  .header-line {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--teal));
+    margin: 20px auto 0;
+    border-radius: 2px;
+  }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .section-title h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy);
+  }
+
+  .section-title p {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 2px;
+  }
+
+  /* ── CORE LOGIC BANNER ── */
+  .logic-banner {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+    border-radius: 20px;
+    padding: 36px 40px;
+    margin-bottom: 52px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.9s ease 0.1s both;
+    box-shadow: var(--shadow-card);
+  }
+
+  .logic-banner::after {
+    content: '內部升任';
+    position: absolute;
+    right: -10px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Noto Serif TC', serif;
+    font-size: 80px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    letter-spacing: 8px;
+    pointer-events: none;
+  }
+
+  .logic-banner-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--gold-light);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .logic-banner h3 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+
+  .logic-tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .logic-tag {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    padding: 7px 16px;
+    border-radius: 30px;
+    backdrop-filter: blur(4px);
+  }
+
+  .logic-tag .dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+  }
+
+  /* ── WEIGHTS GRID ── */
+  .weights-section {
+    margin-bottom: 52px;
+    animation: fadeUp 0.7s ease 0.2s both;
+  }
+
+  .weights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+  }
+
+  .weight-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 28px 24px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--stone);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .weight-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .weight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    border-radius: 18px 18px 0 0;
+  }
+
+  .weight-card:nth-child(1)::before { background: linear-gradient(90deg, var(--navy), var(--navy-mid)); }
+  .weight-card:nth-child(2)::before { background: linear-gradient(90deg, var(--teal), var(--teal-light)); }
+  .weight-card:nth-child(3)::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .weight-card:nth-child(4)::before { background: linear-gradient(90deg, var(--rust), var(--rust-light)); }
+
+  .weight-pct {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .weight-card:nth-child(1) .weight-pct { color: var(--navy); }
+  .weight-card:nth-child(2) .weight-pct { color: var(--teal); }
+  .weight-card:nth-child(3) .weight-pct { color: var(--gold); }
+  .weight-card:nth-child(4) .weight-pct { color: var(--rust); }
+
+  .weight-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+
+  .weight-desc {
+    font-size: 12px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  /* 進度條 */
+  .weight-bar-wrap {
+    margin-top: 16px;
+    background: var(--stone);
+    border-radius: 4px;
+    height: 6px;
+    overflow: hidden;
+  }
+
+  .weight-bar {
+    height: 100%;
+    border-radius: 4px;
+    animation: barGrow 1.2s ease 0.5s both;
+    transform-origin: left;
+  }
+
+  .weight-card:nth-child(1) .weight-bar { background: linear-gradient(90deg, var(--navy), var(--navy-mid)); width: 30%; }
+  .weight-card:nth-child(2) .weight-bar { background: linear-gradient(90deg, var(--teal), var(--teal-light)); width: 25%; }
+  .weight-card:nth-child(3) .weight-bar { background: linear-gradient(90deg, var(--gold), var(--gold-light)); width: 25%; }
+  .weight-card:nth-child(4) .weight-bar { background: linear-gradient(90deg, var(--rust), var(--rust-light)); width: 20%; }
+
+  /* ── RADAR CHART ── */
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 52px;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+
+  @media (max-width: 700px) {
+    .chart-row { grid-template-columns: 1fr; }
+  }
+
+  .chart-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 32px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--stone);
+  }
+
+  .chart-card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .chart-card-title::before {
+    content: '';
+    width: 4px; height: 18px;
+    background: linear-gradient(180deg, var(--gold), var(--teal));
+    border-radius: 2px;
+  }
+
+  /* ── DEPARTMENTS TABLE ── */
+  .dept-section {
+    margin-bottom: 52px;
+    animation: fadeUp 0.7s ease 0.4s both;
+  }
+
+  .dept-grid {
+    display: grid;
+    gap: 14px;
+  }
+
+  .dept-row {
+    background: #fff;
+    border-radius: 16px;
+    padding: 22px 28px;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--stone);
+    display: grid;
+    grid-template-columns: 52px 1fr 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dept-row:hover {
+    transform: translateX(6px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .dept-row::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 16px 0 0 16px;
+  }
+
+  .dept-row:nth-child(1)::before { background: var(--navy); }
+  .dept-row:nth-child(2)::before { background: var(--teal); }
+  .dept-row:nth-child(3)::before { background: var(--gold); }
+  .dept-row:nth-child(4)::before { background: var(--rust); }
+  .dept-row:nth-child(5)::before { background: #7B68EE; }
+  .dept-row:nth-child(6)::before { background: #2A7A6F; }
+
+  .dept-num {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif TC', serif;
+    font-size: 18px;
+    font-weight: 900;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .dept-row:nth-child(1) .dept-num { background: linear-gradient(135deg, var(--navy), var(--navy-mid)); }
+  .dept-row:nth-child(2) .dept-num { background: linear-gradient(135deg, var(--teal), var(--teal-light)); }
+  .dept-row:nth-child(3) .dept-num { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+  .dept-row:nth-child(4) .dept-num { background: linear-gradient(135deg, var(--rust), var(--rust-light)); }
+  .dept-row:nth-child(5) .dept-num { background: linear-gradient(135deg, #7B68EE, #9B8FFF); }
+  .dept-row:nth-child(6) .dept-num { background: linear-gradient(135deg, #2A7A6F, #3DA090); }
+
+  .dept-info { }
+  .dept-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 3px;
+  }
+  .dept-role {
+    font-size: 12px;
+    color: var(--text-light);
+  }
+
+  .dept-title-col { }
+  .dept-title-label {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-bottom: 3px;
+  }
+  .dept-title-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-mid);
+  }
+
+  .dept-source-col { }
+  .dept-source-label {
+    font-size: 11px;
+    color: var(--text-light);
+    margin-bottom: 3px;
+  }
+  .dept-source-val {
+    font-size: 12px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+
+  .dept-special {
+    background: linear-gradient(135deg, #F0F8FF, #E8F4F8);
+    border-color: rgba(42,122,111,0.2);
+  }
+
+  .dept-special .dept-name { color: var(--teal); }
+
+  /* ── HEADER ROW ── */
+  .dept-header {
+    display: grid;
+    grid-template-columns: 52px 1fr 1fr 1fr;
+    gap: 20px;
+    padding: 10px 28px;
+    margin-bottom: 4px;
+  }
+
+  .dept-header span {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--text-light);
+    text-transform: uppercase;
+  }
+
+  /* ── DONUT SVG ── */
+  .donut-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .donut-wrap svg { overflow: visible; }
+
+  .donut-center-text {
+    position: absolute;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .donut-center-text .main { font-family: 'Noto Serif TC', serif; font-size: 13px; font-weight: 900; color: var(--navy); }
+  .donut-center-text .sub { font-size: 10px; color: var(--text-light); }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .legend-name { font-size: 13px; color: var(--text-mid); flex: 1; }
+  .legend-pct { font-size: 13px; font-weight: 700; }
+
+  /* ── FOOTER NOTE ── */
+  .footer-note {
+    background: linear-gradient(135deg, var(--gold-pale), #FDF6E3);
+    border: 1px solid rgba(196,147,63,0.25);
+    border-radius: 16px;
+    padding: 24px 28px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    animation: fadeUp 0.7s ease 0.5s both;
+  }
+
+  .footer-note-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .footer-note-text {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.8;
+  }
+
+  .footer-note-text strong {
+    color: var(--navy);
+    font-weight: 700;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  @keyframes barGrow {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  @keyframes dashOffset {
+    from { stroke-dashoffset: 340; }
+  }
+
+  @media (max-width: 600px) {
+    .dept-row {
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+    }
+    .dept-title-col, .dept-source-col { display: none; }
+    .dept-header { display: none; }
+    .weights-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">偉翔通運 · 2026 組織轉型</div>
+    <h1>內部人員升任<span>管理幹部</span>計畫</h1>
+    <p class="header-sub">盤點現有人才 · 拔升潛力幹部 · 低風險落地執行</p>
+    <div class="header-line"></div>
+  </div>
+
+  <!-- CORE LOGIC BANNER -->
+  <div class="logic-banner">
+    <div class="logic-banner-label">✦ 核心邏輯</div>
+    <h3>不從外部大量招人，優先盤點現有人員，<br>拔升有潛力者擔任管理職</h3>
+    <div class="logic-tags">
+      <div class="logic-tag"><span class="dot" style="background:#4CAF50"></span>風險低</div>
+      <div class="logic-tag"><span class="dot" style="background:#E8BA6A"></span>成本可控</div>
+      <div class="logic-tag"><span class="dot" style="background:#64B5F6"></span>王董易接受</div>
+      <div class="logic-tag"><span class="dot" style="background:#FF8A65"></span>執行快速</div>
+    </div>
+  </div>
+
+  <!-- WEIGHTS -->
+  <div class="weights-section">
+    <div class="section-title">
+      <div class="section-icon" style="background:linear-gradient(135deg,#EEF2FF,#E0E7FF)">📊</div>
+      <div>
+        <h2>升任評估四維度</h2>
+        <p>每位候選人依此框架評分，加權計算後排序</p>
+      </div>
+    </div>
+
+    <div class="weights-grid">
+      <div class="weight-card">
+        <div class="weight-pct">30%</div>
+        <div class="weight-name">業務熟悉度</div>
+        <div class="weight-desc">對現有流程、客戶、路線的掌握程度</div>
+        <div class="weight-bar-wrap"><div class="weight-bar"></div></div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-pct">25%</div>
+        <div class="weight-name">溝通協調能力</div>
+        <div class="weight-desc">能否跟司機、客戶、上層有效溝通</div>
+        <div class="weight-bar-wrap"><div class="weight-bar"></div></div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-pct">25%</div>
+        <div class="weight-name">穩定性與可信度</div>
+        <div class="weight-desc">出勤紀錄、誠信表現、抗壓能力</div>
+        <div class="weight-bar-wrap"><div class="weight-bar"></div></div>
+      </div>
+      <div class="weight-card">
+        <div class="weight-pct">20%</div>
+        <div class="weight-name">學習意願</div>
+        <div class="weight-desc">願意接受新系統、新流程、新職責</div>
+        <div class="weight-bar-wrap"><div class="weight-bar"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHART ROW -->
+  <div class="chart-row">
+    <!-- Donut -->
+    <div class="chart-card">
+      <div class="chart-card-title">評估權重分配</div>
+      <div style="display:flex;align-items:center;gap:24px;">
+        <div class="donut-wrap" style="width:160px;height:160px;flex-shrink:0;">
+          <svg width="160" height="160" viewBox="0 0 160 160">
+            <!-- 業務熟悉度 30% -->
+            <circle cx="80" cy="80" r="54" fill="none" stroke="#1C2B4A" stroke-width="22"
+              stroke-dasharray="101.8 237.5" stroke-dashoffset="0"
+              transform="rotate(-90 80 80)"
+              style="animation: dashOffset 1s ease 0.3s both;"/>
+            <!-- 溝通協調 25% -->
+            <circle cx="80" cy="80" r="54" fill="none" stroke="#2A7A6F" stroke-width="22"
+              stroke-dasharray="84.8 237.5" stroke-dashoffset="-101.8"
+              transform="rotate(-90 80 80)"
+              style="animation: dashOffset 1s ease 0.5s both;"/>
+            <!-- 穩定性 25% -->
+            <circle cx="80" cy="80" r="54" fill="none" stroke="#C4933F" stroke-width="22"
+              stroke-dasharray="84.8 237.5" stroke-dashoffset="-186.6"
+              transform="rotate(-90 80 80)"
+              style="animation: dashOffset 1s ease 0.7s both;"/>
+            <!-- 學習意願 20% -->
+            <circle cx="80" cy="80" r="54" fill="none" stroke="#B85C38" stroke-width="22"
+              stroke-dasharray="67.8 237.5" stroke-dashoffset="-271.4"
+              transform="rotate(-90 80 80)"
+              style="animation: dashOffset 1s ease 0.9s both;"/>
+            <circle cx="80" cy="80" r="42" fill="white"/>
+            <text x="80" y="76" text-anchor="middle" font-family="Noto Serif TC" font-size="14" font-weight="900" fill="#1C2B4A">評估</text>
+            <text x="80" y="93" text-anchor="middle" font-family="Noto Sans TC" font-size="10" fill="#6B7280">四維度</text>
+          </svg>
+        </div>
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#1C2B4A"></div>
+            <div class="legend-name">業務熟悉度</div>
+            <div class="legend-pct" style="color:#1C2B4A">30%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#2A7A6F"></div>
+            <div class="legend-name">溝通協調</div>
+            <div class="legend-pct" style="color:#2A7A6F">25%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#C4933F"></div>
+            <div class="legend-name">穩定可信度</div>
+            <div class="legend-pct" style="color:#C4933F">25%</div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background:#B85C38"></div>
+            <div class="legend-name">學習意願</div>
+            <div class="legend-pct" style="color:#B85C38">20%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bar Chart -->
+    <div class="chart-card">
+      <div class="chart-card-title">策略優勢對比</div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-top:4px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;color:var(--text-mid)">內部升任</span>
+            <span style="font-size:12px;font-weight:700;color:var(--teal)">高</span>
+          </div>
+          <div style="height:8px;background:var(--stone);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:90%;background:linear-gradient(90deg,var(--teal),var(--teal-light));border-radius:4px;animation:barGrow 1s ease 0.6s both;transform-origin:left;"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:4px;">
+            <span style="font-size:10px;color:var(--text-light)">執行速度</span>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;color:var(--text-mid)">成本可控性</span>
+            <span style="font-size:12px;font-weight:700;color:var(--gold)">85%</span>
+          </div>
+          <div style="height:8px;background:var(--stone);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:85%;background:linear-gradient(90deg,var(--gold),var(--gold-light));border-radius:4px;animation:barGrow 1s ease 0.8s both;transform-origin:left;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;color:var(--text-mid)">人員穩定性</span>
+            <span style="font-size:12px;font-weight:700;color:var(--navy)">92%</span>
+          </div>
+          <div style="height:8px;background:var(--stone);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:92%;background:linear-gradient(90deg,var(--navy),var(--navy-mid));border-radius:4px;animation:barGrow 1s ease 1s both;transform-origin:left;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+            <span style="font-size:12px;color:var(--text-mid)">董事長接受度</span>
+            <span style="font-size:12px;font-weight:700;color:var(--rust)">高</span>
+          </div>
+          <div style="height:8px;background:var(--stone);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:88%;background:linear-gradient(90deg,var(--rust),var(--rust-light));border-radius:4px;animation:barGrow 1s ease 1.2s both;transform-origin:left;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPARTMENTS -->
+  <div class="dept-section">
+    <div class="section-title">
+      <div class="section-icon" style="background:linear-gradient(135deg,#FFF8E7,#FFF3CC)">🏢</div>
+      <div>
+        <h2>六大部門升任對應表</h2>
+        <p>各部門管理職稱與優先人選來源</p>
+      </div>
+    </div>
+
+    <div class="dept-header">
+      <span></span>
+      <span>部門</span>
+      <span>管理幹部職稱</span>
+      <span>優先人選來源</span>
+    </div>
+
+    <div class="dept-grid">
+      <div class="dept-row">
+        <div class="dept-num">01</div>
+        <div class="dept-info">
+          <div class="dept-name">調度管理部</div>
+          <div class="dept-role">核心排程單位</div>
+        </div>
+        <div class="dept-title-col">
+          <div class="dept-title-label">職稱</div>
+          <div class="dept-title-val">調度主管</div>
+        </div>
+        <div class="dept-source-col">
+          <div class="dept-source-label">優先來源</div>
+          <div class="dept-source-val">資深司機 / 有派車經驗者</div>
+        </div>
+      </div>
+
+      <div class="dept-row">
+        <div class="dept-num">02</div>
+        <div class="dept-info">
+          <div class="dept-name">倉儲理貨組</div>
+          <div class="dept-role">調度管理部下轄</div>
+        </div>
+        <div class="dept-title-col">
+          <div class="dept-title-label">職稱</div>
+          <div class="dept-title-val">倉儲組長</div>
+        </div>
+        <div class="dept-source-col">
+          <div class="dept-source-label">優先來源</div>
+          <div class="dept-source-val">現有倉儲人員中最穩定者</div>
+        </div>
+      </div>
+
+      <div class="dept-row">
+        <div class="dept-num">03</div>
+        <div class="dept-info">
+          <div class="dept-name">司機車隊部</div>
+          <div class="dept-role">含委外司機管理</div>
+        </div>
+        <div class="dept-title-col">
+          <div class="dept-title-label">職稱</div>
+          <div class="dept-title-val">車隊長</div>
+        </div>
+        <div class="dept-source-col">
+          <div class="dept-source-label">優先來源</div>
+          <div class="dept-source-val">年資最長、口碑最好的司機</div>
+        </div>
+      </div>
+
+      <div class="dept-row">
+        <div class="dept-num">04</div>
+        <div class="dept-info">
+          <div class="dept-name">業務客服部</div>
+          <div class="dept-role">客戶關係維護</div>
+        </div>
+        <div class="dept-title-col">
+          <div class="dept-title-label">職稱</div>
+          <div class="dept-title-val">業務主管</div>
+        </div>
+        <div class="dept-source-col">
+          <div class="dept-source-label">優先來源</div>
+          <div class="dept-source-val">有客戶關係基礎的現有人員</div>
+        </div>
+      </div>
+
+      <div class="dept-row">
+        <div class="dept-num">05</div>
+        <div class="dept-info">
+          <div class="dept-name">行政財務部</div>
+          <div class="dept-role">財務、帳務、行政</div>
+        </div>
+        <div class="dept-title-col">
+          <div class="dept-title-label">職稱</div>
+          <div class="dept-title-val">財務主管</div>
+        </div>
+        <div class="dept-source-col">
+          <div class="dept-source-label">優先來源</div>
+          <div class="dept-source-val">Kiki（現有財務，優先確認意願）</div>
+        </div>
+      </div>
+
+      <div class="dept-row dept-special">
+        <div class="dept-num">★</div>
+        <div class="dept-info">
+          <div class="dept-name" style="color:var(--teal)">運營幕僚</div>
+          <div class="dept-role">策略規劃 · 數據管理</div>
+        </div>
+        <div class="dept-title-col">
+          <div class="dept-title-label">職稱</div>
+          <div class="dept-title-val" style="color:var(--teal);font-weight:700">運營幕僚 / 董事長特助</div>
+        </div>
+        <div class="dept-source-col">
+          <div class="dept-source-label">負責人</div>
+          <div class="dept-source-val" style="color:var(--teal);font-weight:600">Roger Chen（陳俊岳）</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER NOTE -->
+  <div class="footer-note">
+    <div class="footer-note-icon">💡</div>
+    <div class="footer-note-text">
+      <strong>執行建議：</strong>與奕迪確認各部門現有人員名單後，逐一依四維度框架評分。
+      優先處理<strong>調度主管</strong>與<strong>車隊長</strong>兩個最影響日常運作的職位，
+      財務主管（Kiki）則需先確認本人意願再推進。
+      建議本週完成盤點，下週匯報給王董時附上草案名單。
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
