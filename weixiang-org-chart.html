@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運｜組織架構・權責・KPI</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF;
+    --cream2: #EDE8DF;
+    --ink: #1C1C1A;
+    --ink2: #4A4845;
+    --ink3: #888580;
+    --gold: #B8893A;
+    --gold-light: #F0E4CC;
+    --blue: #2B5EA7;
+    --blue-light: #EAF0FA;
+    --teal: #1A7A6E;
+    --teal-light: #E4F4F1;
+    --coral: #C04C2F;
+    --coral-light: #FAEDE8;
+    --sage: #4A7C59;
+    --sage-light: #EAF2EC;
+    --lavender: #5B4FA0;
+    --lavender-light: #EEEAF8;
+    --amber: #8C6820;
+    --amber-light: #F5EDDA;
+    --border: rgba(28,28,26,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1C3A6A 0%, #2B5EA7 60%, #1A5C55 100%);
+    padding: 56px 40px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 3px;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Noto Sans TC', sans-serif;
+    font-weight: 700;
+    font-size: 36px;
+    color: #fff;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.7);
+    font-size: 15px;
+    position: relative;
+  }
+
+  /* NAV PILLS */
+  .nav-bar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-pill {
+    padding: 16px 22px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink3);
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    text-decoration: none;
+  }
+  .nav-pill:hover { color: var(--blue); }
+  .nav-pill.active { color: var(--blue); border-bottom-color: var(--blue); }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 48px 32px; }
+
+  /* ORG CHART */
+  .org-section { margin-bottom: 64px; }
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .org-tree { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+  .org-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .org-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px 28px;
+    text-align: center;
+    position: relative;
+    min-width: 200px;
+    box-shadow: 0 2px 12px rgba(28,28,26,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .org-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(28,28,26,0.12);
+  }
+  .org-card.chairman {
+    background: linear-gradient(135deg, #1C3A6A, #2B5EA7);
+    border-color: transparent;
+    color: #fff;
+    min-width: 240px;
+  }
+  .org-card.chairman .card-role { color: rgba(255,255,255,0.7); }
+
+  .org-card.gm {
+    background: var(--teal-light);
+    border-color: #9ECCC6;
+  }
+  .org-card.roger {
+    background: var(--amber-light);
+    border-color: #D4B87A;
+    border-width: 2px;
+  }
+
+  .card-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .card-role { font-size: 12px; color: var(--ink3); }
+  .card-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-top: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  .tag-gold { background: var(--gold-light); color: var(--amber); }
+  .tag-teal { background: var(--teal-light); color: var(--teal); }
+  .tag-amber { background: var(--amber-light); color: var(--amber); }
+
+  .connector-v {
+    width: 2px;
+    height: 32px;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  .connector-h {
+    height: 2px;
+    background: var(--border);
+  }
+  .connector-h-dashed {
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 6px, transparent 6px, transparent 12px);
+  }
+
+  /* PARALLEL ROW */
+  .parallel-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    width: 100%;
+    justify-content: center;
+  }
+  .parallel-item { display: flex; flex-direction: column; align-items: center; }
+
+  /* EXEC ROW */
+  .exec-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+  .exec-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    border-top: 4px solid;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .exec-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(28,28,26,0.1);
+  }
+  .exec-card.dispatch { border-top-color: var(--blue); }
+  .exec-card.driver { border-top-color: var(--teal); }
+  .exec-card.sales { border-top-color: var(--coral); }
+  .exec-card.finance { border-top-color: var(--lavender); }
+
+  .exec-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 10px;
+    font-size: 20px;
+  }
+  .exec-card.dispatch .exec-icon { background: var(--blue-light); }
+  .exec-card.driver .exec-icon { background: var(--teal-light); }
+  .exec-card.sales .exec-icon { background: var(--coral-light); }
+  .exec-card.finance .exec-icon { background: var(--lavender-light); }
+
+  .exec-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .exec-sub { font-size: 11px; color: var(--ink3); }
+
+  /* SUB-UNIT */
+  .sub-unit {
+    background: var(--cream2);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 11px;
+    color: var(--ink2);
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+  }
+  .sub-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); flex-shrink: 0; }
+
+  /* DEPT CARDS */
+  .dept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 8px;
+  }
+  @media (max-width: 700px) { .dept-grid { grid-template-columns: 1fr; } .exec-grid { grid-template-columns: 1fr 1fr; } }
+
+  .dept-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .dept-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(28,28,26,0.09); }
+
+  .dept-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .dept-icon-wrap {
+    width: 46px; height: 46px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .dept-header-text h3 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+  .dept-header-text p { font-size: 12px; color: var(--ink3); }
+
+  .dept-body { padding: 20px 24px; }
+
+  .duty-list { list-style: none; margin-bottom: 20px; }
+  .duty-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink2);
+    padding: 7px 0;
+    border-bottom: 1px solid var(--cream2);
+    line-height: 1.5;
+  }
+  .duty-list li:last-child { border-bottom: none; }
+  .duty-num {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .kpi-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kpi-chip {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+  }
+  .kpi-chip-name { font-size: 11px; color: var(--ink3); margin-bottom: 3px; }
+  .kpi-chip-val { font-size: 12px; font-weight: 600; color: var(--ink); }
+
+  /* COLOR SETS */
+  .c-blue .dept-icon-wrap { background: var(--blue-light); }
+  .c-blue .duty-num { background: var(--blue-light); color: var(--blue); }
+  .c-blue .dept-header { border-top: 4px solid var(--blue); }
+
+  .c-teal .dept-icon-wrap { background: var(--teal-light); }
+  .c-teal .duty-num { background: var(--teal-light); color: var(--teal); }
+  .c-teal .dept-header { border-top: 4px solid var(--teal); }
+
+  .c-coral .dept-icon-wrap { background: var(--coral-light); }
+  .c-coral .duty-num { background: var(--coral-light); color: var(--coral); }
+  .c-coral .dept-header { border-top: 4px solid var(--coral); }
+
+  .c-lavender .dept-icon-wrap { background: var(--lavender-light); }
+  .c-lavender .duty-num { background: var(--lavender-light); color: var(--lavender); }
+  .c-lavender .dept-header { border-top: 4px solid var(--lavender); }
+
+  .c-sage .dept-icon-wrap { background: var(--sage-light); }
+  .c-sage .duty-num { background: var(--sage-light); color: var(--sage); }
+  .c-sage .dept-header { border-top: 4px solid var(--sage); }
+
+  .c-amber .dept-icon-wrap { background: var(--amber-light); }
+  .c-amber .duty-num { background: var(--amber-light); color: var(--amber); }
+  .c-amber .dept-header { border-top: 4px solid var(--amber); }
+
+  .c-gold .dept-icon-wrap { background: var(--gold-light); }
+  .c-gold .duty-num { background: var(--gold-light); color: var(--gold); }
+  .c-gold .dept-header { border-top: 4px solid var(--gold); }
+
+  /* ROGER SPECIAL */
+  .roger-card-full {
+    background: linear-gradient(135deg, #FBF5E8, #FFF9F0);
+    border: 2px solid #D4B87A;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .roger-card-full .dept-header { border-top: 4px solid var(--gold); background: transparent; }
+
+  /* FOOTER */
+  .footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 28px;
+    font-size: 12px;
+    margin-top: 64px;
+  }
+  .footer span { color: rgba(255,255,255,0.8); }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">偉翔通運股份有限公司</div>
+  <h1>組織架構・權責・KPI</h1>
+  <p>職責分工明確・績效指標透明・管理系統化</p>
+</div>
+
+<nav class="nav-bar">
+  <a class="nav-pill active" href="#org">組織架構</a>
+  <a class="nav-pill" href="#chairman">董事長</a>
+  <a class="nav-pill" href="#gm">總經理</a>
+  <a class="nav-pill" href="#roger">策略幕僚</a>
+  <a class="nav-pill" href="#dispatch">調度管理</a>
+  <a class="nav-pill" href="#warehouse">倉儲理貨</a>
+  <a class="nav-pill" href="#driver">司機車隊</a>
+  <a class="nav-pill" href="#sales">業務客服</a>
+  <a class="nav-pill" href="#finance">行政財務</a>
+</nav>
+
+<div class="container">
+
+  <!-- ORG CHART -->
+  <section class="org-section" id="org">
+    <div class="section-label">整體組織架構</div>
+
+    <div class="org-tree">
+      <!-- 董事長 -->
+      <div class="org-node">
+        <div class="org-card chairman">
+          <div class="card-title">董事長</div>
+          <div class="card-role">王董｜最終授權・戰略決策</div>
+          <span class="card-tag" style="background:rgba(255,255,255,0.2);color:#fff;">決策層</span>
+        </div>
+      </div>
+
+      <div class="connector-v"></div>
+
+      <!-- 並排：Roger + 總經理 -->
+      <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:55%; height:2px; background: repeating-linear-gradient(90deg, var(--gold) 0, var(--gold) 6px, transparent 6px, transparent 12px); margin-bottom:0;"></div>
+        <div class="parallel-row" style="align-items:flex-start; margin-top:0;">
+
+          <!-- Roger -->
+          <div class="parallel-item">
+            <div style="width:2px; height:24px; background: repeating-linear-gradient(180deg, var(--gold) 0, var(--gold) 6px, transparent 6px, transparent 12px);"></div>
+            <div class="org-card roger">
+              <div style="font-size:10px; color:var(--amber); letter-spacing:2px; margin-bottom:6px; font-weight:600;">策略幕僚</div>
+              <div class="card-title" style="color:var(--ink);">職業經理人</div>
+              <div class="card-role">Roger｜規劃・建議・跨部門協調</div>
+              <span class="card-tag tag-amber">直屬董事長</span>
+            </div>
+            <div style="width:2px; height:20px; background: repeating-linear-gradient(180deg, var(--gold) 0, var(--gold) 4px, transparent 4px, transparent 8px);"></div>
+            <div class="sub-unit" style="background: var(--amber-light); border-color: #D4B87A; color: var(--amber);">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="#B8893A" stroke-width="1.5" stroke-dasharray="2 2"/></svg>
+              定期對接各部門主管
+            </div>
+          </div>
+
+          <div style="width:2px; height:80px; background:var(--border); align-self:center;"></div>
+
+          <!-- 總經理 -->
+          <div class="parallel-item">
+            <div style="width:2px; height:24px; background:var(--border);"></div>
+            <div class="org-card gm">
+              <div class="card-title" style="color:var(--teal);">總經理</div>
+              <div class="card-role">奕迪｜經營統籌・決策執行</div>
+              <span class="card-tag tag-teal">經營層</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:flex-start; width:100%; justify-content:flex-end; padding-right: calc(50% - 100px);">
+        <div class="connector-v"></div>
+      </div>
+
+      <!-- 執行層 -->
+      <div style="width:100%;">
+        <div class="exec-grid">
+          <div class="exec-card dispatch">
+            <div class="exec-icon">🚛</div>
+            <div class="exec-name">調度管理部</div>
+            <div class="exec-sub">派車・排班・動態掌握</div>
+            <div class="sub-unit" style="margin-top:12px;">
+              <div class="sub-dot"></div>
+              倉儲理貨組（隸屬）
+            </div>
+          </div>
+          <div class="exec-card driver">
+            <div class="exec-icon">🧑‍✈️</div>
+            <div class="exec-name">司機車隊部</div>
+            <div class="exec-sub">配送執行・車輛管理</div>
+            <div class="sub-unit" style="margin-top:12px;">
+              <div class="sub-dot" style="background:var(--teal);"></div>
+              含委外司機管理
+            </div>
+          </div>
+          <div class="exec-card sales">
+            <div class="exec-icon">📋</div>
+            <div class="exec-name">業務客服部</div>
+            <div class="exec-sub">接單・開發・客訴處理</div>
+          </div>
+          <div class="exec-card finance">
+            <div class="exec-icon">📊</div>
+            <div class="exec-name">行政財務部</div>
+            <div class="exec-sub">帳務・薪資・合規</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DEPT SECTION HEADER -->
+  <div class="section-label" id="chairman" style="margin-top:16px;">各層級權責與 KPI 詳情</div>
+
+  <!-- 董事長 -->
+  <div class="dept-grid" style="margin-bottom:24px;">
+    <div class="dept-card c-blue" style="grid-column: span 2;">
+      <div class="dept-header">
+        <div class="dept-icon-wrap" style="background: linear-gradient(135deg,#1C3A6A,#2B5EA7);">
+          <span style="font-size:22px;">👑</span>
+        </div>
+        <div class="dept-header-text">
+          <h3>董事長｜決策層</h3>
+          <p>戰略方向・最終授權・企業文化</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num" style="background:var(--blue-light);color:var(--blue);">1</div>公司整體戰略方向制定與調整</li>
+          <li><div class="duty-num" style="background:var(--blue-light);color:var(--blue);">2</div>重大投資、合約、合作案最終核准</li>
+          <li><div class="duty-num" style="background:var(--blue-light);color:var(--blue);">3</div>高階人事任免（總經理、職業經理人）</li>
+          <li><div class="duty-num" style="background:var(--blue-light);color:var(--blue);">4</div>聽取策略幕僚定期匯報，掌握公司全貌</li>
+          <li><div class="duty-num" style="background:var(--blue-light);color:var(--blue);">5</div>企業文化與核心價值的維護與傳承</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">年度營收成長率</div><div class="kpi-chip-val">目標由董事長設定</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">重大決策回應時效</div><div class="kpi-chip-val">呈報後 N 個工作天</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">策略方向落地率</div><div class="kpi-chip-val">年度目標執行完成比</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 總經理 + Roger -->
+  <div class="dept-grid" style="margin-bottom:24px;" id="gm">
+    <div class="dept-card c-teal">
+      <div class="dept-header">
+        <div class="dept-icon-wrap">🎯</div>
+        <div class="dept-header-text">
+          <h3>總經理｜經營層</h3>
+          <p>統籌營運・業務拓展・部門督導</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num">1</div>統籌各部門日常運營，確保目標達成</li>
+          <li><div class="duty-num">2</div>業務拓展與客戶關係維護</li>
+          <li><div class="duty-num">3</div>部門主管績效管理與日常督導</li>
+          <li><div class="duty-num">4</div>月度營運報告呈報董事長</li>
+          <li><div class="duty-num">5</div>資源調配與跨部門協調最終裁決</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">月度營收達成率</div><div class="kpi-chip-val">實際÷目標營收</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">客戶留存率</div><div class="kpi-chip-val">季度流失客戶控制</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">部門目標達成率</div><div class="kpi-chip-val">各部門KPI綜合達標</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">新業務開發數</div><div class="kpi-chip-val">季度新簽客戶數量</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dept-card c-amber" id="roger" style="border: 2px solid #D4B87A; background: linear-gradient(135deg,#FBF5E8,#FFF9F0);">
+      <div class="dept-header" style="border-top: 4px solid var(--gold);">
+        <div class="dept-icon-wrap" style="background: var(--gold-light);">🧭</div>
+        <div class="dept-header-text">
+          <h3>策略幕僚｜職業經理人</h3>
+          <p>規劃・建議・跨部門溝通樞紐</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num" style="background:var(--gold-light);color:var(--gold);">1</div>公司營運流程規劃與優化設計</li>
+          <li><div class="duty-num" style="background:var(--gold-light);color:var(--gold);">2</div>數據化管理框架建立（成本・效率・績效）</li>
+          <li><div class="duty-num" style="background:var(--gold-light);color:var(--gold);">3</div>定期出席幹部會議，與各部門主管對接</li>
+          <li><div class="duty-num" style="background:var(--gold-light);color:var(--gold);">4</div>彙整現況，製作結構化報告呈報董事長</li>
+          <li><div class="duty-num" style="background:var(--gold-light);color:var(--gold);">5</div>重大議題提供策略建議，支援董事長決策</li>
+          <li><div class="duty-num" style="background:var(--gold-light);color:var(--gold);">6</div>跨部門溝通協調，化解執行層衝突瓶頸</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">月度匯報完成率</div><div class="kpi-chip-val">每月書面＋口頭完成</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">流程優化提案數</div><div class="kpi-chip-val">每季可落地改善件數</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">部門對接覆蓋率</div><div class="kpi-chip-val">每月對接完成比例</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">提案採納率</div><div class="kpi-chip-val">董事長採納比例</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 執行層 4 部門 -->
+  <div class="section-label" id="dispatch">執行層｜四大部門</div>
+
+  <div class="dept-grid">
+    <!-- 調度管理部 -->
+    <div class="dept-card c-blue">
+      <div class="dept-header">
+        <div class="dept-icon-wrap">🚛</div>
+        <div class="dept-header-text">
+          <h3>調度管理部</h3>
+          <p>派車・排班・動態掌握・督導倉儲</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num">1</div>接收訂單，規劃每日派車計畫</li>
+          <li><div class="duty-num">2</div>司機排班與車輛分配管理</li>
+          <li><div class="duty-num">3</div>即時掌握車輛動態，處理突發調度異常</li>
+          <li><div class="duty-num">4</div>派車單建立、紀錄與歸檔</li>
+          <li><div class="duty-num">5</div>督導倉儲理貨組，確保貨物備妥上車</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">準時派車率</div><div class="kpi-chip-val">計畫時間內出車比</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">調度異常率</div><div class="kpi-chip-val">臨時改派次數÷總趟次</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">派車單完整率</div><div class="kpi-chip-val">資料填寫完整比例</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">司機出勤達成率</div><div class="kpi-chip-val">實際出勤÷排班需求</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 倉儲理貨組 -->
+    <div class="dept-card c-sage" id="warehouse">
+      <div class="dept-header" style="border-top: 4px solid var(--sage);">
+        <div class="dept-icon-wrap" style="background:var(--sage-light);">📦</div>
+        <div class="dept-header-text">
+          <h3>倉儲理貨組</h3>
+          <p>隸屬調度管理部｜備貨・裝車・異常通報</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num" style="background:var(--sage-light);color:var(--sage);">1</div>到貨驗收，核對品項、數量、狀態</li>
+          <li><div class="duty-num" style="background:var(--sage-light);color:var(--sage);">2</div>依派送順序完成貨物分類與理貨</li>
+          <li><div class="duty-num" style="background:var(--sage-light);color:var(--sage);">3</div>確保司機出發前貨物備妥、裝車完成</li>
+          <li><div class="duty-num" style="background:var(--sage-light);color:var(--sage);">4</div>倉庫環境整理，維持作業動線順暢</li>
+          <li><div class="duty-num" style="background:var(--sage-light);color:var(--sage);">5</div>異常貨物（破損、短缺）即時通報調度</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">備貨準時率</div><div class="kpi-chip-val">出發前備妥比例</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">理貨錯誤率</div><div class="kpi-chip-val">錯漏貨件數÷總件數</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">倉庫整潔達標率</div><div class="kpi-chip-val">定期盤點評分</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">異常通報時效</div><div class="kpi-chip-val">發現到通報（分鐘）</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 司機車隊部 -->
+    <div class="dept-card c-teal" id="driver">
+      <div class="dept-header">
+        <div class="dept-icon-wrap">🧑‍✈️</div>
+        <div class="dept-header-text">
+          <h3>司機車隊部</h3>
+          <p>含委外司機｜配送執行・車輛管理</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num">1</div>依調度指令執行配送任務</li>
+          <li><div class="duty-num">2</div>出車前車輛自檢，確保行車安全</li>
+          <li><div class="duty-num">3</div>收取客戶簽收單據，回傳調度存檔</li>
+          <li><div class="duty-num">4</div>油耗、過路費等費用單據提交財務</li>
+          <li><div class="duty-num">5</div>委外司機：出勤確認・作業規範執行</li>
+          <li><div class="duty-num">6</div>車輛異常（故障、事故）即時通報</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">準時送達率</div><div class="kpi-chip-val">依約時間完成送達</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">簽收單回收率</div><div class="kpi-chip-val">單據回收完整比例</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">車輛自檢完成率</div><div class="kpi-chip-val">出車前自檢紀錄比</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">客訴件數</div><div class="kpi-chip-val">每月司機因素客訴數</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">油耗達標率</div><div class="kpi-chip-val">實際÷路線標準油耗</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 業務客服部 -->
+    <div class="dept-card c-coral" id="sales">
+      <div class="dept-header">
+        <div class="dept-icon-wrap">📋</div>
+        <div class="dept-header-text">
+          <h3>業務客服部</h3>
+          <p>接單・開發・客訴・滿意度維護</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <ul class="duty-list">
+          <li><div class="duty-num">1</div>開發新客戶，維護現有客戶關係</li>
+          <li><div class="duty-num">2</div>接收訂單，確認需求並轉調度</li>
+          <li><div class="duty-num">3</div>處理客戶投訴，協調相關部門解決</li>
+          <li><div class="duty-num">4</div>定期回訪客戶，收集滿意度與改善意見</li>
+          <li><div class="duty-num">5</div>維護客戶資料與合約檔案</li>
+        </ul>
+        <div class="kpi-label">關鍵績效指標 KPI</div>
+        <div class="kpi-grid">
+          <div class="kpi-chip"><div class="kpi-chip-name">新客戶開發數</div><div class="kpi-chip-val">每季新簽客戶數量</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">客戶滿意度評分</div><div class="kpi-chip-val">定期回訪（滿分5分）</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">客訴結案時效</div><div class="kpi-chip-val">受理到結案平均天數</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">訂單轉達準確率</div><div class="kpi-chip-val">需求正確轉達調度比</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">客戶留存率</div><div class="kpi-chip-val">季度持續合作比例</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 行政財務部 -->
+    <div class="dept-card c-lavender" id="finance" style="grid-column: span 2;">
+      <div class="dept-header">
+        <div class="dept-icon-wrap" style="background:var(--lavender-light);">📊</div>
+        <div class="dept-header-text">
+          <h3>行政財務部</h3>
+          <p>薪資・帳務・財報・合規・行政庶務</p>
+        </div>
+      </div>
+      <div class="dept-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 32px;">
+          <ul class="duty-list">
+            <li><div class="duty-num" style="background:var(--lavender-light);color:var(--lavender);">1</div>每月薪資核算與發放</li>
+            <li><div class="duty-num" style="background:var(--lavender-light);color:var(--lavender);">2</div>應收帳款追蹤與應付帳款處理</li>
+            <li><div class="duty-num" style="background:var(--lavender-light);color:var(--lavender);">3</div>油費、過路費、維修費等成本單據審核</li>
+          </ul>
+          <ul class="duty-list">
+            <li><div class="duty-num" style="background:var(--lavender-light);color:var(--lavender);">4</div>月度財務報表製作，呈報總經理與董事長</li>
+            <li><div class="duty-num" style="background:var(--lavender-light);color:var(--lavender);">5</div>勞健退申報、政府法規合規作業</li>
+            <li><div class="duty-num" style="background:var(--lavender-light);color:var(--lavender);">6</div>辦公室行政庶務（採購、文件管理）</li>
+          </ul>
+        </div>
+        <div class="kpi-label" style="margin-top:12px;">關鍵績效指標 KPI</div>
+        <div style="display:grid; grid-template-columns: repeat(5,1fr); gap:8px;">
+          <div class="kpi-chip"><div class="kpi-chip-name">帳款準時率</div><div class="kpi-chip-val">依期付款比例</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">應收逾期率</div><div class="kpi-chip-val">逾期÷總應收金額</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">財報準時交付</div><div class="kpi-chip-val">指定日前完成比</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">費用審核時效</div><div class="kpi-chip-val">提交到審核平均天</div></div>
+          <div class="kpi-chip"><div class="kpi-chip-name">合規零缺失</div><div class="kpi-chip-val">稅務申報無罰款</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p><span>偉翔通運股份有限公司</span>｜組織架構文件 V1.0｜建立人：陳俊岳（Roger）</p>
+  <p style="margin-top:6px;">核准：奕迪 總經理 ／ 王董 董事長｜下次審閱：入職後 90 天</p>
+</div>
+
+<script>
+  document.querySelectorAll('.nav-pill').forEach(pill => {
+    pill.addEventListener('click', function(e) {
+      document.querySelectorAll('.nav-pill').forEach(p => p.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.nav-pill').forEach(p => {
+          p.classList.toggle('active', p.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-80px 0px 0px 0px' });
+
+  ['org','chairman','gm','roger','dispatch','warehouse','driver','sales','finance'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
