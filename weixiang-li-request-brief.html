@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>李哥，我需要您幫忙｜偉翔通運</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream:   #F7F3ED;
+  --paper:   #FDFAF5;
+  --ink:     #1A1714;
+  --ink-60:  rgba(26,23,20,0.60);
+  --ink-30:  rgba(26,23,20,0.30);
+  --ink-12:  rgba(26,23,20,0.12);
+  --gold:    #C8893A;
+  --gold-lt: #F5E8CC;
+  --gold-pale:#FBF3E3;
+  --teal:    #1A7060;
+  --teal-lt: #E0F2EC;
+  --purple:  #4A3B8C;
+  --purple-lt:#ECEAF8;
+  --red:     #B83030;
+  --red-lt:  #FAEAEA;
+  --blue:    #1F4FA0;
+  --blue-lt: #E6EEFA;
+  --r: 14px; --r-sm: 8px;
+  --shadow: 0 4px 24px rgba(26,23,20,0.08);
+}
+html { scroll-behavior: smooth; }
+body {
+  background: var(--cream);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px; color: var(--ink); line-height: 1.75;
+}
+
+/* HEADER */
+.hd {
+  background: var(--ink);
+  padding: 52px 0 44px;
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hd-glow {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 70% 90% at 80% 30%, rgba(200,137,58,0.18) 0%, transparent 65%);
+}
+.hd-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 20px;
+}
+.hd-eyebrow span { display: inline-block; width: 24px; height: 1px; background: var(--gold); }
+.hd h1 {
+  font-family: 'Noto Serif TC', serif;
+  font-size: clamp(22px, 4vw, 34px); font-weight: 700;
+  color: #FDFAF5; line-height: 1.4; margin-bottom: 14px;
+}
+.hd-sub {
+  font-size: 13px; color: rgba(253,250,245,0.50);
+  display: flex; justify-content: center; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.hd-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(253,250,245,0.30); }
+
+/* TABS */
+.tabs {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 28px 20px 0; flex-wrap: wrap;
+}
+.tab {
+  padding: 8px 20px; border-radius: 24px;
+  border: 1px solid var(--ink-12);
+  background: var(--paper); color: var(--ink-60);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  font-family: 'Noto Sans TC', sans-serif;
+  transition: all 0.2s;
+}
+.tab:hover { border-color: var(--gold); color: var(--gold); }
+.tab.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+/* MAIN */
+main { max-width: 840px; margin: 0 auto; padding: 40px 22px 80px; }
+.sec { display: none; flex-direction: column; gap: 24px; }
+.sec.on { display: flex; }
+
+/* CARD */
+.card {
+  background: var(--paper); border: 1px solid var(--ink-12);
+  border-radius: var(--r); padding: 28px 32px;
+  box-shadow: var(--shadow); position: relative; overflow: hidden;
+}
+.accent { position: absolute; left:0;top:0;bottom:0; width:4px; border-radius:4px 0 0 4px; }
+.card-hd { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; }
+.icon {
+  width:40px; height:40px; border-radius: var(--r-sm);
+  display:flex; align-items:center; justify-content:center;
+  font-size:18px; flex-shrink:0;
+}
+.ct { font-family:'Noto Serif TC',serif; font-size:17px; font-weight:600; }
+.cs { font-size:12px; color:var(--ink-60); margin-top:3px; }
+
+/* HERO CARD (dark) */
+.hero {
+  background: var(--ink); border-radius: var(--r);
+  padding: 36px 40px; position: relative; overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.hero-glow {
+  position:absolute;inset:0;pointer-events:none;
+  background: radial-gradient(ellipse 60% 80% at 85% 20%, rgba(200,137,58,0.20) 0%, transparent 60%);
+}
+.hero-label { font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:14px; }
+.hero-title {
+  font-family:'Noto Serif TC',serif;
+  font-size:clamp(18px,3vw,26px);font-weight:700;
+  color:#FDFAF5;line-height:1.45;margin-bottom:16px;
+}
+.hero-body { font-size:14px;color:rgba(253,250,245,0.72);line-height:1.85; }
+.quote {
+  margin-top:20px;padding:18px 22px;
+  border:1px solid rgba(200,137,58,0.28);
+  border-left:4px solid var(--gold);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  background:rgba(200,137,58,0.09);
+  font-family:'Noto Serif TC',serif;
+  font-size:14px;color:rgba(253,250,245,0.88);line-height:1.85;
+}
+.quote strong { color:#FDFAF5; }
+
+/* PILLAR GRID */
+.pgrid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px; }
+.pillar { border-radius:var(--r-sm);padding:20px;border:1px solid transparent; }
+.pn {
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;margin-bottom:12px;
+}
+.pt { font-size:14px;font-weight:700;margin-bottom:5px; }
+.pd { font-size:13px;line-height:1.65; }
+
+/* TABLE */
+.tbl { width:100%;border-collapse:collapse;font-size:14px; }
+.tbl th {
+  padding:10px 14px;text-align:left;
+  font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--ink-60);border-bottom:2px solid var(--ink-12);
+}
+.tbl td { padding:12px 14px;border-bottom:1px solid var(--ink-12);vertical-align:middle; }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:rgba(26,23,20,0.025); }
+.badge {
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:700;
+}
+.bg-gr { background:var(--teal-lt);color:var(--teal); }
+.bg-rd { background:var(--red-lt);color:var(--red); }
+.bg-gl { background:var(--gold-lt);color:#8B6010; }
+.bg-gy { background:#EBEBEA;color:#5A5955; }
+
+/* Q LIST */
+.ql { display:flex;flex-direction:column;gap:12px; }
+.qi {
+  display:flex;align-items:flex-start;gap:14px;
+  padding:16px 18px;border-radius:var(--r-sm);
+  border:1px solid var(--ink-12);background:var(--cream);
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.qi:hover { border-color:var(--gold);box-shadow:0 2px 12px rgba(200,137,58,0.12); }
+.qn {
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;
+}
+.qm { font-size:14px;font-weight:600;margin-bottom:4px; }
+.qh { font-size:13px;color:var(--ink-60); }
+
+/* SCRIPT BLOCK */
+.sb { border-radius:var(--r-sm);padding:22px 24px;margin-bottom:14px; }
+.stag {
+  display:inline-block;font-size:10px;font-weight:700;
+  letter-spacing:0.10em;text-transform:uppercase;
+  padding:3px 10px;border-radius:12px;margin-bottom:12px;
+}
+.st { font-family:'Noto Serif TC',serif;font-size:14px;line-height:1.85; }
+.st strong { font-weight:700; }
+.shint { margin-top:10px;font-size:12px;font-weight:600; }
+
+/* KEY PHRASE */
+.kp {
+  background:var(--gold-pale);
+  border:1px solid rgba(200,137,58,0.22);
+  border-left:4px solid var(--gold);
+  border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:18px 22px;margin:16px 0;
+}
+.kpl { font-size:11px;font-weight:700;letter-spacing:0.10em;text-transform:uppercase;color:var(--gold);margin-bottom:8px; }
+.kpt { font-family:'Noto Serif TC',serif;font-size:15px;line-height:1.8;color:var(--ink); }
+
+/* RISK */
+.rgrid { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+.ri { padding:16px 18px;border-radius:var(--r-sm);border:1px solid rgba(184,48,48,0.18);background:var(--red-lt); }
+.rt { font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px; }
+.rd { font-size:13px;color:var(--ink-60);line-height:1.65; }
+
+/* PROGRESS */
+.dots { display:flex;justify-content:center;gap:8px;padding:20px 0 0; }
+.dot { width:8px;height:8px;border-radius:50%;background:var(--ink-12);cursor:pointer;transition:background 0.2s; }
+.dot.on { background:var(--gold); }
+
+/* FOOTER */
+footer { text-align:center;padding:24px;font-size:12px;color:var(--ink-30);border-top:1px solid var(--ink-12); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.card,.hero,.pillar,.qi,.sb,.ri { animation:fadeUp 0.35s ease both; }
+
+@media(max-width:600px){
+  .card,.hero{padding:20px 18px;}
+  .pgrid{grid-template-columns:1fr;}
+  .rgrid{grid-template-columns:1fr;}
+  main{padding:28px 14px 60px;}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="hd-glow"></div>
+  <div class="hd-eyebrow"><span></span>偉翔通運 · 業務線損益對焦<span></span></div>
+  <h1>李哥，<br>這件事需要您幫忙</h1>
+  <div class="hd-sub">
+    <span>2026年6月4日</span><span class="hd-dot"></span>
+    <span>俊岳 整理</span><span class="hd-dot"></span>
+    <span>大約 30 分鐘</span>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab on"  onclick="go('why')">① 為什麼找您</button>
+  <button class="tab"     onclick="go('ihave')">② 我準備了什麼</button>
+  <button class="tab"     onclick="go('need')">③ 需要問您的</button>
+  <button class="tab"     onclick="go('next')">④ 接下來怎麼做</button>
+</div>
+
+<main>
+
+<!-- ① 為什麼找您 -->
+<div id="s-why" class="sec on">
+
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-label">直接說重點</div>
+    <div class="hero-title">董事長想把凱撒線和書籍線<br>的收支看清楚</div>
+    <div class="hero-body">
+      王董上次開完會，最在意的一件事就是把每條業務線的損益算明白——到底哪條線在賺、哪條線要止血。<br><br>
+      凱撒線和書籍線，這兩條是您在跑的，數字您最清楚。<strong style="color:#FDFAF5;">我沒辦法自己憑空算出來，所以需要您幫忙補上收入這一塊。</strong>
+    </div>
+    <div class="quote">
+      這份分析做出來，是要<strong>幫您把這兩條線的貢獻在董事長面前講清楚</strong>，讓他知道您這邊的底氣在哪裡。數字整理好之後，我會先給您確認，您說沒問題，我們再一起跟王董說明。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="accent" style="background:var(--gold)"></div>
+    <div class="card-hd">
+      <div class="icon" style="background:var(--gold-lt)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B6010" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div>
+        <div class="ct">今天只做一件事</div>
+        <div class="cs">30 分鐘，對齊幾個數字，您不用額外準備什麼</div>
+      </div>
+    </div>
+    <div class="pgrid">
+      <div class="pillar" style="background:var(--teal-lt);border-color:rgba(26,112,96,0.15)">
+        <div class="pn" style="background:var(--teal);color:#fff">①</div>
+        <div class="pt" style="color:var(--teal)">您告訴我</div>
+        <div class="pd" style="color:#1A5040">凱撒和書籍用的是哪幾台車、每月大概收多少錢</div>
+      </div>
+      <div class="pillar" style="background:var(--purple-lt);border-color:rgba(74,59,140,0.12)">
+        <div class="pn" style="background:var(--purple);color:#fff">②</div>
+        <div class="pt" style="color:var(--purple)">我來對成本</div>
+        <div class="pd" style="color:#2E2560">油費、車輛損益我從系統查，不用您操心</div>
+      </div>
+      <div class="pillar" style="background:var(--gold-lt);border-color:rgba(200,137,58,0.15)">
+        <div class="pn" style="background:var(--gold);color:#fff">③</div>
+        <div class="pt" style="color:#8B5A10">您先確認</div>
+        <div class="pd" style="color:#6B4A10">整理好給您看，您點頭之後才往上報</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ② 我準備了什麼 -->
+<div id="s-ihave" class="sec">
+
+  <div class="card">
+    <div class="accent" style="background:var(--teal)"></div>
+    <div class="card-hd">
+      <div class="icon" style="background:var(--teal-lt)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+      </div>
+      <div>
+        <div class="ct">我這邊已經備好的資料</div>
+        <div class="cs">成本端我來負責，缺的是您手上的收入數字</div>
+      </div>
+    </div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>資料</th>
+          <th>內容</th>
+          <th>狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>鉅泰加油系統</strong><br><span style="font-size:12px;color:var(--ink-60)">奕迪提供帳號</span></td>
+          <td>每台車的加油費用、用油明細</td>
+          <td><span class="badge bg-gr">✓ 可直接查</span></td>
+        </tr>
+        <tr>
+          <td><strong>車輛損益表</strong><br><span style="font-size:12px;color:var(--ink-60)">Kiki 提供</span></td>
+          <td>各車每月損益數字</td>
+          <td><span class="badge bg-gr">✓ 已有</span></td>
+        </tr>
+        <tr>
+          <td><strong>車隊整體分析</strong><br><span style="font-size:12px;color:var(--ink-60)">俊岳自行整理</span></td>
+          <td>全車隊 7 台車的成本結構</td>
+          <td><span class="badge bg-gr">✓ 已整理</span></td>
+        </tr>
+        <tr>
+          <td><strong>凱撒、書籍收入</strong><br><span style="font-size:12px;color:var(--ink-60)">需請李哥提供</span></td>
+          <td>月均運費收入、用車情況</td>
+          <td><span class="badge bg-rd">★ 這部分要麻煩您</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="accent" style="background:var(--gold)"></div>
+    <div class="card-hd">
+      <div class="icon" style="background:var(--gold-lt)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8B6010" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      </div>
+      <div>
+        <div class="ct">簡單說就是這樣</div>
+        <div class="cs">成本端我搞定，收入端您補上，合在一起就完整了</div>
+      </div>
+    </div>
+    <!-- SVG 示意 -->
+    <svg width="100%" viewBox="0 0 680 130" role="img" style="margin:8px 0 16px">
+      <title>資料整合示意</title>
+      <rect x="20" y="20" width="188" height="88" rx="10" fill="#E0F2EC" stroke="#1A7060" stroke-width="1"/>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" fill="#1A7060" x="114" y="52" text-anchor="middle" dominant-baseline="central">✓ 成本端</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="12" fill="#1A5040" x="114" y="72" text-anchor="middle" dominant-baseline="central">油費 / 損益 / 車隊</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#1A7060" x="114" y="90" text-anchor="middle" dominant-baseline="central">俊岳負責</text>
+
+      <text font-family="'Noto Sans TC',sans-serif" font-size="26" fill="#C8893A" x="232" y="68" text-anchor="middle" dominant-baseline="central" font-weight="700">+</text>
+
+      <rect x="250" y="20" width="188" height="88" rx="10" fill="#ECEAF8" stroke="#4A3B8C" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="13" font-weight="700" fill="#4A3B8C" x="344" y="52" text-anchor="middle" dominant-baseline="central">★ 收入端</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="12" fill="#2E2560" x="344" y="72" text-anchor="middle" dominant-baseline="central">月收入 / 用車明細</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#4A3B8C" x="344" y="90" text-anchor="middle" dominant-baseline="central">需要李哥</text>
+
+      <text font-family="'Noto Sans TC',sans-serif" font-size="26" fill="#C8893A" x="462" y="68" text-anchor="middle" dominant-baseline="central" font-weight="700">=</text>
+
+      <rect x="482" y="10" width="178" height="108" rx="10" fill="#1A1714"/>
+      <text font-family="'Noto Serif TC',sans-serif" font-size="13" font-weight="700" fill="#C8893A" x="571" y="46" text-anchor="middle" dominant-baseline="central">完整損益表</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="12" fill="rgba(253,250,245,0.70)" x="571" y="68" text-anchor="middle" dominant-baseline="central">凱撒 + 書籍</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="12" fill="rgba(253,250,245,0.70)" x="571" y="87" text-anchor="middle" dominant-baseline="central">A / B / C 評級</text>
+      <text font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#C8893A" x="571" y="105" text-anchor="middle" dominant-baseline="central">呈報王董</text>
+    </svg>
+
+    <div class="kp">
+      <div class="kpl">跟您說的是</div>
+      <div class="kpt">「油費我可以從鉅泰系統查，但<strong>凱撒跟書籍派的是哪幾台車，這個我真的不清楚</strong>，只有您知道。您跟我說車號，我把成本對上去；收入端您給我一個大概的月數字，這樣整張損益表就能拼完整。」</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ③ 需要問您的 -->
+<div id="s-need" class="sec">
+
+  <div class="card">
+    <div class="accent" style="background:var(--purple)"></div>
+    <div class="card-hd">
+      <div class="icon" style="background:var(--purple-lt)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <div class="ct">想請教李哥幾個問題</div>
+        <div class="cs">大概的數字就好，我來整理成正式報表</div>
+      </div>
+    </div>
+
+    <div class="ql">
+      <div class="qi">
+        <div class="qn" style="background:var(--teal);color:#fff">1</div>
+        <div style="flex:1">
+          <div class="qm">凱撒線通常派哪幾台車跑？</div>
+          <div class="qh">車牌號碼告訴我就好，我去鉅泰查油費</div>
+        </div>
+        <span class="badge bg-gy">車輛對應</span>
+      </div>
+      <div class="qi">
+        <div class="qn" style="background:var(--teal);color:#fff">2</div>
+        <div style="flex:1">
+          <div class="qm">書籍線呢？用的是哪幾台？</div>
+          <div class="qh">跟凱撒線的車有沒有重疊也請告訴我</div>
+        </div>
+        <span class="badge bg-gy">車輛對應</span>
+      </div>
+      <div class="qi">
+        <div class="qn" style="background:var(--purple);color:#fff">3</div>
+        <div style="flex:1">
+          <div class="qm">凱撒線每個月大概收多少錢進來？</div>
+          <div class="qh">月均運費，大概數字就好，不用精確到個位數</div>
+        </div>
+        <span class="badge bg-gl">月收入</span>
+      </div>
+      <div class="qi">
+        <div class="qn" style="background:var(--purple);color:#fff">4</div>
+        <div style="flex:1">
+          <div class="qm">書籍線的月收入呢？</div>
+          <div class="qh">同上，凱撒和書籍分開記比較好分析</div>
+        </div>
+        <span class="badge bg-gl">月收入</span>
+      </div>
+      <div class="qi" style="border-color:var(--red);background:rgba(184,48,48,0.04)">
+        <div class="qn" style="background:var(--red);color:#fff">★</div>
+        <div style="flex:1">
+          <div class="qm">李哥您覺得這兩條線現在最大的問題是什麼？</div>
+          <div class="qh">最想讓我知道的事，直接說，我都聽著</div>
+        </div>
+        <span class="badge bg-rd" style="white-space:nowrap">最重要</span>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;padding:14px 18px;background:var(--blue-lt);border-radius:var(--r-sm);border-left:3px solid var(--blue)">
+      <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);margin-bottom:6px">如果有提到帳款</div>
+      <div style="font-size:14px;color:#1A3A70;line-height:1.7">客戶月結幾天？有沒有帳款比較難收的情況？<br><span style="font-size:12px;color:var(--ink-60)">→ 現金流的部分，視情況順帶問一下</span></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ④ 接下來怎麼做 -->
+<div id="s-next" class="sec">
+
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-label">李哥您放心</div>
+    <div class="hero-title">整理好先給您看，<br>您確認才往上報</div>
+    <div class="hero-body">
+      今天您跟我說的這些數字，我拿回去整理成損益分析表。<strong style="color:#FDFAF5;">出來之後第一個給您確認，您覺得沒問題，我們再一起跟王董說明。</strong>
+    </div>
+    <div class="quote">
+      這份分析是幫您把凱撒和書籍的<strong>實際貢獻講清楚</strong>——讓董事長知道這兩條線的底氣在哪裡，也讓他更清楚資源要怎麼配置才對您有利。
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="accent" style="background:var(--teal)"></div>
+    <div class="card-hd">
+      <div class="icon" style="background:var(--teal-lt)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </div>
+      <div>
+        <div class="ct">今天之後的三步</div>
+        <div class="cs">我來推進，不用李哥額外費心</div>
+      </div>
+    </div>
+    <div class="ql">
+      <div class="qi">
+        <div class="qn" style="background:var(--teal);color:#fff">1</div>
+        <div style="flex:1">
+          <div class="qm">我去鉅泰系統查相關車輛的油費</div>
+          <div class="qh">對應凱撒線、書籍線的車，把成本數字備齊</div>
+        </div>
+        <span class="badge bg-gr">今天</span>
+      </div>
+      <div class="qi">
+        <div class="qn" style="background:var(--purple);color:#fff">2</div>
+        <div style="flex:1">
+          <div class="qm">整理損益初稿，LINE 給李哥確認</div>
+          <div class="qh">您看一眼，覺得數字對，我再送上去</div>
+        </div>
+        <span class="badge bg-gl">本週內</span>
+      </div>
+      <div class="qi">
+        <div class="qn" style="background:var(--gold);color:#fff">3</div>
+        <div style="flex:1">
+          <div class="qm">六條業務線損益對比表呈報王董</div>
+          <div class="qh">含 A / B / C 評級，讓董事長看清楚哪條線怎麼辦</div>
+        </div>
+        <span class="badge bg-gy">下週初</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="background:var(--gold-pale);border-color:rgba(200,137,58,0.22)">
+    <div class="accent" style="background:var(--gold)"></div>
+    <div style="font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:14px">最後一句話</div>
+    <div style="font-family:'Noto Serif TC',serif;font-size:16px;line-height:1.85;color:var(--ink)">
+      「李哥，今天麻煩您了。數字整好之後我先傳給您，<strong>您說 OK 我才動</strong>，您是這兩條線最了解的人，這件事少不了您。」
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<div class="dots" id="dots">
+  <div class="dot on" onclick="goI(0)"></div>
+  <div class="dot" onclick="goI(1)"></div>
+  <div class="dot" onclick="goI(2)"></div>
+  <div class="dot" onclick="goI(3)"></div>
+</div>
+
+<footer>
+  偉翔通運股份有限公司　｜　策略幕僚 陳俊岳　整理　｜　2026.06.04
+</footer>
+
+<script>
+const IDS = ['why','ihave','need','next'];
+function go(id) {
+  IDS.forEach((t,i) => {
+    document.getElementById('s-'+t).classList.toggle('on', t===id);
+    document.querySelectorAll('.tab')[i].classList.toggle('on', t===id);
+    document.querySelectorAll('.dot')[i].classList.toggle('on', t===id);
+  });
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goI(i){ go(IDS[i]); }
+</script>
+</body>
+</html>
