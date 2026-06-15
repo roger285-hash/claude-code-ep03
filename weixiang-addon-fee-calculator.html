@@ -642,7 +642,7 @@
   // ① 有電梯
   function calcElev() {
     const w = parseFloat(document.getElementById('elev-weight').value);
-    if (isNaN(w) || w < 0) { document.getElementById('elev-result').style.display='none'; totals.elev=0; updateTotal(); return; }
+    if (isNaN(w) || w <= 0) { document.getElementById('elev-result').style.display='none'; totals.elev=0; updateTotal(); return; }
     const scene = document.querySelector('input[name="elev-scene"]:checked').value;
     const base = parseFloat(document.getElementById('elev-base').value) || 500;
 
