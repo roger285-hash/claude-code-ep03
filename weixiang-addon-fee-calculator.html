@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運｜附加費用計算機</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap');
+
+  :root {
+    --bg: #FFFEF9;
+    --surface: #FFFFFF;
+    --border: #E8E2D9;
+    --gold: #B8974A;
+    --gold-light: #F5EDD6;
+    --ink: #1C1A17;
+    --ink-mid: #5C5650;
+    --ink-light: #9C9690;
+    --red: #C0392B;
+    --green: #1A6B3A;
+    --blue: #1A4A7A;
+    --radius: 10px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Noto Sans TC', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 3px solid var(--gold);
+    padding: 20px 24px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .header-left h1 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: .05em;
+  }
+  .header-left p {
+    font-size: 12px;
+    color: var(--ink-mid);
+    margin-top: 2px;
+  }
+  .badge {
+    background: var(--gold-light);
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+  }
+
+  /* ── GLOBAL DISCOUNT ── */
+  .global-bar {
+    background: var(--ink);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .global-bar label {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: .04em;
+    white-space: nowrap;
+  }
+  .disc-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .disc-btn {
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,.35);
+    color: #fff;
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .disc-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .disc-btn.active { background: var(--gold); border-color: var(--gold); color: #fff; font-weight: 700; }
+
+  /* ── LAYOUT ── */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 28px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--gold-light);
+    border-bottom: 1.5px solid var(--gold);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-num {
+    background: var(--gold);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .card-body { padding: 20px; }
+
+  /* ── FORM ELEMENTS ── */
+  .field { margin-bottom: 14px; }
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-mid);
+    margin-bottom: 5px;
+    letter-spacing: .04em;
+  }
+
+  /* editable rate */
+  .rate-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 10px;
+    background: #F9F6F0;
+    border: 1px dashed var(--gold);
+    border-radius: 6px;
+    padding: 7px 12px;
+    flex-wrap: wrap;
+  }
+  .rate-row .rate-label {
+    font-size: 12px;
+    color: var(--ink-mid);
+    flex: 1 1 120px;
+  }
+  .rate-input {
+    width: 80px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-size: 13px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink);
+    text-align: right;
+    background: #fff;
+  }
+  .rate-input:focus { outline: none; border-color: var(--gold); }
+  .rate-unit { font-size: 12px; color: var(--ink-mid); }
+  .rates-toggle {
+    font-size: 12px;
+    color: var(--gold);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-bottom: 12px;
+    display: inline-block;
+  }
+  .rates-panel { display: none; margin-bottom: 12px; }
+  .rates-panel.open { display: block; }
+
+  input[type="number"], select {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-family: 'Noto Sans TC', sans-serif;
+    color: var(--ink);
+    background: #fff;
+    transition: border-color .15s;
+  }
+  input[type="number"]:focus, select:focus {
+    outline: none; border-color: var(--gold);
+  }
+
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+
+  /* scenario */
+  .scenario-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+  .scenario-option {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: border-color .15s, background .15s;
+  }
+  .scenario-option:hover { border-color: var(--gold); background: var(--gold-light); }
+  .scenario-option.selected { border-color: var(--gold); background: var(--gold-light); }
+  .scenario-option input[type="radio"] { margin-top: 3px; accent-color: var(--gold); flex-shrink: 0; }
+  .scenario-option .s-title { font-weight: 700; font-size: 13px; color: var(--ink); }
+  .scenario-option .s-desc { font-size: 12px; color: var(--ink-mid); margin-top: 2px; }
+
+  /* helper flag */
+  .helper-flag {
+    background: #FEF3C7;
+    border: 1px solid #F59E0B;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #92400E;
+    margin-top: 8px;
+    display: none;
+  }
+  .helper-flag.show { display: block; }
+
+  /* ── RESULT ── */
+  .result-box {
+    margin-top: 16px;
+    background: var(--ink);
+    border-radius: 8px;
+    padding: 16px 20px;
+    color: #fff;
+  }
+  .result-box .r-title {
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: rgba(255,255,255,.55);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .result-breakdown {
+    font-size: 12px;
+    color: rgba(255,255,255,.7);
+    margin-bottom: 10px;
+    line-height: 1.8;
+  }
+  .result-nums {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .result-original {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .result-discounted {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gold);
+  }
+  .result-disc-label {
+    font-size: 12px;
+    color: rgba(255,255,255,.5);
+  }
+  .result-box .disc-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-left: 6px;
+    vertical-align: middle;
+  }
+
+  /* ── TOTAL ── */
+  .total-card {
+    background: var(--ink);
+    border-radius: var(--radius);
+    padding: 24px;
+    color: #fff;
+  }
+  .total-card h2 {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 16px;
+    color: var(--gold);
+    margin-bottom: 16px;
+    letter-spacing: .05em;
+  }
+  .total-lines { margin-bottom: 16px; }
+  .total-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    font-size: 13px;
+  }
+  .total-line .tl-name { color: rgba(255,255,255,.75); }
+  .total-line .tl-amt { font-weight: 700; color: #fff; }
+  .total-line .tl-amt.zero { color: rgba(255,255,255,.35); }
+  .grand-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 12px;
+  }
+  .grand-total .gt-label {
+    font-size: 14px;
+    color: rgba(255,255,255,.6);
+  }
+  .grand-total .gt-amt {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: -.01em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: var(--ink-light);
+    border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>偉翔通運 · 附加費用計算機</h1>
+    <p>供雙貓客服人員查詢使用　｜　輸入數值，自動計算費用</p>
+  </div>
+  <span class="badge">內部工具</span>
+</header>
+
+<!-- GLOBAL DISCOUNT BAR -->
+<div class="global-bar">
+  <label>全單折扣：</label>
+  <div class="disc-btns">
+    <button class="disc-btn active" onclick="setDiscount(1.0, this)">不打折</button>
+    <button class="disc-btn" onclick="setDiscount(0.95, this)">95折</button>
+    <button class="disc-btn" onclick="setDiscount(0.9, this)">9折</button>
+    <button class="disc-btn" onclick="setDiscount(0.85, this)">85折</button>
+    <button class="disc-btn" onclick="setDiscount(0.8, this)">8折</button>
+    <button class="disc-btn" onclick="setDiscount(0.7, this)">7折</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- ① 上樓費（有電梯） -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">①</div>
+      <div class="card-title">上樓費　有電梯</div>
+    </div>
+    <div class="card-body">
+
+      <span class="rates-toggle" onclick="toggleRates('elev-rates')">⚙ 調整費率</span>
+      <div class="rates-panel" id="elev-rates">
+        <div class="rate-row"><span class="rate-label">基本費</span><input class="rate-input" id="elev-base" type="number" value="500" oninput="calcElev()"><span class="rate-unit">元</span></div>
+        <div class="rate-row"><span class="rate-label">場景A 免費門檻</span><input class="rate-input" id="elev-a-free" type="number" value="30" oninput="calcElev()"><span class="rate-unit">kg</span></div>
+        <div class="rate-row"><span class="rate-label">場景A 超重加價</span><input class="rate-input" id="elev-a-rate" type="number" value="20" oninput="calcElev()"><span class="rate-unit">元/kg</span></div>
+        <div class="rate-row"><span class="rate-label">場景B 免費門檻</span><input class="rate-input" id="elev-b-free" type="number" value="80" oninput="calcElev()"><span class="rate-unit">kg</span></div>
+        <div class="rate-row"><span class="rate-label">場景B 超重加價</span><input class="rate-input" id="elev-b-rate" type="number" value="10" oninput="calcElev()"><span class="rate-unit">元/kg</span></div>
+      </div>
+
+      <div class="field">
+        <label>選擇場景</label>
+        <div class="scenario-group">
+          <label class="scenario-option selected" id="elev-opt-a">
+            <input type="radio" name="elev-scene" value="A" checked onchange="calcElev()">
+            <div>
+              <div class="s-title">場景 A　電梯前有階梯</div>
+              <div class="s-desc">拖板車無法進入，需人工搬運　｜　超過 30 kg 加價 NT$20/kg</div>
+            </div>
+          </label>
+          <label class="scenario-option" id="elev-opt-b">
+            <input type="radio" name="elev-scene" value="B" onchange="calcElev()">
+            <div>
+              <div class="s-title">場景 B　電梯前無階梯</div>
+              <div class="s-desc">拖板車可正常施工，機械輔助搬運　｜　超過 80 kg 加價 NT$10/kg</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>貨物重量（kg）</label>
+        <input type="number" id="elev-weight" placeholder="例：60" min="0" oninput="calcElev()">
+      </div>
+
+      <div class="result-box" id="elev-result" style="display:none">
+        <div class="r-title">計算結果</div>
+        <div class="result-breakdown" id="elev-breakdown"></div>
+        <div class="result-nums">
+          <div>
+            <div class="result-disc-label">原價</div>
+            <div class="result-original" id="elev-orig">—</div>
+          </div>
+          <div id="elev-disc-col" style="display:none">
+            <div class="result-disc-label">折後 <span class="disc-badge" id="elev-disc-badge"></span></div>
+            <div class="result-discounted" id="elev-disc">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 上樓費（無電梯） -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">②</div>
+      <div class="card-title">上樓費　無電梯</div>
+    </div>
+    <div class="card-body">
+
+      <span class="rates-toggle" onclick="toggleRates('stairs-rates')">⚙ 調整費率</span>
+      <div class="rates-panel" id="stairs-rates">
+        <div class="rate-row"><span class="rate-label">基本費（首層含入）</span><input class="rate-input" id="st-base" type="number" value="1000" oninput="calcStairs()"><span class="rate-unit">元</span></div>
+        <div class="rate-row"><span class="rate-label">每加一層</span><input class="rate-input" id="st-floor-rate" type="number" value="400" oninput="calcStairs()"><span class="rate-unit">元/層</span></div>
+        <div class="rate-row"><span class="rate-label">重量免費門檻</span><input class="rate-input" id="st-free" type="number" value="30" oninput="calcStairs()"><span class="rate-unit">kg</span></div>
+        <div class="rate-row"><span class="rate-label">超重加價</span><input class="rate-input" id="st-weight-rate" type="number" value="20" oninput="calcStairs()"><span class="rate-unit">元/kg</span></div>
+        <div class="rate-row"><span class="rate-label">助手費</span><input class="rate-input" id="st-helper" type="number" value="1500" oninput="calcStairs()"><span class="rate-unit">元</span></div>
+        <div class="rate-row"><span class="rate-label">助手費觸發重量</span><input class="rate-input" id="st-h-kg" type="number" value="45" oninput="calcStairs()"><span class="rate-unit">kg</span></div>
+        <div class="rate-row"><span class="rate-label">助手費觸發長度</span><input class="rate-input" id="st-h-l" type="number" value="200" oninput="calcStairs()"><span class="rate-unit">cm</span></div>
+        <div class="rate-row"><span class="rate-label">助手費觸發寬/高</span><input class="rate-input" id="st-h-wh" type="number" value="60" oninput="calcStairs()"><span class="rate-unit">cm</span></div>
+      </div>
+
+      <div class="row2">
+        <div class="field">
+          <label>送達樓層（幾樓）</label>
+          <input type="number" id="st-floor" placeholder="例：3" min="1" oninput="calcStairs()">
+        </div>
+        <div class="field">
+          <label>貨物重量（kg）</label>
+          <input type="number" id="st-weight" placeholder="例：80" min="0" oninput="calcStairs()">
+        </div>
+      </div>
+      <div class="field">
+        <label>貨物尺寸（cm）　用於判斷是否觸發助手費</label>
+        <div class="row3">
+          <input type="number" id="st-len" placeholder="長" min="0" oninput="calcStairs()">
+          <input type="number" id="st-wid" placeholder="寬" min="0" oninput="calcStairs()">
+          <input type="number" id="st-hei" placeholder="高" min="0" oninput="calcStairs()">
+        </div>
+      </div>
+
+      <div class="helper-flag" id="st-helper-flag">
+        ⚠ 已觸發助手費（符合：<span id="st-trigger-reason"></span>）
+      </div>
+
+      <div class="result-box" id="stairs-result" style="display:none">
+        <div class="r-title">計算結果</div>
+        <div class="result-breakdown" id="stairs-breakdown"></div>
+        <div class="result-nums">
+          <div>
+            <div class="result-disc-label">原價</div>
+            <div class="result-original" id="stairs-orig">—</div>
+          </div>
+          <div id="stairs-disc-col" style="display:none">
+            <div class="result-disc-label">折後 <span class="disc-badge" id="stairs-disc-badge"></span></div>
+            <div class="result-discounted" id="stairs-disc">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 拆箱費 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">③</div>
+      <div class="card-title">拆箱費</div>
+    </div>
+    <div class="card-body">
+
+      <span class="rates-toggle" onclick="toggleRates('unbox-rates')">⚙ 調整費率</span>
+      <div class="rates-panel" id="unbox-rates">
+        <div class="rate-row"><span class="rate-label">基本費（10才內含入）</span><input class="rate-input" id="ub-base" type="number" value="300" oninput="calcUnbox()"><span class="rate-unit">元</span></div>
+        <div class="rate-row"><span class="rate-label">基本才數</span><input class="rate-input" id="ub-free-cai" type="number" value="10" oninput="calcUnbox()"><span class="rate-unit">才</span></div>
+        <div class="rate-row"><span class="rate-label">超額加價</span><input class="rate-input" id="ub-rate" type="number" value="10" oninput="calcUnbox()"><span class="rate-unit">元/才</span></div>
+      </div>
+
+      <div class="field">
+        <label>木箱尺寸（cm）</label>
+        <div class="row3">
+          <input type="number" id="ub-len" placeholder="長" min="0" oninput="calcUnbox()">
+          <input type="number" id="ub-wid" placeholder="寬" min="0" oninput="calcUnbox()">
+          <input type="number" id="ub-hei" placeholder="高" min="0" oninput="calcUnbox()">
+        </div>
+      </div>
+
+      <div class="result-box" id="unbox-result" style="display:none">
+        <div class="r-title">計算結果</div>
+        <div class="result-breakdown" id="unbox-breakdown"></div>
+        <div class="result-nums">
+          <div>
+            <div class="result-disc-label">原價</div>
+            <div class="result-original" id="unbox-orig">—</div>
+          </div>
+          <div id="unbox-disc-col" style="display:none">
+            <div class="result-disc-label">折後 <span class="disc-badge" id="unbox-disc-badge"></span></div>
+            <div class="result-discounted" id="unbox-disc">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 回收廢棄物費 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-num">④</div>
+      <div class="card-title">回收廢棄物費　（拆箱木材）</div>
+    </div>
+    <div class="card-body">
+
+      <span class="rates-toggle" onclick="toggleRates('recycle-rates')">⚙ 調整費率</span>
+      <div class="rates-panel" id="recycle-rates">
+        <div class="rate-row"><span class="rate-label">基本費（10才內含入）</span><input class="rate-input" id="rc-base" type="number" value="1200" oninput="calcRecycle()"><span class="rate-unit">元</span></div>
+        <div class="rate-row"><span class="rate-label">基本才數</span><input class="rate-input" id="rc-free-cai" type="number" value="10" oninput="calcRecycle()"><span class="rate-unit">才</span></div>
+        <div class="rate-row"><span class="rate-label">超額加價</span><input class="rate-input" id="rc-rate" type="number" value="40" oninput="calcRecycle()"><span class="rate-unit">元/才</span></div>
+      </div>
+
+      <div class="field">
+        <label>木箱尺寸（cm）</label>
+        <div class="row3">
+          <input type="number" id="rc-len" placeholder="長" min="0" oninput="calcRecycle()">
+          <input type="number" id="rc-wid" placeholder="寬" min="0" oninput="calcRecycle()">
+          <input type="number" id="rc-hei" placeholder="高" min="0" oninput="calcRecycle()">
+        </div>
+      </div>
+
+      <div class="result-box" id="recycle-result" style="display:none">
+        <div class="r-title">計算結果</div>
+        <div class="result-breakdown" id="recycle-breakdown"></div>
+        <div class="result-nums">
+          <div>
+            <div class="result-disc-label">原價</div>
+            <div class="result-original" id="recycle-orig">—</div>
+          </div>
+          <div id="recycle-disc-col" style="display:none">
+            <div class="result-disc-label">折後 <span class="disc-badge" id="recycle-disc-badge"></span></div>
+            <div class="result-discounted" id="recycle-disc">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤ 合計 -->
+  <div class="total-card">
+    <h2>合計金額</h2>
+    <div class="total-lines">
+      <div class="total-line"><span class="tl-name">① 上樓費（有電梯）</span><span class="tl-amt" id="tot-elev">—</span></div>
+      <div class="total-line"><span class="tl-name">② 上樓費（無電梯）</span><span class="tl-amt" id="tot-stairs">—</span></div>
+      <div class="total-line"><span class="tl-name">③ 拆箱費</span><span class="tl-amt" id="tot-unbox">—</span></div>
+      <div class="total-line"><span class="tl-name">④ 回收廢棄物費</span><span class="tl-amt" id="tot-recycle">—</span></div>
+    </div>
+    <div class="grand-total">
+      <span class="gt-label">合計（折後）</span>
+      <span class="gt-amt" id="tot-grand">NT$ 0</span>
+    </div>
+  </div>
+
+</main>
+
+<footer>偉翔通運股份有限公司　｜　此工具供雙貓客服內部使用，費率以最終確認版本為準</footer>
+
+<script>
+  let discount = 1.0;
+  let totals = { elev: 0, stairs: 0, unbox: 0, recycle: 0 };
+
+  function setDiscount(val, btn) {
+    discount = val;
+    document.querySelectorAll('.disc-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    calcElev(); calcStairs(); calcUnbox(); calcRecycle();
+  }
+
+  function toggleRates(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  function fmt(n) { return 'NT$ ' + Math.round(n).toLocaleString(); }
+
+  function showResult(id, breakdown, orig, discVal, discLabel) {
+    document.getElementById(id + '-result').style.display = 'block';
+    document.getElementById(id + '-breakdown').innerHTML = breakdown;
+    document.getElementById(id + '-orig').textContent = fmt(orig);
+    const discCol = document.getElementById(id + '-disc-col');
+    if (discount < 1) {
+      discCol.style.display = 'block';
+      document.getElementById(id + '-disc').textContent = fmt(discVal);
+      document.getElementById(id + '-disc-badge').textContent = discLabel;
+    } else {
+      discCol.style.display = 'none';
+    }
+  }
+
+  function updateTotal() {
+    const grand = Object.values(totals).reduce((a,b) => a+b, 0);
+    ['elev','stairs','unbox','recycle'].forEach(k => {
+      const el = document.getElementById('tot-' + k);
+      if (totals[k] > 0) {
+        el.textContent = fmt(totals[k]);
+        el.classList.remove('zero');
+      } else {
+        el.textContent = '—';
+        el.classList.add('zero');
+      }
+    });
+    document.getElementById('tot-grand').textContent = fmt(grand);
+  }
+
+  // ① 有電梯
+  function calcElev() {
+    const w = parseFloat(document.getElementById('elev-weight').value);
+    if (isNaN(w) || w < 0) { document.getElementById('elev-result').style.display='none'; totals.elev=0; updateTotal(); return; }
+    const scene = document.querySelector('input[name="elev-scene"]:checked').value;
+    const base = parseFloat(document.getElementById('elev-base').value) || 500;
+
+    document.getElementById('elev-opt-a').classList.toggle('selected', scene === 'A');
+    document.getElementById('elev-opt-b').classList.toggle('selected', scene === 'B');
+
+    let extra = 0, freeKg, rateKg, lines = [];
+    if (scene === 'A') {
+      freeKg = parseFloat(document.getElementById('elev-a-free').value) || 30;
+      rateKg = parseFloat(document.getElementById('elev-a-rate').value) || 20;
+    } else {
+      freeKg = parseFloat(document.getElementById('elev-b-free').value) || 80;
+      rateKg = parseFloat(document.getElementById('elev-b-rate').value) || 10;
+    }
+    if (w > freeKg) extra = (w - freeKg) * rateKg;
+    const orig = base + extra;
+    lines.push('基本費　' + fmt(base));
+    if (extra > 0) lines.push('超重費　(' + w + '−' + freeKg + ') × ' + rateKg + '　' + fmt(extra));
+    else lines.push('重量 ' + w + 'kg ≤ ' + freeKg + 'kg，無超重費');
+    totals.elev = Math.round(orig * discount);
+    showResult('elev', lines.join('<br>'), orig, orig * discount, Math.round(discount*100) + '折');
+    updateTotal();
+  }
+
+  // ② 無電梯
+  function calcStairs() {
+    const floor = parseFloat(document.getElementById('st-floor').value);
+    const w = parseFloat(document.getElementById('st-weight').value);
+    if (isNaN(floor) || isNaN(w)) { document.getElementById('stairs-result').style.display='none'; totals.stairs=0; updateTotal(); return; }
+
+    const base = parseFloat(document.getElementById('st-base').value) || 1000;
+    const floorRate = parseFloat(document.getElementById('st-floor-rate').value) || 400;
+    const freeKg = parseFloat(document.getElementById('st-free').value) || 30;
+    const weightRate = parseFloat(document.getElementById('st-weight-rate').value) || 20;
+    const helperFee = parseFloat(document.getElementById('st-helper').value) || 1500;
+    const hKg = parseFloat(document.getElementById('st-h-kg').value) || 45;
+    const hL = parseFloat(document.getElementById('st-h-l').value) || 200;
+    const hWH = parseFloat(document.getElementById('st-h-wh').value) || 60;
+
+    const len = parseFloat(document.getElementById('st-len').value) || 0;
+    const wid = parseFloat(document.getElementById('st-wid').value) || 0;
+    const hei = parseFloat(document.getElementById('st-hei').value) || 0;
+
+    const addFloors = Math.max(0, floor - 1);
+    const floorFee = addFloors * floorRate;
+    const weightExtra = w > freeKg ? (w - freeKg) * weightRate : 0;
+
+    let triggers = [];
+    if (w >= hKg) triggers.push('重量 ' + w + 'kg ≥ ' + hKg + 'kg');
+    if (len >= hL) triggers.push('長 ' + len + 'cm ≥ ' + hL + 'cm');
+    if (wid >= hWH) triggers.push('寬 ' + wid + 'cm ≥ ' + hWH + 'cm');
+    if (hei >= hWH) triggers.push('高 ' + hei + 'cm ≥ ' + hWH + 'cm');
+    const needHelper = triggers.length > 0;
+
+    const flagEl = document.getElementById('st-helper-flag');
+    if (needHelper) {
+      flagEl.classList.add('show');
+      document.getElementById('st-trigger-reason').textContent = triggers.join('、');
+    } else {
+      flagEl.classList.remove('show');
+    }
+
+    const orig = base + floorFee + weightExtra + (needHelper ? helperFee : 0);
+    let lines = [];
+    lines.push('基本費（首層含入）　' + fmt(base));
+    if (addFloors > 0) lines.push('樓層費　' + addFloors + '層 × ' + floorRate + '　' + fmt(floorFee));
+    if (weightExtra > 0) lines.push('超重費　(' + w + '−' + freeKg + ') × ' + weightRate + '　' + fmt(weightExtra));
+    else lines.push('重量 ' + w + 'kg ≤ ' + freeKg + 'kg，無超重費');
+    if (needHelper) lines.push('助手費　已觸發　' + fmt(helperFee));
+    else lines.push('助手費　未觸發');
+
+    totals.stairs = Math.round(orig * discount);
+    showResult('stairs', lines.join('<br>'), orig, orig * discount, Math.round(discount*100) + '折');
+    updateTotal();
+  }
+
+  // ③ 拆箱費
+  function calcUnbox() {
+    const l = parseFloat(document.getElementById('ub-len').value);
+    const w = parseFloat(document.getElementById('ub-wid').value);
+    const h = parseFloat(document.getElementById('ub-hei').value);
+    if (isNaN(l)||isNaN(w)||isNaN(h)) { document.getElementById('unbox-result').style.display='none'; totals.unbox=0; updateTotal(); return; }
+    const base = parseFloat(document.getElementById('ub-base').value) || 300;
+    const freeCai = parseFloat(document.getElementById('ub-free-cai').value) || 10;
+    const rate = parseFloat(document.getElementById('ub-rate').value) || 10;
+    const cai = (l * w * h) / 27000;
+    const extra = cai > freeCai ? (cai - freeCai) * rate : 0;
+    const orig = base + extra;
+    let lines = [];
+    lines.push('才積　' + l + '×' + w + '×' + h + ' ÷ 27,000 = ' + cai.toFixed(1) + ' 才');
+    lines.push('基本費（' + freeCai + '才內含入）　' + fmt(base));
+    if (extra > 0) lines.push('超額費　(' + cai.toFixed(1) + '−' + freeCai + ') × ' + rate + '　' + fmt(extra));
+    totals.unbox = Math.round(orig * discount);
+    showResult('unbox', lines.join('<br>'), orig, orig * discount, Math.round(discount*100) + '折');
+    updateTotal();
+  }
+
+  // ④ 回收費
+  function calcRecycle() {
+    const l = parseFloat(document.getElementById('rc-len').value);
+    const w = parseFloat(document.getElementById('rc-wid').value);
+    const h = parseFloat(document.getElementById('rc-hei').value);
+    if (isNaN(l)||isNaN(w)||isNaN(h)) { document.getElementById('recycle-result').style.display='none'; totals.recycle=0; updateTotal(); return; }
+    const base = parseFloat(document.getElementById('rc-base').value) || 1200;
+    const freeCai = parseFloat(document.getElementById('rc-free-cai').value) || 10;
+    const rate = parseFloat(document.getElementById('rc-rate').value) || 40;
+    const cai = (l * w * h) / 27000;
+    const extra = cai > freeCai ? (cai - freeCai) * rate : 0;
+    const orig = base + extra;
+    let lines = [];
+    lines.push('才積　' + l + '×' + w + '×' + h + ' ÷ 27,000 = ' + cai.toFixed(1) + ' 才');
+    lines.push('基本費（' + freeCai + '才內含入）　' + fmt(base));
+    if (extra > 0) lines.push('超額費　(' + cai.toFixed(1) + '−' + freeCai + ') × ' + rate + '　' + fmt(extra));
+    totals.recycle = Math.round(orig * discount);
+    showResult('recycle', lines.join('<br>'), orig, orig * discount, Math.round(discount*100) + '折');
+    updateTotal();
+  }
+</script>
+</body>
+</html>
