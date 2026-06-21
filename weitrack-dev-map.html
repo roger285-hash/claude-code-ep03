@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔到貨通 — 系統開發全局地圖</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+:root {
+  --ink: #0f0e0c;
+  --ink2: #3d3b35;
+  --ink3: #7a7870;
+  --bg: #F7F4EE;
+  --card: #ffffff;
+  --bd: rgba(0,0,0,.08);
+
+  --blue: #1A5FA5;
+  --blue-l: #E6F1FB;
+  --purple: #5B3A8C;
+  --purple-l: #EFE8F8;
+  --amber: #8C5A00;
+  --amber-l: #FDF0D5;
+  --green: #2E6B1A;
+  --green-l: #E5F3DF;
+  --teal: #1A6B5F;
+  --teal-l: #E0F4F0;
+  --red: #8C1A1A;
+  --red-l: #FAE5E5;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans TC', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--ink);
+  color: #fff;
+  padding: 36px 48px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: var(--blue);
+  opacity: .15;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: 30%;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: var(--teal);
+  opacity: .1;
+}
+.header-inner { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
+.header-eye { font-size: 10px; font-weight: 700; letter-spacing: .14em; color: rgba(255,255,255,.45); margin-bottom: 10px; font-family: 'JetBrains Mono', monospace; }
+.header-title { font-size: 32px; font-weight: 900; letter-spacing: -.02em; margin-bottom: 4px; }
+.header-title span { color: var(--blue); }
+.header-sub { font-size: 13px; color: rgba(255,255,255,.55); margin-bottom: 24px; }
+.header-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; }
+.stat-num { font-size: 22px; font-weight: 900; line-height: 1; font-family: 'JetBrains Mono', monospace; }
+.stat-label { font-size: 10px; color: rgba(255,255,255,.45); letter-spacing: .06em; margin-top: 3px; }
+.stat-divider { width: 1px; background: rgba(255,255,255,.12); }
+
+/* ── NOW BADGE ── */
+.now-bar {
+  background: var(--blue);
+  color: #fff;
+  padding: 10px 48px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.now-bar-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 10px; width: 100%; }
+.now-dot { width: 8px; height: 8px; border-radius: 50%; background: #4DFFB4; animation: pulse 1.5s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+
+/* ── MAIN LAYOUT ── */
+.main { max-width: 1100px; margin: 0 auto; padding: 32px 24px 64px; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em;
+  color: var(--ink3); text-transform: uppercase;
+  margin-bottom: 16px; margin-top: 36px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-title::after { content: ''; flex: 1; height: 1px; background: var(--bd); }
+
+/* ── PHASE TIMELINE ── */
+.phases { display: flex; flex-direction: column; gap: 12px; margin-bottom: 8px; }
+.phase {
+  background: var(--card);
+  border-radius: 14px;
+  border: 1px solid var(--bd);
+  overflow: hidden;
+  transition: box-shadow .18s;
+}
+.phase:hover { box-shadow: 0 4px 20px rgba(0,0,0,.07); }
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  cursor: pointer;
+  padding: 0;
+}
+.phase-accent {
+  width: 6px;
+  align-self: stretch;
+  flex-shrink: 0;
+  border-radius: 14px 0 0 14px;
+}
+.phase-left {
+  padding: 16px 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.phase-num {
+  font-size: 11px; font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  opacity: .4; min-width: 28px;
+}
+.phase-info { flex: 1; }
+.phase-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+.phase-week { font-size: 11px; color: var(--ink3); font-family: 'JetBrains Mono', monospace; }
+.phase-right { padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+.phase-badge {
+  font-size: 10px; font-weight: 700; letter-spacing: .05em;
+  border-radius: 6px; padding: 3px 10px;
+}
+.phase-toggle { color: var(--ink3); font-size: 12px; transition: transform .2s; }
+.phase.open .phase-toggle { transform: rotate(180deg); }
+
+.phase-body {
+  display: none;
+  padding: 0 20px 20px 52px;
+  border-top: 1px solid var(--bd);
+}
+.phase.open .phase-body { display: block; padding-top: 16px; }
+
+.task-list { display: flex; flex-direction: column; gap: 8px; }
+.task {
+  display: flex; gap: 10px; align-items: flex-start;
+  font-size: 13px; line-height: 1.6;
+}
+.task-icon { flex-shrink: 0; margin-top: 1px; font-size: 14px; }
+.task-text { color: var(--ink2); }
+.task-text b { color: var(--ink); font-weight: 600; }
+.task-tag {
+  display: inline-block; border-radius: 4px;
+  padding: 0 6px; font-size: 10px; font-weight: 700;
+  margin-left: 6px; vertical-align: middle;
+}
+
+/* ── PROGRESS BAR ── */
+.prog-wrap { margin-top: 12px; }
+.prog-track { background: var(--bd); border-radius: 4px; height: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+.prog-label { display: flex; justify-content: space-between; margin-top: 5px; font-size: 10px; color: var(--ink3); font-family: 'JetBrains Mono', monospace; }
+
+/* ── ROLES GRID ── */
+.roles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; }
+.role-card {
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.role-icon { font-size: 22px; }
+.role-name { font-size: 13px; font-weight: 700; }
+.role-desc { font-size: 11px; color: var(--ink3); line-height: 1.6; }
+.role-access {
+  font-size: 10px; font-weight: 700; letter-spacing: .04em;
+  border-radius: 4px; padding: 2px 7px; display: inline-block; margin-top: auto;
+}
+
+/* ── STATUS NODES ── */
+.nodes { display: flex; align-items: center; gap: 0; flex-wrap: wrap; margin-top: 4px; }
+.node {
+  display: flex; flex-direction: column; align-items: center;
+  min-width: 100px; padding: 12px 8px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  text-align: center;
+}
+.node-icon { font-size: 20px; margin-bottom: 4px; }
+.node-label { font-size: 11px; font-weight: 700; }
+.node-sub { font-size: 10px; color: var(--ink3); margin-top: 2px; }
+.node-arrow { color: var(--bd); font-size: 18px; padding: 0 4px; flex-shrink: 0; }
+
+/* ── TECH STACK ── */
+.tech-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.tech-card {
+  background: var(--card);
+  border-radius: 12px;
+  border: 1px solid var(--bd);
+  padding: 14px 16px;
+}
+.tech-layer { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--ink3); margin-bottom: 8px; }
+.tech-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.chip {
+  background: var(--bg);
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink2);
+  font-family: 'JetBrains Mono', monospace;
+}
+.chip.new { background: var(--green-l); color: var(--green); }
+
+/* ── FILE TREE ── */
+.file-tree {
+  background: var(--ink);
+  border-radius: 12px;
+  padding: 20px 24px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  line-height: 2;
+  color: rgba(255,255,255,.55);
+}
+.ft-folder { color: #FFB74D; }
+.ft-file { color: rgba(255,255,255,.75); }
+.ft-done { color: #4DFFB4; }
+.ft-pending { color: rgba(255,255,255,.3); }
+.ft-comment { color: rgba(255,255,255,.3); font-style: italic; }
+
+/* ── CURRENT STEP ── */
+.current-box {
+  background: var(--blue);
+  color: #fff;
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 8px;
+}
+.cb-eye { font-size: 10px; font-weight: 700; letter-spacing: .1em; opacity: .6; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
+.cb-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.cb-steps { display: flex; flex-direction: column; gap: 6px; }
+.cb-step { display: flex; gap: 8px; font-size: 12px; align-items: flex-start; line-height: 1.5; }
+.cb-step-done { color: #4DFFB4; font-weight: 700; flex-shrink: 0; }
+.cb-step-todo { color: rgba(255,255,255,.4); font-weight: 700; flex-shrink: 0; }
+
+/* STATUS COLORS */
+.s-done    { background: var(--green-l);  color: var(--green); }
+.s-current { background: var(--blue);     color: #fff; }
+.s-next    { background: var(--amber-l);  color: var(--amber); }
+.s-later   { background: var(--bg);       color: var(--ink3); border: 1px solid var(--bd); }
+
+.c-blue   { background: var(--blue); }
+.c-purple { background: var(--purple); }
+.c-amber  { background: var(--amber); }
+.c-green  { background: var(--green); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-eye">WEI-TRACK / WEITRACK SYSTEM / 偉翔通運股份有限公司</div>
+    <div class="header-title">偉翔<span>到貨通</span> 開發全局地圖</div>
+    <div class="header-sub">WeiTrack Logistics Tracking System — 系統架構 × 開發進度 × 待完成路線圖</div>
+    <div class="header-stats">
+      <div class="stat"><span class="stat-num">4</span><span class="stat-label">開發階段</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">8</span><span class="stat-label">開發週期</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">使用角色</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">貨態節點</span></div>
+      <div class="stat-divider"></div>
+      <div class="stat"><span class="stat-num" style="color:#4DFFB4;">2%</span><span class="stat-label">整體完成度</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- NOW BAR -->
+<div class="now-bar">
+  <div class="now-bar-inner">
+    <div class="now-dot"></div>
+    <span>目前進度：專案骨架建立完成　｜　下一步：安裝套件 → 資料庫設計 → Excel 匯入</span>
+    <span style="opacity:.5;font-family:'JetBrains Mono',monospace;font-size:11px;margin-left:auto;">Phase 1 · Week 1</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- 目前位置 -->
+  <div class="sec-title">目前位置</div>
+  <div class="current-box">
+    <div class="cb-eye">CURRENT STATUS — PHASE 1 / WEEK 1</div>
+    <div class="cb-title">專案骨架已建立，準備進入 Phase 1 實際開發</div>
+    <div class="cb-steps">
+      <div class="cb-step"><span class="cb-step-done">✓</span><span>確認系統需求與業務場景（雙貓集運流程）</span></div>
+      <div class="cb-step"><span class="cb-step-done">✓</span><span>確認五個角色與貨態節點設計</span></div>
+      <div class="cb-step"><span class="cb-step-done">✓</span><span>確認標籤設計（熱感標籤、個資遮蔽、區域色塊）</span></div>
+      <div class="cb-step"><span class="cb-step-done">✓</span><span>建立 wei-track 專案骨架（backend + frontend + CLAUDE.md）</span></div>
+      <div class="cb-step"><span class="cb-step-done">✓</span><span>確認存放路徑：偉翔通運 → 偉翔到貨通 → wei-track</span></div>
+      <div class="cb-step"><span class="cb-step-todo">→</span><span>安裝 backend / frontend 套件（npm install）← 你現在在這裡</span></div>
+      <div class="cb-step"><span class="cb-step-todo">○</span><span>建立 PostgreSQL 資料庫與資料表</span></div>
+      <div class="cb-step"><span class="cb-step-todo">○</span><span>開發 Excel 匯入 API（解析雙貓派送明細格式）</span></div>
+    </div>
+  </div>
+
+  <!-- 四大階段 -->
+  <div class="sec-title">四大開發階段</div>
+  <div class="phases">
+
+    <!-- Phase 1 -->
+    <div class="phase open">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-accent c-blue"></div>
+        <div class="phase-left">
+          <div class="phase-num">P1</div>
+          <div class="phase-info">
+            <div class="phase-name">基礎建設 + 文員後台</div>
+            <div class="phase-week">Week 1 – 2　｜　偉翔文員可以開始使用</div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <span class="phase-badge s-current">進行中</span>
+          <span class="phase-toggle">▼</span>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="prog-wrap">
+          <div class="prog-track"><div class="prog-fill" style="width:10%;background:var(--blue)"></div></div>
+          <div class="prog-label"><span>10% 完成</span><span>骨架建立✓ 待：DB + API + UI</span></div>
+        </div>
+        <div class="task-list" style="margin-top:14px;">
+          <div class="task"><span class="task-icon">✅</span><div class="task-text"><b>專案骨架建立</b> — wei-track / backend / frontend 資料夾結構</div></div>
+          <div class="task"><span class="task-icon">⏳</span><div class="task-text"><b>npm install</b> — 安裝所有套件（express / pg / react / vite / tailwind）<span class="task-tag" style="background:var(--blue-l);color:var(--blue);">下一步</span></div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>PostgreSQL 資料庫</b> — 建立 shipments / status_logs / users / containers 資料表</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>Excel 匯入 API</b> — 解析雙貓派送明細格式，批次建立貨物記錄，自動判斷北中南東區域（依郵遞區號）</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>文員後台 UI</b> — 登入頁面 + 派送追蹤主表（總覽看板）</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>熱感標籤列印</b> — 產生含 QR Code 的貼指標籤（個資遮蔽 + 區域色塊）</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>司機指派功能</b> — 文員依區域批次指派司機</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-accent c-amber"></div>
+        <div class="phase-left">
+          <div class="phase-num">P2</div>
+          <div class="phase-info">
+            <div class="phase-name">掃碼入庫 + 司機手機介面</div>
+            <div class="phase-week">Week 3 – 4　｜　拆櫃人員 + 司機可以開始使用</div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <span class="phase-badge s-next">即將開始</span>
+          <span class="phase-toggle">▼</span>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="task-list">
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>拆櫃人員掃碼介面</b> — 手機掃 QR Code → 一鍵入庫，5秒完成，狀態自動改為「已入庫」</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>司機今日清單</b> — 登入後看到今日指派的所有貨物清單（依區域分組）</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>司機逐件掃碼出庫</b> — 掃碼 → 輸入車牌號碼 → 確認出庫，狀態改為「派送中」</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>電話直撥 + 地圖導航</b> — 司機手機可直接點電話撥打、點地址開地圖</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>倉庫即時看板</b> — 文員後台顯示四個區域的在庫數量（北/中/南/東）</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>推播通知</b> — 文員指派後，司機手機收到通知「你今天有 X 件貨待取」</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-accent c-green"></div>
+        <div class="phase-left">
+          <div class="phase-num">P3</div>
+          <div class="phase-info">
+            <div class="phase-name">電子簽收 + 買家查詢 + 雙貓客服</div>
+            <div class="phase-week">Week 5 – 6　｜　系統對外開放，買家可查詢</div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <span class="phase-badge s-later">待開始</span>
+          <span class="phase-toggle">▼</span>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="task-list">
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>客戶電子簽名</b> — 司機手機讓客戶在螢幕手寫簽名，儲存簽名圖 + 簽收時間</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>異常回報</b> — 司機選擇異常類型（無人/拒收/改期/貨損）+ 拍照 + 備註，文員即時收通知</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>代收款確認</b> — 司機記錄已向客戶收取的代收款金額</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>買家查詢頁面</b> — 不需登入，輸入子單號查看貨態時間軸，個資遮蔽</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>雙貓客服帳號</b> — 唯讀查詢，可看完整電話與地址，跨批次查詢</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase">
+      <div class="phase-header" onclick="toggle(this)">
+        <div class="phase-accent c-purple"></div>
+        <div class="phase-left">
+          <div class="phase-num">P4</div>
+          <div class="phase-info">
+            <div class="phase-name">報表 + PWA + 上線</div>
+            <div class="phase-week">Week 7 – 8　｜　全系統正式上線</div>
+          </div>
+        </div>
+        <div class="phase-right">
+          <span class="phase-badge s-later">待開始</span>
+          <span class="phase-toggle">▼</span>
+        </div>
+      </div>
+      <div class="phase-body">
+        <div class="task-list">
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>主管報表</b> — 每批貨櫃完成率、司機績效、異常統計</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>PWA 安裝</b> — 司機手機加到桌面，像 App 一樣使用</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>雲端部署</b> — 上線到 Render / Railway，設定 HTTPS + 自訂網域</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>壓力測試</b> — 模擬多人同時掃碼，確保系統穩定</div></div>
+          <div class="task"><span class="task-icon">○</span><div class="task-text"><b>教育訓練</b> — 文員、司機、拆櫃人員的操作說明文件</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 五個角色 -->
+  <div class="sec-title">五個使用角色</div>
+  <div class="roles-grid">
+    <div class="role-card">
+      <div class="role-icon">🛍️</div>
+      <div class="role-name">台灣買家</div>
+      <div class="role-desc">不需登入，輸入子單號查詢貨態。個資遮蔽，只看自己的貨。</div>
+      <span class="role-access" style="background:var(--blue-l);color:var(--blue);">無需登入 · 唯讀</span>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">📋</div>
+      <div class="role-name">偉翔文員</div>
+      <div class="role-desc">電腦後台。匯入Excel、列印標籤、指派司機、看板總覽、異常處理。</div>
+      <span class="role-access" style="background:var(--purple-l);color:var(--purple);">帳號登入 · 讀寫</span>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">🚛</div>
+      <div class="role-name">外包拆櫃人員</div>
+      <div class="role-desc">手機掃碼入庫，操作最簡單。掃完即完成，不需打字。</div>
+      <span class="role-access" style="background:var(--amber-l);color:var(--amber);">帳號登入 · 入庫only</span>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">🚚</div>
+      <div class="role-name">偉翔司機</div>
+      <div class="role-desc">手機專用。看今日清單、掃碼出庫、電子簽收、異常回報。</div>
+      <span class="role-access" style="background:var(--green-l);color:var(--green);">帳號登入 · 手機</span>
+    </div>
+    <div class="role-card">
+      <div class="role-icon">🐱</div>
+      <div class="role-name">雙貓客服</div>
+      <div class="role-desc">查詢完整貨態（含電話地址），回應買家詢問。不能修改資料。</div>
+      <span class="role-access" style="background:var(--teal-l);color:var(--teal);">帳號登入 · 唯讀</span>
+    </div>
+  </div>
+
+  <!-- 貨態節點 -->
+  <div class="sec-title">貨態節點流程</div>
+  <div style="overflow-x:auto;padding-bottom:8px;">
+  <div class="nodes">
+    <div class="node"><div class="node-icon">📦</div><div class="node-label" style="color:var(--ink3)">待入庫</div><div class="node-sub">Excel匯入時建立</div></div>
+    <div class="node-arrow">→</div>
+    <div class="node" style="border-color:var(--blue);"><div class="node-icon">🏭</div><div class="node-label" style="color:var(--blue)">已入庫</div><div class="node-sub">拆櫃人員掃碼</div></div>
+    <div class="node-arrow">→</div>
+    <div class="node" style="border-color:var(--amber);"><div class="node-icon">🚚</div><div class="node-label" style="color:var(--amber)">派送中</div><div class="node-sub">司機掃碼出庫</div></div>
+    <div class="node-arrow">→</div>
+    <div class="node" style="border-color:var(--teal);"><div class="node-icon">📍</div><div class="node-label" style="color:var(--teal)">已送達</div><div class="node-sub">司機確認到達</div></div>
+    <div class="node-arrow">→</div>
+    <div class="node" style="border-color:var(--green);"><div class="node-icon">✅</div><div class="node-label" style="color:var(--green)">客戶簽收</div><div class="node-sub">客戶手寫簽名</div></div>
+    <div style="display:flex;align-items:center;gap:4px;margin-left:12px;">
+      <div style="font-size:11px;color:var(--red);font-weight:700;">異常 ↗</div>
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <span style="background:var(--red-l);color:var(--red);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;">無人在家</span>
+        <span style="background:var(--red-l);color:var(--red);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;">拒收/貨損</span>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- 技術架構 -->
+  <div class="sec-title">技術架構</div>
+  <div class="tech-grid">
+    <div class="tech-card">
+      <div class="tech-layer">前端 FRONTEND</div>
+      <div class="tech-chips">
+        <span class="chip new">React 18</span>
+        <span class="chip new">Vite</span>
+        <span class="chip new">Tailwind CSS</span>
+        <span class="chip new">axios</span>
+        <span class="chip new">html5-qrcode</span>
+        <span class="chip new">signature_pad</span>
+        <span class="chip new">jsPDF</span>
+        <span class="chip new">QRCode.js</span>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-layer">後端 BACKEND</div>
+      <div class="tech-chips">
+        <span class="chip new">Node.js v22</span>
+        <span class="chip new">Express</span>
+        <span class="chip new">JWT 驗證</span>
+        <span class="chip new">multer</span>
+        <span class="chip new">SheetJS (xlsx)</span>
+        <span class="chip new">Web Push</span>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-layer">資料庫 DATABASE</div>
+      <div class="tech-chips">
+        <span class="chip new">PostgreSQL</span>
+        <span class="chip">shipments</span>
+        <span class="chip">status_logs</span>
+        <span class="chip">users</span>
+        <span class="chip">containers</span>
+      </div>
+    </div>
+    <div class="tech-card">
+      <div class="tech-layer">部署 DEPLOY</div>
+      <div class="tech-chips">
+        <span class="chip new">Render / Railway</span>
+        <span class="chip new">HTTPS / SSL</span>
+        <span class="chip new">PWA</span>
+        <span class="chip">偉翔自有網域</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 專案檔案結構 -->
+  <div class="sec-title">專案檔案結構（目前狀態）</div>
+  <div class="file-tree">
+<span class="ft-folder">偉翔通運/偉翔到貨通/wei-track/</span><br>
+├── <span class="ft-done">CLAUDE.md</span>　　　　　　<span class="ft-comment">← 開發背景說明，Claude Code 每次都會讀</span><br>
+├── <span class="ft-done">README.md</span><br>
+├── <span class="ft-folder">backend/</span><br>
+│　├── <span class="ft-done">.env.example</span>　　　　<span class="ft-comment">← DB / JWT / Port 設定範本</span><br>
+│　├── <span class="ft-done">package.json</span>　　　　<span class="ft-comment">← express / pg / dotenv / cors / multer / xlsx</span><br>
+│　└── <span class="ft-folder">src/</span><br>
+│　　├── <span class="ft-done">index.js</span>　　　　　<span class="ft-comment">← Express 入口，含 /health endpoint</span><br>
+│　　├── <span class="ft-pending">controllers/</span>　　　<span class="ft-comment">← 待 Phase 1 開發</span><br>
+│　　├── <span class="ft-pending">middleware/</span><br>
+│　　├── <span class="ft-pending">models/</span>　　　　　<span class="ft-comment">← 待建立 DB Schema</span><br>
+│　　└── <span class="ft-pending">routes/</span><br>
+└── <span class="ft-folder">frontend/</span><br>
+　　├── <span class="ft-done">package.json</span>　　　　<span class="ft-comment">← React 18 + Vite + Tailwind</span><br>
+　　└── <span class="ft-folder">src/</span><br>
+　　　　├── <span class="ft-pending">components/</span>　　<span class="ft-comment">← 待開發 UI 元件</span><br>
+　　　　├── <span class="ft-pending">pages/</span>　　　　<span class="ft-comment">← 文員後台 / 司機介面 / 買家查詢</span><br>
+　　　　└── <span class="ft-pending">utils/</span><br>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;font-size:11px;color:var(--ink3);font-family:'JetBrains Mono',monospace;">
+    WeiTrack · 偉翔到貨通 · 偉翔通運股份有限公司 · 2026
+  </div>
+
+</div>
+
+<script>
+function toggle(header) {
+  const phase = header.closest('.phase');
+  phase.classList.toggle('open');
+}
+// Phase 1 預設展開
+document.querySelector('.phase').classList.add('open');
+</script>
+</body>
+</html>
