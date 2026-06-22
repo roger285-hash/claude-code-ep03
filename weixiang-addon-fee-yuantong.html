@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔通運｜附加費用計算機（圓通速遞）</title>
+<style>
+  :root {
+    --brand: #E8370C;
+    --brand-light: #FFF0EC;
+    --brand-mid: #F97316;
+    --bg: #F7F6F3;
+    --bg-card: #FFFFFF;
+    --border: #E5E2DA;
+    --text: #1C1C1A;
+    --muted: #6B6A65;
+    --success: #166534;
+    --success-bg: #DCFCE7;
+    --warn-bg: #FEF9C3;
+    --warn: #854D0E;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--brand);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .site-header .logo-text {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .03em;
+  }
+  .site-header .subtitle {
+    color: rgba(255,255,255,.75);
+    font-size: 12px;
+    margin-top: 1px;
+  }
+  .site-header .tag-internal {
+    margin-left: auto;
+    background: rgba(255,255,255,.18);
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.3);
+  }
+
+  /* ── Layout ── */
+  .container { max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
+
+  /* ── Discount bar ── */
+  .discount-bar {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .discount-label { font-size: 13px; color: var(--muted); white-space: nowrap; }
+  .discount-options { display: flex; gap: 6px; flex-wrap: wrap; }
+  .discount-options label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .discount-options input[type=radio] { accent-color: var(--brand); }
+  .discount-options span { font-size: 13px; }
+
+  /* ── Module card ── */
+  .module {
+    background: var(--bg-card);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    overflow: hidden;
+  }
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 16px;
+    border-bottom: 0.5px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+  .module-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .module-title { font-size: 15px; font-weight: 600; flex: 1; }
+  .module-desc { font-size: 12px; color: var(--muted); }
+  .module-toggle {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform .2s;
+    margin-left: auto;
+  }
+  .module-toggle.open { transform: rotate(180deg); }
+
+  .module-body { padding: 16px; }
+  .module-body.hidden { display: none; }
+
+  /* ── Rate panel ── */
+  .rate-toggle-btn {
+    background: none;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 5px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 12px;
+  }
+  .rate-toggle-btn:hover { background: var(--bg); }
+  .rate-panel {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    display: none;
+  }
+  .rate-panel.open { display: block; }
+  .rate-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px 16px; }
+  .rate-field label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 3px; }
+  .rate-field input {
+    width: 100%;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 5px 8px;
+    font-size: 13px;
+    background: #fff;
+  }
+
+  /* ── Input area ── */
+  .input-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px 16px; margin-bottom: 12px; }
+  .field label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 3px; }
+  .field input[type=number], .field select {
+    width: 100%;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 7px 10px;
+    font-size: 14px;
+    background: #fff;
+  }
+  .field input[type=number]:focus, .field select:focus {
+    outline: 2px solid var(--brand);
+    outline-offset: 1px;
+  }
+
+  /* ── Scene selector ── */
+  .scene-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .scene-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .scene-card:hover { background: var(--brand-light); }
+  .scene-card.active { border-color: var(--brand); background: var(--brand-light); }
+  .scene-card input[type=radio] { display: none; }
+  .scene-card .sc-title { font-size: 13px; font-weight: 600; }
+  .scene-card .sc-desc { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+  /* ── Assistant fee alert ── */
+  .alert {
+    background: var(--warn-bg);
+    border: 0.5px solid #FDE047;
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--warn);
+    margin-bottom: 10px;
+    display: none;
+  }
+  .alert.show { display: block; }
+
+  /* ── Result ── */
+  .result-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 0.5px solid var(--border);
+  }
+  .result-row .label { font-size: 13px; color: var(--muted); }
+  .result-row .original { font-size: 14px; color: var(--muted); text-decoration: line-through; }
+  .result-row .discounted { font-size: 18px; font-weight: 700; color: var(--brand); margin-left: auto; }
+
+  /* ── Total ── */
+  .total-card {
+    background: var(--bg-card);
+    border: 2px solid var(--brand);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-top: 8px;
+  }
+  .total-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .total-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    padding: 4px 0;
+    color: var(--muted);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .total-line:last-of-type { border-bottom: none; }
+  .total-line .val { font-weight: 600; color: var(--text); }
+  .grand-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1.5px solid var(--brand);
+  }
+  .grand-total .gl { font-size: 14px; font-weight: 600; }
+  .grand-total .gv { font-size: 24px; font-weight: 800; color: var(--brand); }
+
+  footer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 24px 0 8px;
+  }
+
+  @media (max-width: 520px) {
+    .scene-cards { grid-template-columns: 1fr; }
+    .rate-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div>
+    <div class="logo-text">偉翔通運 · 附加費用計算機</div>
+    <div class="subtitle">圓通速遞客服查詢專用 ｜ 輸入數值，自動計算費用</div>
+  </div>
+  <span class="tag-internal">內部工具</span>
+</header>
+
+<div class="container">
+
+  <!-- 全單折扣 -->
+  <div class="discount-bar">
+    <span class="discount-label">全單折扣：</span>
+    <div class="discount-options" id="discountGroup">
+      <label><input type="radio" name="discount" value="1" checked><span>不打折</span></label>
+      <label><input type="radio" name="discount" value="0.95"><span>95折</span></label>
+      <label><input type="radio" name="discount" value="0.9"><span>9折</span></label>
+      <label><input type="radio" name="discount" value="0.85"><span>85折</span></label>
+      <label><input type="radio" name="discount" value="0.8"><span>8折</span></label>
+      <label><input type="radio" name="discount" value="0.7"><span>7折</span></label>
+    </div>
+  </div>
+
+  <!-- ① 上樓費（有電梯） -->
+  <div class="module" id="mod1">
+    <div class="module-header" onclick="toggleModule(1)">
+      <span class="module-num">①</span>
+      <div>
+        <div class="module-title">上樓費 有電梯</div>
+        <div class="module-desc">依場景與貨物重量計算</div>
+      </div>
+      <span class="module-toggle" id="toggle1">▾</span>
+    </div>
+    <div class="module-body" id="body1">
+      <!-- 費率面板 -->
+      <button class="rate-toggle-btn" onclick="toggleRate('rate1')">⚙ 調整費率</button>
+      <div class="rate-panel" id="rate1">
+        <div class="rate-grid">
+          <div class="rate-field"><label>基本費（元）</label><input type="number" id="r1_base" value="500" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>場景A 免費門檻（kg）</label><input type="number" id="r1_aThresh" value="30" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>場景A 超重加價（元/kg）</label><input type="number" id="r1_aExtra" value="20" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>場景B 免費門檻（kg）</label><input type="number" id="r1_bThresh" value="80" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>場景B 超重加價（元/kg）</label><input type="number" id="r1_bExtra" value="10" min="0" oninput="calcAll()"></div>
+        </div>
+      </div>
+      <!-- 場景選擇 -->
+      <div class="scene-cards">
+        <label class="scene-card active" id="sc1A" onclick="selectScene(1,'A')">
+          <input type="radio" name="scene1" value="A" checked>
+          <div class="sc-title">場景 A　電梯前有階梯</div>
+          <div class="sc-desc">拖板車無法進入，需人工搬運｜超過 <span id="lbl1aT">30</span> kg 加價 NT$<span id="lbl1aE">20</span>/kg</div>
+        </label>
+        <label class="scene-card" id="sc1B" onclick="selectScene(1,'B')">
+          <input type="radio" name="scene1" value="B">
+          <div class="sc-title">場景 B　電梯前無階梯</div>
+          <div class="sc-desc">拖板車可正常施工，機械輔助搬運｜超過 <span id="lbl1bT">80</span> kg 加價 NT$<span id="lbl1bE">10</span>/kg</div>
+        </label>
+      </div>
+      <div class="input-grid">
+        <div class="field"><label>貨物重量（kg）</label><input type="number" id="i1_weight" min="0" placeholder="0" oninput="calcAll()"></div>
+      </div>
+      <div class="result-row">
+        <span class="label">計算結果</span>
+        <span class="original" id="r1_orig">—</span>
+        <span class="discounted" id="r1_disc">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 上樓費（無電梯） -->
+  <div class="module" id="mod2">
+    <div class="module-header" onclick="toggleModule(2)">
+      <span class="module-num">②</span>
+      <div>
+        <div class="module-title">上樓費 無電梯</div>
+        <div class="module-desc">依樓層、重量、尺寸計算（含助手費）</div>
+      </div>
+      <span class="module-toggle" id="toggle2">▾</span>
+    </div>
+    <div class="module-body" id="body2">
+      <button class="rate-toggle-btn" onclick="toggleRate('rate2')">⚙ 調整費率</button>
+      <div class="rate-panel" id="rate2">
+        <div class="rate-grid">
+          <div class="rate-field"><label>基本費（首層含入，元）</label><input type="number" id="r2_base" value="600" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>每加一層（元/層）</label><input type="number" id="r2_perFloor" value="200" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>重量免費門檻（kg）</label><input type="number" id="r2_thresh" value="50" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>超重加價（元/kg）</label><input type="number" id="r2_extra" value="20" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>助手費（元）</label><input type="number" id="r2_helper" value="300" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>助手費觸發重量（kg）</label><input type="number" id="r2_helperW" value="80" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>助手費觸發長度（cm）</label><input type="number" id="r2_helperL" value="200" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>助手費觸發寬/高（cm）</label><input type="number" id="r2_helperWH" value="100" min="0" oninput="calcAll()"></div>
+        </div>
+      </div>
+      <div class="input-grid">
+        <div class="field"><label>送達樓層（幾樓）</label><input type="number" id="i2_floor" min="1" placeholder="1" oninput="calcAll()"></div>
+        <div class="field"><label>貨物重量（kg）</label><input type="number" id="i2_weight" min="0" placeholder="0" oninput="calcAll()"></div>
+      </div>
+      <div class="input-grid">
+        <div class="field"><label>長（cm）</label><input type="number" id="i2_l" min="0" placeholder="0" oninput="calcAll()"></div>
+        <div class="field"><label>寬（cm）</label><input type="number" id="i2_w" min="0" placeholder="0" oninput="calcAll()"></div>
+        <div class="field"><label>高（cm）</label><input type="number" id="i2_h" min="0" placeholder="0" oninput="calcAll()"></div>
+      </div>
+      <div class="alert" id="alert2">⚠ 已觸發助手費（符合：<span id="alertReason2"></span>）</div>
+      <div class="result-row">
+        <span class="label">計算結果</span>
+        <span class="original" id="r2_orig">—</span>
+        <span class="discounted" id="r2_disc">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ③ 拆箱費 -->
+  <div class="module" id="mod3">
+    <div class="module-header" onclick="toggleModule(3)">
+      <span class="module-num">③</span>
+      <div>
+        <div class="module-title">拆箱費</div>
+        <div class="module-desc">依木箱才數計算</div>
+      </div>
+      <span class="module-toggle" id="toggle3">▾</span>
+    </div>
+    <div class="module-body" id="body3">
+      <button class="rate-toggle-btn" onclick="toggleRate('rate3')">⚙ 調整費率</button>
+      <div class="rate-panel" id="rate3">
+        <div class="rate-grid">
+          <div class="rate-field"><label>基本費（含入才數，元）</label><input type="number" id="r3_base" value="800" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>基本才數（才）</label><input type="number" id="r3_baseQty" value="10" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>超額加價（元/才）</label><input type="number" id="r3_extra" value="80" min="0" oninput="calcAll()"></div>
+        </div>
+      </div>
+      <div class="input-grid">
+        <div class="field"><label>長（cm）</label><input type="number" id="i3_l" min="0" placeholder="0" oninput="calcAll()"></div>
+        <div class="field"><label>寬（cm）</label><input type="number" id="i3_w" min="0" placeholder="0" oninput="calcAll()"></div>
+        <div class="field"><label>高（cm）</label><input type="number" id="i3_h" min="0" placeholder="0" oninput="calcAll()"></div>
+      </div>
+      <div class="result-row">
+        <span class="label">計算結果</span>
+        <span class="original" id="r3_orig">—</span>
+        <span class="discounted" id="r3_disc">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ④ 回收廢棄物費 -->
+  <div class="module" id="mod4">
+    <div class="module-header" onclick="toggleModule(4)">
+      <span class="module-num">④</span>
+      <div>
+        <div class="module-title">回收廢棄物費（拆箱木材）</div>
+        <div class="module-desc">依木箱才數計算</div>
+      </div>
+      <span class="module-toggle" id="toggle4">▾</span>
+    </div>
+    <div class="module-body" id="body4">
+      <button class="rate-toggle-btn" onclick="toggleRate('rate4')">⚙ 調整費率</button>
+      <div class="rate-panel" id="rate4">
+        <div class="rate-grid">
+          <div class="rate-field"><label>基本費（含入才數，元）</label><input type="number" id="r4_base" value="400" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>基本才數（才）</label><input type="number" id="r4_baseQty" value="10" min="0" oninput="calcAll()"></div>
+          <div class="rate-field"><label>超額加價（元/才）</label><input type="number" id="r4_extra" value="40" min="0" oninput="calcAll()"></div>
+        </div>
+      </div>
+      <div class="input-grid">
+        <div class="field"><label>長（cm）</label><input type="number" id="i4_l" min="0" placeholder="0" oninput="calcAll()"></div>
+        <div class="field"><label>寬（cm）</label><input type="number" id="i4_w" min="0" placeholder="0" oninput="calcAll()"></div>
+        <div class="field"><label>高（cm）</label><input type="number" id="i4_h" min="0" placeholder="0" oninput="calcAll()"></div>
+      </div>
+      <div class="result-row">
+        <span class="label">計算結果</span>
+        <span class="original" id="r4_orig">—</span>
+        <span class="discounted" id="r4_disc">—</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 合計 -->
+  <div class="total-card">
+    <h3>合計金額</h3>
+    <div class="total-line"><span>① 上樓費（有電梯）</span><span class="val" id="sum1">—</span></div>
+    <div class="total-line"><span>② 上樓費（無電梯）</span><span class="val" id="sum2">—</span></div>
+    <div class="total-line"><span>③ 拆箱費</span><span class="val" id="sum3">—</span></div>
+    <div class="total-line"><span>④ 回收廢棄物費</span><span class="val" id="sum4">—</span></div>
+    <div class="grand-total">
+      <span class="gl">合計（折後）</span>
+      <span class="gv" id="grandTotal">NT$ 0</span>
+    </div>
+  </div>
+
+</div>
+
+<footer>偉翔通運股份有限公司 ｜ 此工具供圓通速遞客服內部使用，費率以最終確認版本為準</footer>
+
+<script>
+// ── helpers ──
+function n(id){ return parseFloat(document.getElementById(id).value) || 0; }
+function getDiscount(){ return parseFloat(document.querySelector('input[name=discount]:checked').value); }
+function fmt(v){ return 'NT$ ' + Math.round(v).toLocaleString(); }
+
+// ── module toggle ──
+function toggleModule(i){
+  const b = document.getElementById('body'+i);
+  const t = document.getElementById('toggle'+i);
+  const hidden = b.classList.toggle('hidden');
+  t.textContent = hidden ? '▸' : '▾';
+  t.classList.toggle('open', !hidden);
+}
+
+// ── rate panel toggle ──
+function toggleRate(id){
+  document.getElementById(id).classList.toggle('open');
+}
+
+// ── scene select (mod1) ──
+let scene1 = 'A';
+function selectScene(mod, sc){
+  scene1 = sc;
+  document.getElementById('sc1A').classList.toggle('active', sc==='A');
+  document.getElementById('sc1B').classList.toggle('active', sc==='B');
+  calcAll();
+}
+
+// ── calc functions ──
+function calcMod1(){
+  const base   = n('r1_base');
+  const aT     = n('r1_aThresh'), aE = n('r1_aExtra');
+  const bT     = n('r1_bThresh'), bE = n('r1_bExtra');
+  const weight = n('i1_weight');
+  // update labels
+  document.getElementById('lbl1aT').textContent = aT;
+  document.getElementById('lbl1aE').textContent = aE;
+  document.getElementById('lbl1bT').textContent = bT;
+  document.getElementById('lbl1bE').textContent = bE;
+  if(!weight) return null;
+  let fee = base;
+  if(scene1==='A' && weight > aT) fee += (weight - aT) * aE;
+  if(scene1==='B' && weight > bT) fee += (weight - bT) * bE;
+  return fee;
+}
+
+function calcMod2(){
+  const base    = n('r2_base');
+  const perF    = n('r2_perFloor');
+  const thresh  = n('r2_thresh');
+  const extra   = n('r2_extra');
+  const helper  = n('r2_helper');
+  const helperW = n('r2_helperW');
+  const helperL = n('r2_helperL');
+  const helperWH= n('r2_helperWH');
+  const floor   = n('i2_floor');
+  const weight  = n('i2_weight');
+  const len     = n('i2_l'), wid = n('i2_w'), hi = n('i2_h');
+  if(!floor && !weight) return null;
+  let fee = base;
+  if(floor > 1) fee += (floor - 1) * perF;
+  if(weight > thresh) fee += (weight - thresh) * extra;
+  // assistant fee
+  const reasons = [];
+  if(weight >= helperW) reasons.push('重量 ≥ ' + helperW + ' kg');
+  if(len >= helperL)    reasons.push('長 ≥ ' + helperL + ' cm');
+  if(wid >= helperWH)   reasons.push('寬 ≥ ' + helperWH + ' cm');
+  if(hi  >= helperWH)   reasons.push('高 ≥ ' + helperWH + ' cm');
+  const alert2 = document.getElementById('alert2');
+  if(reasons.length){
+    fee += helper;
+    document.getElementById('alertReason2').textContent = reasons.join('、');
+    alert2.classList.add('show');
+  } else {
+    alert2.classList.remove('show');
+  }
+  return fee;
+}
+
+function calcCai(baseId, baseQtyId, extraId, lId, wId, hId){
+  const base    = n(baseId);
+  const baseQty = n(baseQtyId);
+  const extra   = n(extraId);
+  const l = n(lId), w = n(wId), h = n(hId);
+  if(!l && !w && !h) return null;
+  const cai = (l * w * h) / (30.3 * 30.3 * 30.3);
+  let fee = base;
+  if(cai > baseQty) fee += (cai - baseQty) * extra;
+  return fee;
+}
+
+// ── update display ──
+function setResult(origId, discId, sumId, raw, discount){
+  const orig = document.getElementById(origId);
+  const disc = document.getElementById(discId);
+  const sum  = document.getElementById(sumId);
+  if(raw === null){
+    orig.textContent = '—'; disc.textContent = '—'; sum.textContent = '—';
+    return 0;
+  }
+  const after = raw * discount;
+  orig.textContent = discount < 1 ? fmt(raw) : '';
+  disc.textContent = fmt(after);
+  sum.textContent  = fmt(after);
+  return after;
+}
+
+function calcAll(){
+  const d = getDiscount();
+  const v1 = setResult('r1_orig','r1_disc','sum1', calcMod1(), d);
+  const v2 = setResult('r2_orig','r2_disc','sum2', calcMod2(), d);
+  const v3 = setResult('r3_orig','r3_disc','sum3', calcCai('r3_base','r3_baseQty','r3_extra','i3_l','i3_w','i3_h'), d);
+  const v4 = setResult('r4_orig','r4_disc','sum4', calcCai('r4_base','r4_baseQty','r4_extra','i4_l','i4_w','i4_h'), d);
+  const total = v1 + v2 + v3 + v4;
+  document.getElementById('grandTotal').textContent = 'NT$ ' + Math.round(total).toLocaleString();
+}
+
+// init
+document.querySelectorAll('input[name=discount]').forEach(el => el.addEventListener('change', calcAll));
+calcAll();
+</script>
+</body>
+</html>
