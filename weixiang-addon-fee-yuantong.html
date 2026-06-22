@@ -63,29 +63,6 @@
   /* ── Layout ── */
   .container { max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
 
-  /* ── Discount bar ── */
-  .discount-bar {
-    background: var(--bg-card);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .discount-label { font-size: 13px; color: var(--muted); white-space: nowrap; }
-  .discount-options { display: flex; gap: 6px; flex-wrap: wrap; }
-  .discount-options label {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-  .discount-options input[type=radio] { accent-color: var(--brand); }
-  .discount-options span { font-size: 13px; }
-
   /* ── Module card ── */
   .module {
     background: var(--bg-card);
@@ -272,19 +249,6 @@
 
 <div class="container">
 
-  <!-- 全單折扣 -->
-  <div class="discount-bar">
-    <span class="discount-label">全單折扣：</span>
-    <div class="discount-options" id="discountGroup">
-      <label><input type="radio" name="discount" value="1" checked><span>不打折</span></label>
-      <label><input type="radio" name="discount" value="0.95"><span>95折</span></label>
-      <label><input type="radio" name="discount" value="0.9"><span>9折</span></label>
-      <label><input type="radio" name="discount" value="0.85"><span>85折</span></label>
-      <label><input type="radio" name="discount" value="0.8"><span>8折</span></label>
-      <label><input type="radio" name="discount" value="0.7"><span>7折</span></label>
-    </div>
-  </div>
-
   <!-- ① 上樓費（有電梯） -->
   <div class="module" id="mod1">
     <div class="module-header" onclick="toggleModule(1)">
@@ -457,7 +421,6 @@
 <script>
 // ── helpers ──
 function n(id){ return parseFloat(document.getElementById(id).value) || 0; }
-function getDiscount(){ return parseFloat(document.querySelector('input[name=discount]:checked').value); }
 function fmt(v){ return 'NT$ ' + Math.round(v).toLocaleString(); }
 
 // ── module toggle ──
@@ -547,7 +510,7 @@ function calcCai(baseId, baseQtyId, extraId, lId, wId, hId){
 }
 
 // ── update display ──
-function setResult(origId, discId, sumId, raw, discount){
+function setResult(origId, discId, sumId, raw){
   const orig = document.getElementById(origId);
   const disc = document.getElementById(discId);
   const sum  = document.getElementById(sumId);
@@ -555,25 +518,22 @@ function setResult(origId, discId, sumId, raw, discount){
     orig.textContent = '—'; disc.textContent = '—'; sum.textContent = '—';
     return 0;
   }
-  const after = raw * discount;
-  orig.textContent = discount < 1 ? fmt(raw) : '';
-  disc.textContent = fmt(after);
-  sum.textContent  = fmt(after);
-  return after;
+  orig.textContent = '';
+  disc.textContent = fmt(raw);
+  sum.textContent  = fmt(raw);
+  return raw;
 }
 
 function calcAll(){
-  const d = getDiscount();
-  const v1 = setResult('r1_orig','r1_disc','sum1', calcMod1(), d);
-  const v2 = setResult('r2_orig','r2_disc','sum2', calcMod2(), d);
-  const v3 = setResult('r3_orig','r3_disc','sum3', calcCai('r3_base','r3_baseQty','r3_extra','i3_l','i3_w','i3_h'), d);
-  const v4 = setResult('r4_orig','r4_disc','sum4', calcCai('r4_base','r4_baseQty','r4_extra','i4_l','i4_w','i4_h'), d);
+  const v1 = setResult('r1_orig','r1_disc','sum1', calcMod1());
+  const v2 = setResult('r2_orig','r2_disc','sum2', calcMod2());
+  const v3 = setResult('r3_orig','r3_disc','sum3', calcCai('r3_base','r3_baseQty','r3_extra','i3_l','i3_w','i3_h'));
+  const v4 = setResult('r4_orig','r4_disc','sum4', calcCai('r4_base','r4_baseQty','r4_extra','i4_l','i4_w','i4_h'));
   const total = v1 + v2 + v3 + v4;
   document.getElementById('grandTotal').textContent = 'NT$ ' + Math.round(total).toLocaleString();
 }
 
 // init
-document.querySelectorAll('input[name=discount]').forEach(el => el.addEventListener('change', calcAll));
 calcAll();
 </script>
 </body>
