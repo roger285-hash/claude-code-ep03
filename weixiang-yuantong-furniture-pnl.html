@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>偉翔 × 圓通 大型家具配送損益評估</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif; background: #F5F4EF; color: #0b0b0b; font-size: 15px; line-height: 1.6; }
+
+  .header { background: #FFFEF9; border-bottom: 3px solid #C8A96E; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .header-left h1 { font-size: 20px; font-weight: 500; color: #1C1A17; }
+  .header-left p { font-size: 13px; color: #6B6860; margin-top: 2px; }
+  .header-badge { background: #FDF3DC; border: 1px solid #C8A96E; border-radius: 20px; padding: 5px 14px; font-size: 12px; color: #854F0B; font-weight: 500; }
+
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px; }
+
+  .info-banner { background: #FDF3DC; border-left: 3px solid #C8A96E; border-radius: 0 6px 6px 0; padding: 10px 14px; font-size: 13px; color: #633806; margin-bottom: 20px; }
+
+  .section-title { font-size: 11px; font-weight: 600; color: #6B6860; letter-spacing: 0.08em; text-transform: uppercase; margin: 20px 0 10px; }
+
+  .card { background: #FFFEF9; border: 0.5px solid #D3D1C7; border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; }
+
+  .sr { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .sr:last-child { margin-bottom: 0; }
+  .sr label { font-size: 13px; color: #52514E; min-width: 120px; }
+  .sr input[type=range] { flex: 1; accent-color: #C8A96E; height: 4px; cursor: pointer; }
+  .sr span { font-size: 13px; font-weight: 500; color: #1C1A17; min-width: 120px; text-align: right; }
+
+  .dist-bar { display: flex; height: 32px; border-radius: 8px; overflow: hidden; margin-bottom: 8px; border: 0.5px solid #D3D1C7; }
+  .dist-seg { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; transition: width .2s; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+  @media(max-width:600px){ .kpi-grid { grid-template-columns: repeat(2,1fr); } }
+  .kpi { background: #FFFEF9; border: 0.5px solid #D3D1C7; border-radius: 10px; padding: 14px 16px; }
+  .kpi-label { font-size: 11px; color: #6B6860; margin-bottom: 5px; }
+  .kpi-value { font-size: 22px; font-weight: 500; color: #1C1A17; }
+  .kpi-sub { font-size: 11px; color: #888780; margin-top: 3px; }
+  .kpi.green .kpi-value { color: #0F6E56; }
+  .kpi.accent { border-color: #C8A96E; background: #FDF8EE; }
+  .kpi.accent .kpi-value { color: #633806; }
+
+  .detail-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin-bottom: 14px; }
+  @media(max-width:520px){ .detail-grid { grid-template-columns: 1fr; } }
+  .dc { background: #FFFEF9; border: 0.5px solid #D3D1C7; border-radius: 10px; padding: 14px 16px; }
+  .dc .dl { font-size: 11px; font-weight: 600; color: #6B6860; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
+  .dc table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .dc td { padding: 5px 0; color: #1C1A17; border-bottom: 0.5px solid #EEEDe8; }
+  .dc tr:last-child td { border-bottom: none; }
+  .dc td:last-child { text-align: right; font-weight: 500; }
+  .dc .total td { font-weight: 600; border-top: 1px solid #D3D1C7; padding-top: 8px; }
+  .dc .highlight td { color: #0F6E56; font-weight: 600; }
+
+  .chart-wrap { position: relative; width: 100%; height: 240px; }
+
+  .legend { display: flex; gap: 20px; margin-top: 10px; font-size: 12px; color: #6B6860; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 5px; }
+  .legend-dot { width: 10px; height: 3px; border-radius: 2px; display: inline-block; }
+
+  .scenario-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 6px; }
+  @media(max-width:600px){ .scenario-grid { grid-template-columns: repeat(2,1fr); } }
+  .sc-btn { background: #FFFEF9; border: 0.5px solid #D3D1C7; border-radius: 8px; padding: 8px 10px; font-size: 12px; color: #52514E; cursor: pointer; text-align: center; transition: all .15s; }
+  .sc-btn:hover { border-color: #C8A96E; background: #FDF8EE; color: #633806; }
+  .sc-btn strong { display: block; font-size: 13px; color: #1C1A17; margin-bottom: 2px; }
+
+  .footer { text-align: center; font-size: 11px; color: #888780; padding: 20px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>偉翔通運 × 圓通速遞　大型家具配送損益評估</h1>
+    <p>依賢哥現場說明建立　｜　主力才數 18～28才　｜　報價 NT$30/才，最低 NT$500</p>
+  </div>
+  <div class="header-badge">互動試算版 V1</div>
+</div>
+
+<div class="container">
+
+  <div class="info-banner">
+    賢哥資訊：18～28才為最大配送比例。調整下方滑桿即可即時試算不同情境的損益結果。
+  </div>
+
+  <div class="section-title">快速情境</div>
+  <div class="scenario-grid">
+    <div class="sc-btn" onclick="setScenario(200,70,23,420,30,5)"><strong>起步期</strong>200 件/月</div>
+    <div class="sc-btn" onclick="setScenario(500,70,23,420,30,5)"><strong>基本期</strong>500 件/月</div>
+    <div class="sc-btn" onclick="setScenario(1000,70,25,400,35,5)"><strong>成長期</strong>1,000 件/月</div>
+    <div class="sc-btn" onclick="setScenario(2000,70,23,380,35,5)"><strong>目標期</strong>2,000 件/月</div>
+  </div>
+
+  <div class="section-title">才數分佈</div>
+  <div class="card">
+    <div class="dist-bar" id="dist-bar">
+      <div class="dist-seg" id="seg-small" style="background:#B5D4F4;color:#0C447C">小才 15%</div>
+      <div class="dist-seg" id="seg-main" style="background:#378ADD;color:#fff">18～28才主力 70%</div>
+      <div class="dist-seg" id="seg-large" style="background:#185FA5;color:#E6F1FB">大才 15%</div>
+    </div>
+    <div style="display:flex;gap:14px;font-size:11px;color:#6B6860;margin-bottom:14px">
+      <span style="color:#0C447C">■ 10～17才（起跳$500）</span>
+      <span style="color:#185FA5">■ 18～28才（$540～$840）</span>
+      <span style="color:#0C447C">■ 30才+（$960+）</span>
+    </div>
+    <div class="sr">
+      <label>主力18～28才佔比</label>
+      <input type="range" min="40" max="90" step="5" value="70" id="main-pct" oninput="calc()">
+      <span id="main-pct-out">70%</span>
+    </div>
+    <div class="sr">
+      <label>主力平均才數</label>
+      <input type="range" min="18" max="28" step="1" value="23" id="main-cai" oninput="calc()">
+      <span id="main-cai-out">23 才 → NT$690</span>
+    </div>
+  </div>
+
+  <div class="section-title">配送量與成本</div>
+  <div class="card">
+    <div class="sr">
+      <label>每月件數</label>
+      <input type="range" min="50" max="3000" step="50" value="500" id="vol" oninput="calc()">
+      <span id="vol-out">500 件</span>
+    </div>
+    <div class="sr">
+      <label>每件配送成本</label>
+      <input type="range" min="200" max="600" step="10" value="420" id="cost" oninput="calc()">
+      <span id="cost-out">NT$420</span>
+    </div>
+    <div class="sr">
+      <label>上樓費觸發率</label>
+      <input type="range" min="0" max="80" step="5" value="30" id="stairs" oninput="calc()">
+      <span id="stairs-out">30%</span>
+    </div>
+    <div class="sr" style="margin-bottom:0">
+      <label>偏遠件比例</label>
+      <input type="range" min="0" max="20" step="1" value="5" id="remote" oninput="calc()">
+      <span id="remote-out">5%</span>
+    </div>
+  </div>
+
+  <div class="section-title">損益摘要</div>
+  <div class="kpi-grid">
+    <div class="kpi accent">
+      <div class="kpi-label">加權平均收費/件</div>
+      <div class="kpi-value" id="k-avg">-</div>
+      <div class="kpi-sub" id="k-cai">平均才數</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">月總收入</div>
+      <div class="kpi-value" id="k-rev">-</div>
+      <div class="kpi-sub">含附加費</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">月毛利</div>
+      <div class="kpi-value" id="k-gp">-</div>
+      <div class="kpi-sub" id="k-gpm">毛利率</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">需要大貨車</div>
+      <div class="kpi-value" id="k-truck">-</div>
+      <div class="kpi-sub">每輛月送約150件</div>
+    </div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="dc">
+      <div class="dl">收入明細</div>
+      <table>
+        <tr><td>才費收入</td><td id="d-rev">-</td></tr>
+        <tr><td>上樓費收入</td><td id="d-stairs">-</td></tr>
+        <tr><td>偏遠附加費</td><td id="d-remote">-</td></tr>
+        <tr><td>COD手續費</td><td id="d-cod">-</td></tr>
+        <tr class="total"><td>合計收入</td><td id="d-tr">-</td></tr>
+      </table>
+    </div>
+    <div class="dc">
+      <div class="dl">成本明細</div>
+      <table>
+        <tr><td>配送成本</td><td id="d-cost">-</td></tr>
+        <tr><td>退件損耗（5%）</td><td id="d-return">-</td></tr>
+        <tr class="total"><td>合計成本</td><td id="d-tc">-</td></tr>
+        <tr class="highlight"><td style="padding-top:10px">月毛利</td><td id="d-gp" style="padding-top:10px">-</td></tr>
+        <tr class="highlight"><td>毛利率</td><td id="d-gpm">-</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-title">月毛利趨勢（100 → 3,000件）</div>
+  <div class="card">
+    <div class="chart-wrap">
+      <canvas id="chart" role="img" aria-label="不同配送量下月收入、毛利與成本的折線趨勢圖">月收入與毛利隨配送件數增長的趨勢</canvas>
+    </div>
+    <div class="legend">
+      <span><span class="legend-dot" style="background:#2a78d6"></span>月收入</span>
+      <span><span class="legend-dot" style="background:#1baf7a"></span>月毛利</span>
+      <span><span class="legend-dot" style="background:#e34948;"></span>月成本</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    偉翔通運股份有限公司　｜　統編 43144294　｜　本試算表僅供內部決策參考，數字為估算值
+  </div>
+
+</div>
+
+<script>
+const fmt = n => 'NT$' + Math.round(n).toLocaleString();
+const fmtK = n => {
+  if(Math.abs(n)>=1000000) return 'NT$'+(n/1000000).toFixed(2)+'M';
+  if(Math.abs(n)>=1000) return 'NT$'+(n/1000).toFixed(0)+'K';
+  return fmt(n);
+};
+
+function priceForCai(c){ return Math.max(500, c*30); }
+
+function blendedPrice(mainPct, mainCai){
+  const sp=(1-mainPct)*0.5, lp=(1-mainPct)*0.5;
+  return mainPct*priceForCai(mainCai) + sp*500 + lp*960;
+}
+function blendedCai(mainPct, mainCai){
+  const sp=(1-mainPct)*0.5, lp=(1-mainPct)*0.5;
+  return mainPct*mainCai + sp*13 + lp*32;
+}
+
+function setScenario(vol,mainPct,mainCai,cost,stairs,remote){
+  document.getElementById('vol').value=vol;
+  document.getElementById('main-pct').value=mainPct;
+  document.getElementById('main-cai').value=mainCai;
+  document.getElementById('cost').value=cost;
+  document.getElementById('stairs').value=stairs;
+  document.getElementById('remote').value=remote;
+  calc();
+}
+
+let myChart=null;
+
+function calc(){
+  const vol=+document.getElementById('vol').value;
+  const mainPct=+document.getElementById('main-pct').value/100;
+  const mainCai=+document.getElementById('main-cai').value;
+  const costPer=+document.getElementById('cost').value;
+  const stairsRate=+document.getElementById('stairs').value/100;
+  const remoteRate=+document.getElementById('remote').value/100;
+
+  document.getElementById('vol-out').textContent=vol.toLocaleString()+' 件';
+  document.getElementById('main-pct-out').textContent=Math.round(mainPct*100)+'%';
+  document.getElementById('main-cai-out').textContent=mainCai+' 才 → NT$'+Math.max(500,mainCai*30).toLocaleString();
+  document.getElementById('cost-out').textContent=fmt(costPer);
+  document.getElementById('stairs-out').textContent=Math.round(stairsRate*100)+'%';
+  document.getElementById('remote-out').textContent=Math.round(remoteRate*100)+'%';
+
+  const sp=(1-mainPct)*0.5, lp=(1-mainPct)*0.5;
+  document.getElementById('seg-small').style.width=Math.round(sp*100)+'%';
+  document.getElementById('seg-small').textContent='小才 '+Math.round(sp*100)+'%';
+  document.getElementById('seg-main').style.width=Math.round(mainPct*100)+'%';
+  document.getElementById('seg-main').textContent='18～28才主力 '+Math.round(mainPct*100)+'%';
+  document.getElementById('seg-large').style.width=Math.round(lp*100)+'%';
+  document.getElementById('seg-large').textContent='大才 '+Math.round(lp*100)+'%';
+
+  const avgPrice=blendedPrice(mainPct,mainCai);
+  const avgCai=blendedCai(mainPct,mainCai);
+
+  const baseRev=vol*avgPrice;
+  const stairsInc=vol*stairsRate*250;
+  const remoteInc=vol*remoteRate*700;
+  const codInc=vol*0.20*15;
+  const addon=stairsInc+remoteInc+codInc;
+  const totalRev=baseRev+addon;
+  const baseCost=vol*costPer;
+  const returnCost=baseCost*0.05;
+  const totalCost=baseCost+returnCost;
+  const gp=totalRev-totalCost;
+  const gpm=totalRev>0?gp/totalRev*100:0;
+  const trucks=Math.ceil(vol/150);
+
+  document.getElementById('k-avg').textContent=fmt(avgPrice);
+  document.getElementById('k-cai').textContent='平均 '+avgCai.toFixed(1)+' 才';
+  document.getElementById('k-rev').textContent=fmtK(totalRev);
+  document.getElementById('k-gp').textContent=fmtK(gp);
+  document.getElementById('k-gpm').textContent='毛利率 '+gpm.toFixed(1)+'%';
+  document.getElementById('k-truck').textContent=trucks;
+
+  document.getElementById('d-rev').textContent=fmt(baseRev);
+  document.getElementById('d-stairs').textContent=fmt(stairsInc);
+  document.getElementById('d-remote').textContent=fmt(remoteInc);
+  document.getElementById('d-cod').textContent=fmt(codInc);
+  document.getElementById('d-tr').textContent=fmt(totalRev);
+  document.getElementById('d-cost').textContent=fmt(baseCost);
+  document.getElementById('d-return').textContent=fmt(returnCost);
+  document.getElementById('d-tc').textContent=fmt(totalCost);
+  document.getElementById('d-gp').textContent=fmt(gp);
+  document.getElementById('d-gpm').textContent=gpm.toFixed(1)+'%';
+
+  updateChart(mainPct,mainCai,costPer,stairsRate,remoteRate);
+}
+
+function updateChart(mainPct,mainCai,costPer,stairsRate,remoteRate){
+  const labels=[],revD=[],gpD=[],costD=[];
+  for(let v=100;v<=3000;v+=100){
+    const ap=blendedPrice(mainPct,mainCai);
+    const tr=v*ap + v*(stairsRate*250+remoteRate*700+0.20*15);
+    const tc=v*costPer*1.05;
+    labels.push(v);
+    revD.push(Math.round(tr));
+    gpD.push(Math.round(tr-tc));
+    costD.push(Math.round(tc));
+  }
+  if(myChart){
+    myChart.data.datasets[0].data=revD;
+    myChart.data.datasets[1].data=gpD;
+    myChart.data.datasets[2].data=costD;
+    myChart.update('none');
+    return;
+  }
+  myChart=new Chart(document.getElementById('chart'),{
+    type:'line',
+    data:{
+      labels,
+      datasets:[
+        {label:'月收入',data:revD,borderColor:'#2a78d6',borderWidth:2,pointRadius:0,tension:.3,fill:false},
+        {label:'月毛利',data:gpD,borderColor:'#1baf7a',borderWidth:2,pointRadius:0,tension:.3,fill:false},
+        {label:'月成本',data:costD,borderColor:'#e34948',borderWidth:1.5,borderDash:[4,3],pointRadius:0,tension:.3,fill:false}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#888780',font:{size:11},callback:(v,i)=>i%4===0?labels[i]:''},grid:{color:'rgba(0,0,0,0.06)'},title:{display:true,text:'件數/月',color:'#888780',font:{size:11}}},
+        y:{ticks:{color:'#888780',font:{size:11},callback:v=>v>=1000000?(v/1000000).toFixed(1)+'M':v>=1000?(v/1000).toFixed(0)+'K':v},grid:{color:'rgba(0,0,0,0.06)'}}
+      }
+    }
+  });
+}
+
+calc();
+</script>
+</body>
+</html>
