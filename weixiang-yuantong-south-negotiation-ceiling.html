@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圓通承接案 — 整案損益互動試算</title>
+<style>
+  :root{
+    --bg:#f7f6f2; --card:#ffffff; --card2:#f1efe8; --line:#e0ddd3;
+    --text:#2c2c2a; --text2:#5f5e5a; --text3:#888780;
+    --accent-bg:#e6f1fb; --accent-tx:#0c447c; --accent-line:#378add;
+    --danger-bg:#fcebeb; --danger-tx:#a32d2d;
+    --ok-bg:#e1f5ee; --ok-tx:#0f6e56;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#1a1a18; --card:#262624; --card2:#2f2f2c; --line:#3a3a37;
+      --text:#f1efe8; --text2:#b4b2a9; --text3:#888780;
+      --accent-bg:#0c447c; --accent-tx:#b5d4f4; --accent-line:#378add;
+      --danger-bg:#501313; --danger-tx:#f7c1c1;
+      --ok-bg:#04342c; --ok-tx:#9fe1cb;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:2rem 1rem; background:var(--bg); color:var(--text);
+    font-family:-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+    line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:860px; margin:0 auto;}
+  h1{font-size:24px; font-weight:600; margin:0 0 4px;}
+  .sub{color:var(--text2); font-size:15px; margin:0 0 2rem;}
+  .badge{display:inline-block; background:var(--accent-bg); color:var(--accent-tx);
+    font-size:12px; padding:3px 10px; border-radius:6px; margin-bottom:1rem;}
+  .grid{display:grid; gap:12px;}
+  .params{grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); margin-bottom:1.5rem;}
+  .cards{grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); margin-bottom:1rem;}
+  .box{background:var(--card2); border-radius:8px; padding:0.75rem 1rem;}
+  .box .lbl{font-size:13px; color:var(--text2); margin-bottom:8px;}
+  .row{display:flex; align-items:center; gap:10px;}
+  input[type=range]{flex:1; accent-color:var(--accent-line); height:4px;}
+  .out{font-size:14px; font-weight:600; min-width:56px; text-align:right;}
+  .stat{background:var(--card2); border-radius:8px; padding:1rem;}
+  .stat .lbl{font-size:13px; color:var(--text2);}
+  .stat .val{font-size:22px; font-weight:600; margin-top:4px;}
+  .hero{background:var(--accent-bg); border-radius:12px; padding:1.25rem 1.5rem; margin-bottom:1rem;}
+  .hero .lbl{font-size:14px; color:var(--accent-tx); margin-bottom:4px;}
+  .hero .val{font-size:34px; font-weight:600; color:var(--accent-tx);}
+  .hero .note{font-size:13px; color:var(--accent-tx); margin-top:6px; opacity:.9;}
+  table{width:100%; border-collapse:collapse; font-size:14px;}
+  .pnl{background:var(--card); border:0.5px solid var(--line); border-radius:12px; padding:1rem 1.25rem;}
+  .pnl td{padding:8px 0;}
+  .pnl tr{border-bottom:0.5px solid var(--line);}
+  .pnl td:first-child{color:var(--text2);}
+  .pnl td:last-child{text-align:right;}
+  .pnl tr.total{background:var(--accent-bg); border:none;}
+  .pnl tr.total td{padding:10px 8px; font-weight:600; color:var(--accent-tx);}
+  .warn{margin-top:0.75rem; font-size:13px; color:var(--text2); line-height:1.6;
+    background:var(--danger-bg); color:var(--danger-tx); padding:10px 14px; border-radius:8px;}
+  .foot{margin-top:2rem; font-size:12px; color:var(--text3); text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="badge">偉翔通運 · 內部評估</div>
+  <h1>圓通承接案 — 整案損益互動試算</h1>
+  <p class="sub">拖曳任一參數即時試算。核心產出：在保住目標淨利前提下，中南部合作方一才最多可付多少（談判天花板）。</p>
+
+  <div class="grid params">
+    <div class="box"><div class="lbl">月件數</div><div class="row"><input type="range" id="items" min="5000" max="12000" value="8500" step="100"><span class="out" id="items_o">8,500</span></div></div>
+    <div class="box"><div class="lbl">平均才數 / 件</div><div class="row"><input type="range" id="cai" min="12" max="28" value="22" step="1"><span class="out" id="cai_o">22</span></div></div>
+    <div class="box"><div class="lbl">圓通含稅單價 (元/才)</div><div class="row"><input type="range" id="price" min="20" max="45" value="30" step="1"><span class="out" id="price_o">30</span></div></div>
+    <div class="box"><div class="lbl">目標整案淨利率 (%)</div><div class="row"><input type="range" id="margin" min="5" max="30" value="15" step="1"><span class="out" id="margin_o">15%</span></div></div>
+    <div class="box"><div class="lbl">中南部才數佔比 (%)</div><div class="row"><input type="range" id="south" min="0" max="70" value="40" step="5"><span class="out" id="south_o">40%</span></div></div>
+    <div class="box"><div class="lbl">北部車數 (台) × 13萬</div><div class="row"><input type="range" id="trucks" min="6" max="16" value="11" step="1"><span class="out" id="trucks_o">11</span></div></div>
+    <div class="box"><div class="lbl">人力人數 × 4萬</div><div class="row"><input type="range" id="staff" min="2" max="8" value="4" step="1"><span class="out" id="staff_o">4</span></div></div>
+    <div class="box"><div class="lbl">場地月租 (萬)</div><div class="row"><input type="range" id="rent" min="0" max="40" value="18" step="1"><span class="out" id="rent_o">18</span></div></div>
+  </div>
+
+  <div class="grid cards">
+    <div class="stat"><div class="lbl">月營收 (含稅)</div><div class="val" id="rev">—</div></div>
+    <div class="stat"><div class="lbl">未稅營收</div><div class="val" id="revnet">—</div></div>
+    <div class="stat"><div class="lbl">北部自營固定成本</div><div class="val" id="fixed">—</div></div>
+    <div class="stat"><div class="lbl">目標淨利 (整案)</div><div class="val" id="target">—</div></div>
+  </div>
+
+  <div class="hero">
+    <div class="lbl">中南部一才可付上限 X（保住目標淨利的談判天花板）</div>
+    <div class="val" id="xval">—</div>
+    <div class="note" id="xnote">—</div>
+  </div>
+
+  <div class="pnl">
+    <table>
+      <tr><td>未稅營收</td><td id="t_rev">—</td></tr>
+      <tr><td>− 北部養車 (車數×13萬)</td><td id="t_truck">—</td></tr>
+      <tr><td>− 人力 (人數×4萬)</td><td id="t_staff">—</td></tr>
+      <tr><td>− 場地月租</td><td id="t_rent">—</td></tr>
+      <tr><td>− 硬體攤提 (34,000÷12)</td><td id="t_hw">—</td></tr>
+      <tr><td>− 所得稅準備 (20%)</td><td id="t_tax">—</td></tr>
+      <tr><td>− 目標淨利</td><td id="t_profit">—</td></tr>
+      <tr class="total"><td>= 中南部外包預算池</td><td id="t_pool">—</td></tr>
+      <tr><td>÷ 中南部才數/月</td><td id="t_caisouth">—</td></tr>
+    </table>
+  </div>
+
+  <div class="warn">⚠ D+3 延遲一件罰 200 RMB，列為極高風險條款，目前無法量化，未計入本表。「最低 500/件」底價未觸發時以才數計費。</div>
+
+  <div class="foot">偉翔通運股份有限公司 · 內部成本評估工具 · 數據可調整，僅供決策參考</div>
+</div>
+
+<script>
+function fmt(n){return Math.round(n).toLocaleString();}
+function calc(){
+  var items=+document.getElementById('items').value;
+  var cai=+document.getElementById('cai').value;
+  var price=+document.getElementById('price').value;
+  var margin=+document.getElementById('margin').value/100;
+  var south=+document.getElementById('south').value/100;
+  var trucks=+document.getElementById('trucks').value;
+  var staff=+document.getElementById('staff').value;
+  var rent=+document.getElementById('rent').value*10000;
+
+  document.getElementById('items_o').textContent=items.toLocaleString();
+  document.getElementById('cai_o').textContent=cai;
+  document.getElementById('price_o').textContent=price;
+  document.getElementById('margin_o').textContent=(margin*100).toFixed(0)+'%';
+  document.getElementById('south_o').textContent=(south*100).toFixed(0)+'%';
+  document.getElementById('trucks_o').textContent=trucks;
+  document.getElementById('staff_o').textContent=staff;
+  document.getElementById('rent_o').textContent=(rent/10000).toFixed(0);
+
+  var totalCai=items*cai;
+  var rev=totalCai*price;
+  var revnet=rev/1.05;
+  var truckCost=trucks*130000;
+  var staffCost=staff*40000;
+  var hw=34000/12;
+  var tax=revnet*0.20;
+  var target=revnet*margin;
+  var fixed=truckCost+staffCost+rent+hw;
+  var pool=revnet-fixed-tax-target;
+  var caiSouth=totalCai*south;
+  var x=caiSouth>0?pool/caiSouth:0;
+
+  document.getElementById('rev').textContent=fmt(rev);
+  document.getElementById('revnet').textContent=fmt(revnet);
+  document.getElementById('fixed').textContent=fmt(fixed);
+  document.getElementById('target').textContent=fmt(target);
+
+  document.getElementById('t_rev').textContent=fmt(revnet);
+  document.getElementById('t_truck').textContent='−'+fmt(truckCost);
+  document.getElementById('t_staff').textContent='−'+fmt(staffCost);
+  document.getElementById('t_rent').textContent='−'+fmt(rent);
+  document.getElementById('t_hw').textContent='−'+fmt(hw);
+  document.getElementById('t_tax').textContent='−'+fmt(tax);
+  document.getElementById('t_profit').textContent='−'+fmt(target);
+  document.getElementById('t_pool').textContent=fmt(pool);
+  document.getElementById('t_caisouth').textContent=fmt(caiSouth)+' 才';
+
+  var xv=document.getElementById('xval');
+  var xn=document.getElementById('xnote');
+  if(x<=0){
+    xv.textContent='談不成';
+    xn.textContent='目標淨利＋固定成本已超過營收，中南部無外包空間。需調降利潤率或砍固定成本。';
+  }else{
+    xv.textContent=x.toFixed(1)+' 元/才';
+    xn.textContent='中南部合作方報價 ≤ '+x.toFixed(1)+' 元/才 才能保住整案 '+(margin*100).toFixed(0)+'% 淨利；報高於此即侵蝕利潤。';
+  }
+}
+['items','cai','price','margin','south','trucks','staff','rent'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',calc);
+});
+calc();
+</script>
+</body>
+</html>
