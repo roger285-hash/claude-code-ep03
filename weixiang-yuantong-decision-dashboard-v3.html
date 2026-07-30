@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圓通速遞承接決策儀表板 V3</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Noto Sans TC',sans-serif;background:#EDEBE6;color:#1C1A17;padding:24px 16px;}
+  .wrap{max-width:1120px;margin:0 auto;}
+  .tabbar{display:flex;gap:8px;margin-bottom:16px;}
+  .tabbtn{padding:8px 20px;border:none;border-radius:8px 8px 0 0;background:#D8D4CC;color:#5A554C;font-weight:700;font-size:14px;cursor:pointer;}
+  .tabbtn.active{background:#FFFEF9;color:#1C1A17;box-shadow:0 -2px 6px rgba(0,0,0,.06);}
+  .pane{display:none;} .pane.active{display:block;}
+  .doc{background:#FFFEF9;border:1px solid #E3DED2;border-top:5px solid #C9A24B;border-radius:4px;padding:32px;box-shadow:0 6px 24px rgba(0,0,0,.08);}
+  .head{border-bottom:2px solid #EDE7DA;padding-bottom:18px;margin-bottom:24px;}
+  .head h1{font-family:'Noto Serif TC';font-weight:900;font-size:26px;letter-spacing:1px;}
+  .head .sub{color:#8A8272;font-size:14px;margin-top:6px;font-weight:500;}
+  .head .basis{display:inline-block;margin-top:10px;background:#FBF4E0;border:1px solid #E4D3A0;border-radius:6px;padding:4px 12px;font-size:12px;color:#8A6D1F;font-weight:700;}
+
+  .lights{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:26px;}
+  .light{border-radius:10px;padding:16px;text-align:center;border:2px solid transparent;opacity:.35;transition:.25s;}
+  .light .lbl{font-size:13px;font-weight:700;letter-spacing:1px;}
+  .light .desc{font-size:12px;margin-top:5px;line-height:1.5;}
+  .light.on{opacity:1;transform:scale(1.02);}
+  .g{background:#EAF5EC;border-color:#3E9B57;color:#2A6B3C;}
+  .y{background:#FBF4E0;border-color:#C9A24B;color:#8A6D1F;}
+  .r{background:#FBEBEA;border-color:#C0453B;color:#8E2F27;}
+
+  .verdict{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;margin-bottom:28px;}
+  .bignum{background:#1C1A17;color:#FFFEF9;border-radius:12px;padding:22px 24px;}
+  .bignum .k{font-size:13px;color:#B8AE97;letter-spacing:1px;}
+  .bignum .v{font-family:'Noto Serif TC';font-weight:900;font-size:42px;margin-top:4px;line-height:1;}
+  .bignum .v.pos{color:#7FD69A;} .bignum .v.neg{color:#F0918A;}
+  .bignum .note{font-size:12px;color:#9A917D;margin-top:10px;}
+  .metrics{display:grid;grid-template-rows:repeat(3,1fr);gap:10px;}
+  .metric{background:#FAF7F0;border-left:4px solid #C9A24B;border-radius:6px;padding:9px 14px;}
+  .metric .k{font-size:12px;color:#8A8272;font-weight:500;}
+  .metric .v{font-size:19px;font-weight:900;color:#1C1A17;}
+
+  h2.sec{font-family:'Noto Serif TC';font-size:18px;font-weight:700;margin:22px 0 14px;padding-left:10px;border-left:4px solid #C9A24B;}
+  .sliders{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px;}
+  .sld .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;}
+  .sld .name{font-size:14px;font-weight:700;}
+  .sld .val{font-size:17px;font-weight:900;color:#B5892C;font-family:'Noto Serif TC';}
+  .sld input[type=range]{width:100%;height:6px;border-radius:3px;background:#E3DED2;outline:none;-webkit-appearance:none;appearance:none;}
+  .sld input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#C9A24B;border:3px solid #FFFEF9;box-shadow:0 1px 4px rgba(0,0,0,.3);cursor:pointer;}
+  .sld input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#C9A24B;border:3px solid #FFFEF9;cursor:pointer;}
+  .sld .rng{display:flex;justify-content:space-between;font-size:11px;color:#A69C86;margin-top:2px;}
+  .sld.assume .name::after{content:' ⚠️';font-size:11px;}
+
+  table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px;}
+  th,td{padding:8px 12px;text-align:right;border-bottom:1px solid #EDE7DA;}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{background:#F3EFE5;font-weight:700;color:#5A554C;}
+  tr.total td{border-top:2px solid #1C1A17;font-weight:900;font-size:15px;background:#FAF7F0;}
+  tr.rev td{color:#2A6B3C;} tr.cost td{color:#8E2F27;}
+  tr.sub td{font-size:13px;color:#7A7466;}
+
+  .beline{background:#FBF4E0;border:1px dashed #C9A24B;border-radius:8px;padding:12px 16px;font-size:14px;margin-top:16px;line-height:1.7;}
+  .beline b{color:#B5892C;}
+  .foot{margin-top:22px;padding:16px 18px;background:#F3EFE5;border-radius:8px;font-size:12px;color:#6B655A;line-height:1.8;}
+  .foot .warn{color:#8E2F27;font-weight:700;}
+  .footer-bar{margin-top:18px;background:#1C1A17;color:#B8AE97;border-radius:8px;padding:14px 18px;font-size:12px;line-height:1.7;}
+  pre{background:#1C1A17;color:#E6E1D6;border-radius:8px;padding:20px;overflow:auto;font-size:12px;line-height:1.5;max-height:600px;}
+  @media(max-width:720px){.sliders,.verdict,.lights{grid-template-columns:1fr;}.verdict .metrics{grid-template-rows:none;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="tabbar">
+    <button class="tabbtn active" onclick="showTab('view',this)">瀏覽</button>
+    <button class="tabbtn" onclick="showTab('code',this)">代碼</button>
+  </div>
+
+  <div class="pane active" id="view">
+  <div class="doc">
+    <div class="head">
+      <h1>圓通速遞承接決策儀表板 V3</h1>
+      <div class="sub">大型家具配送 ｜ 才數口徑 ｜ 拉動參數即時判斷「這生意能不能做」</div>
+      <div class="basis" id="basisTag">決策基準：報價單保底量 8,500件 × 23才 = 195,500才／月</div>
+    </div>
+
+    <div class="lights">
+      <div class="light g" id="lg"><div class="lbl">綠燈 ✅ 可接</div><div class="desc">達目標淨利，生意划算</div></div>
+      <div class="light y" id="ly"><div class="lbl">黃燈 ⚠️ 可談</div><div class="desc">不虧但未達標</div></div>
+      <div class="light r" id="lr"><div class="lbl">紅燈 ⛔ 不接</div><div class="desc">整案虧損</div></div>
+    </div>
+
+    <div class="verdict">
+      <div class="bignum">
+        <div class="k">整案月淨利</div>
+        <div class="v" id="netProfit">—</div>
+        <div class="note" id="netNote"></div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="k">月營收</div><div class="v" id="mRev">—</div></div>
+        <div class="metric"><div class="k">月總成本</div><div class="v" id="mCost">—</div></div>
+        <div class="metric"><div class="k">每才淨利 / 淨利率</div><div class="v" id="mUnit">—</div></div>
+      </div>
+    </div>
+
+    <h2 class="sec">📊 營收參數</h2>
+    <div class="sliders">
+      <div class="sld"><div class="row"><span class="name">月件量（件）</span><span class="val" id="vQty">8,500</span></div>
+        <input type="range" id="qty" min="5000" max="12000" step="100" value="8500" oninput="calc()">
+        <div class="rng"><span>5,000</span><span>12,000（保底8,500）</span></div></div>
+      <div class="sld"><div class="row"><span class="name">平均才數（才/件）</span><span class="val" id="vChe">23</span></div>
+        <input type="range" id="che" min="18" max="28" step="1" value="23" oninput="calc()">
+        <div class="rng"><span>18</span><span>28</span></div></div>
+      <div class="sld"><div class="row"><span class="name">收費單價（NT$/才）</span><span class="val" id="vPrice">30</span></div>
+        <input type="range" id="price" min="25" max="35" step="0.5" value="30" oninput="calc()">
+        <div class="rng"><span>25</span><span>35</span></div></div>
+      <div class="sld"><div class="row"><span class="name">最低單件收費（NT$）</span><span class="val" id="vMin">500</span></div>
+        <input type="range" id="minfee" min="400" max="600" step="20" value="500" oninput="calc()">
+        <div class="rng"><span>400</span><span>600</span></div></div>
+    </div>
+
+    <h2 class="sec">💸 成本參數（元/才 分段疊加）</h2>
+    <div class="sliders">
+      <div class="sld"><div class="row"><span class="name">① 台北港拉貨/倉租</span><span class="val" id="vC1">3.0</span></div>
+        <input type="range" id="c1" min="0" max="8" step="0.1" value="3.0" oninput="calc()"><div class="rng"><span>0</span><span>8</span></div></div>
+      <div class="sld"><div class="row"><span class="name">② 拆櫃+上棚+理貨</span><span class="val" id="vC2">3.0</span></div>
+        <input type="range" id="c2" min="0" max="8" step="0.1" value="3.0" oninput="calc()"><div class="rng"><span>0</span><span>8</span></div></div>
+      <div class="sld"><div class="row"><span class="name">③ 中南部轉運（半資源）</span><span class="val" id="vC3">2.5</span></div>
+        <input type="range" id="c3" min="0" max="8" step="0.1" value="2.5" oninput="calc()"><div class="rng"><span>0</span><span>8</span></div></div>
+      <div class="sld"><div class="row"><span class="name">④ 中南部配送費</span><span class="val" id="vC4">10.0</span></div>
+        <input type="range" id="c4" min="4" max="16" step="0.5" value="10.0" oninput="calc()"><div class="rng"><span>4</span><span>16</span></div></div>
+      <div class="sld"><div class="row"><span class="name">⑤ 人員費用</span><span class="val" id="vC5">1.0</span></div>
+        <input type="range" id="c5" min="0" max="6" step="0.1" value="1.0" oninput="calc()"><div class="rng"><span>0</span><span>6</span></div></div>
+      <div class="sld"><div class="row"><span class="name">⑥ 調度雜支</span><span class="val" id="vC6">0.5</span></div>
+        <input type="range" id="c6" min="0" max="3" step="0.1" value="0.5" oninput="calc()"><div class="rng"><span>0</span><span>3</span></div></div>
+      <div class="sld"><div class="row"><span class="name">⑦ 場地費（月固定，自動攤提）</span><span class="val" id="vC7">180,000</span></div>
+        <input type="range" id="c7" min="0" max="400000" step="10000" value="180000" oninput="calc()"><div class="rng"><span>0</span><span>40萬</span></div></div>
+      <div class="sld assume"><div class="row"><span class="name">目標淨利門檻（NT$/月）</span><span class="val" id="vTarget">1,000,000</span></div>
+        <input type="range" id="target" min="0" max="2500000" step="50000" value="1000000" oninput="calc()"><div class="rng"><span>0</span><span>250萬</span></div></div>
+    </div>
+
+    <h2 class="sec">🧾 月損益結構</h2>
+    <table><thead><tr><th>項目</th><th>元/才</th><th>月金額（NT$）</th><th>佔營收</th></tr></thead>
+    <tbody id="pltable"></tbody></table>
+
+    <div class="beline" id="beline"></div>
+
+    <div class="foot">
+      <div><span class="warn">決策基準說明：</span>採報價單保底量（不低於8,500件×平均23才＝195,500才）為主軸，為最保守壓力測試。導圖滿載值264,000/312,000才僅供量能上限參考。</div>
+      <div><span class="warn">⚠️ 待覆核：</span>總成本是否含稅（導圖稅金另列營業稅5%＋營所稅20%）；若23.76元/才未含稅，淨利須再打折 — 入職後與Kiki對帳。</div>
+      <div>⑦場地費為月固定成本，隨當下月才數自動換算元/才 — 量越低攤提越重，燈號會自動反映。</div>
+      <div class="warn">前置條件：中南部合作意向書尚未簽署，綠燈≠可立即承接。</div>
+    </div>
+
+    <div class="footer-bar" id="fleet"></div>
+  </div>
+  </div>
+
+  <div class="pane" id="code"><pre id="codebox"></pre></div>
+</div>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
+}
+const nf=n=>Math.round(n).toLocaleString('en-US');
+const nf1=n=>n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+const $=id=>document.getElementById(id);
+
+function calc(){
+  const qty=+$('qty').value, che=+$('che').value, price=+$('price').value, minfee=+$('minfee').value;
+  const c1=+$('c1').value,c2=+$('c2').value,c3=+$('c3').value,c4=+$('c4').value,c5=+$('c5').value,c6=+$('c6').value,c7=+$('c7').value;
+  const target=+$('target').value;
+
+  $('vQty').textContent=nf(qty);$('vChe').textContent=che;$('vPrice').textContent=price;$('vMin').textContent=nf(minfee);
+  $('vC1').textContent=c1.toFixed(1);$('vC2').textContent=c2.toFixed(1);$('vC3').textContent=c3.toFixed(1);
+  $('vC4').textContent=c4.toFixed(1);$('vC5').textContent=c5.toFixed(1);$('vC6').textContent=c6.toFixed(1);
+  $('vC7').textContent=nf(c7);$('vTarget').textContent=nf(target);
+
+  const totalChe=qty*che;
+  $('basisTag').textContent=`決策基準：${nf(qty)}件 × ${che}才 = ${nf(totalChe)}才／月`;
+
+  // revenue
+  const perItem=Math.max(price*che,minfee);
+  const rev=perItem*qty;
+  const revPerChe=rev/totalChe;
+
+  // variable costs per che
+  const varCost=c1+c2+c3+c4+c5+c6;
+  const varTotal=varCost*totalChe;
+  // fixed site fee -> per che
+  const sitePerChe=totalChe>0?c7/totalChe:0;
+  const totalCostPerChe=varCost+sitePerChe;
+  const totalCost=varTotal+c7;
+
+  const net=rev-totalCost;
+  const netPerChe=totalChe>0?net/totalChe:0;
+  const margin=rev>0?net/rev*100:0;
+
+  $('netProfit').textContent=(net<0?'-':'')+'NT$ '+nf(Math.abs(net));
+  $('netProfit').className='v '+(net>=0?'pos':'neg');
+  $('mRev').textContent='NT$ '+nf(rev);
+  $('mCost').textContent='NT$ '+nf(totalCost);
+  $('mUnit').textContent=netPerChe.toFixed(2)+'元 / '+margin.toFixed(1)+'%';
+
+  ['lg','ly','lr'].forEach(x=>$(x).classList.remove('on'));
+  let note='';
+  if(net<0){$('lr').classList.add('on');note='整案虧損，現條件不成立，須重談單價或壓成本。';}
+  else if(net<target){$('ly').classList.add('on');note='不虧但未達目標，須壓成本或提量。';}
+  else{$('lg').classList.add('on');note='達目標淨利，此案划算可承接。';}
+  $('netNote').textContent=note;
+
+  const rows=[
+    ['營收',revPerChe.toFixed(2),rev,'rev','100.0%'],
+    ['① 台北港拉貨/倉租',c1.toFixed(1),-c1*totalChe,'cost sub'],
+    ['② 拆櫃+上棚+理貨',c2.toFixed(1),-c2*totalChe,'cost sub'],
+    ['③ 中南部轉運',c3.toFixed(1),-c3*totalChe,'cost sub'],
+    ['④ 中南部配送費',c4.toFixed(1),-c4*totalChe,'cost sub'],
+    ['⑤ 人員費用',c5.toFixed(1),-c5*totalChe,'cost sub'],
+    ['⑥ 調度雜支',c6.toFixed(1),-c6*totalChe,'cost sub'],
+    ['⑦ 場地費（固定攤提）',sitePerChe.toFixed(2),-c7,'cost sub'],
+    ['成本合計',totalCostPerChe.toFixed(2),-totalCost,'cost'],
+  ];
+  let html='';
+  rows.forEach(r=>{const pct=(Math.abs(r[2])/rev*100).toFixed(1)+'%';
+    html+=`<tr class="${r[3]}"><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]<0?'-':''}NT$ ${nf(Math.abs(r[2]))}</td><td>${r[4]||pct}</td></tr>`;});
+  html+=`<tr class="total"><td>整案月淨利</td><td>${netPerChe.toFixed(2)}</td><td>${net<0?'-':''}NT$ ${nf(Math.abs(net))}</td><td>${margin.toFixed(1)}%</td></tr>`;
+  $('pltable').innerHTML=html;
+
+  // breakeven price per che (rev=cost). rev=price*che*qty if above minfee. approx using per-che:
+  // net=0 -> revPerChe = totalCostPerChe -> needed price/才 (ignoring minfee) = totalCostPerChe
+  const bePrice=totalCostPerChe;
+  const tgPrice=totalCostPerChe + target/totalChe;
+  $('beline').innerHTML=`💡 <b>盈虧臨界：</b>現成本結構下，收費壓到 <b>${bePrice.toFixed(2)} 元/才</b> 以下就虧；`+
+    `要達目標淨利 NT$${nf(target)}，收費需 ≥ <b>${tgPrice.toFixed(2)} 元/才</b>。目前收費 ${revPerChe.toFixed(2)} 元/才、總成本 ${totalCostPerChe.toFixed(2)} 元/才。`;
+
+  const cars=Math.ceil(qty/(35*26));
+  $('fleet').innerHTML=`🚚 <b>規模反推</b>：月 ${nf(qty)} 件 ÷（35件/車/天×26天）≈ 需 <b>${cars}</b> 台車 ｜ 月總才數 ${nf(totalChe)}才 ｜ 每才淨利 ${netPerChe.toFixed(2)}元`;
+}
+calc();
+$('codebox').textContent=document.documentElement.outerHTML;
+</script>
+</body>
+</html>
