@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>圓通承接評估｜偉翔通運</title>
+<meta property="og:title" content="圓通速遞承接評估報告">
+<meta property="og:description" content="偉翔通運｜蓋房子先打地基">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFEF9; --sand:#F5F1E8; --ink:#14120F; --ink2:#2A251E; --soft:#6B6459;
+  --gold:#C8912F; --gold-lt:#E8D8B0; --line:#E3DCCC;
+  --red:#D0392B; --red-dk:#8B1F14; --green:#2E7D4F;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-text-size-adjust:100%}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--sand);color:var(--ink);line-height:1.7}
+.doc{max-width:520px;margin:0 auto;background:var(--sand);overflow:hidden}
+
+.tabs{display:flex;gap:6px;padding:10px 16px;background:var(--sand);position:sticky;top:0;z-index:99;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;font-family:inherit;font-size:13px;font-weight:700;padding:8px;border:1px solid var(--line);
+  background:var(--paper);color:var(--soft);border-radius:8px;cursor:pointer}
+.tabs button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pane{display:none}.pane.on{display:block}
+
+/* ── blocks ── */
+.blk{padding:52px 22px}
+.blk.light{background:var(--paper)}
+.blk.sand{background:var(--sand)}
+.blk.dark{background:var(--ink);color:var(--paper)}
+.blk.red{background:var(--red-dk);color:#fff}
+.blk.gold{background:var(--gold);color:#fff}
+
+.eyebrow{font-size:11px;letter-spacing:3px;font-weight:900;text-transform:uppercase;margin-bottom:14px;opacity:.85}
+.eyebrow.g{color:var(--gold)}
+.blk.dark .eyebrow,.blk.red .eyebrow,.blk.gold .eyebrow{color:rgba(255,255,255,.6)}
+
+h1{font-family:'Noto Serif TC',serif;font-weight:900;font-size:31px;line-height:1.3;letter-spacing:-.5px}
+h2{font-family:'Noto Serif TC',serif;font-weight:900;font-size:25px;line-height:1.35;margin-bottom:18px;letter-spacing:-.3px}
+h3{font-family:'Noto Serif TC',serif;font-weight:900;font-size:18px;margin-bottom:8px}
+p{font-size:15px;line-height:1.9}
+.dim{color:var(--soft)}
+.blk.dark .dim,.blk.red .dim{color:rgba(255,255,255,.72)}
+
+/* header */
+.head{background:linear-gradient(175deg,var(--paper),var(--sand));border-bottom:5px solid var(--gold);padding:44px 22px 38px}
+.head .meta{font-size:12.5px;color:var(--soft);margin-top:14px;letter-spacing:.5px}
+
+/* hero number */
+.hero-n{font-family:'Noto Serif TC',serif;font-weight:900;font-size:82px;line-height:.95;letter-spacing:-3px}
+.hero-n.sm{font-size:60px}
+.hero-u{font-size:17px;font-weight:900;margin-left:4px;letter-spacing:0}
+.cap{font-size:13.5px;margin-top:14px;line-height:1.8}
+
+/* verdict */
+.verdict{border:3px solid var(--red);border-radius:16px;padding:26px 22px;background:rgba(208,57,43,.06)}
+.verdict .tag{display:inline-block;background:var(--red);color:#fff;font-size:12px;font-weight:900;
+  padding:5px 14px;border-radius:20px;letter-spacing:1px;margin-bottom:16px}
+
+/* stat rows */
+.stat{border-top:1px solid var(--line);padding:20px 0}
+.stat:last-child{border-bottom:1px solid var(--line)}
+.blk.dark .stat{border-color:rgba(255,255,255,.16)}
+.stat .n{font-family:'Noto Serif TC',serif;font-weight:900;font-size:38px;line-height:1;letter-spacing:-1.5px}
+.stat .n.red{color:var(--red)}
+.stat .n.gold{color:var(--gold)}
+.stat .k{font-size:13.5px;font-weight:700;margin-bottom:8px}
+.stat .d{font-size:13px;line-height:1.75;margin-top:8px}
+
+/* penalty list */
+.pen{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;
+  padding:15px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.pen:last-child{border-bottom:none}
+.pen .l{font-size:14.5px;font-weight:700;flex:1}
+.pen .l small{display:block;font-size:11.5px;font-weight:400;color:rgba(255,255,255,.6);margin-top:3px}
+.pen .r{font-family:'Noto Serif TC',serif;font-weight:900;font-size:17px;white-space:nowrap;text-align:right}
+.pen.max{background:rgba(255,255,255,.09);margin:8px -14px;padding:18px 14px;border-radius:12px;border-bottom:none}
+.pen.max .r{font-size:24px;color:#FFD98C}
+
+/* ratio bar */
+.rbar{margin-top:12px}
+.rbar .row{display:flex;align-items:center;gap:10px;margin-bottom:11px;font-size:13px}
+.rbar .lb{width:88px;flex:none;font-weight:700}
+.rbar .tr{flex:1;height:26px;background:rgba(255,255,255,.14);border-radius:5px;overflow:hidden}
+.rbar .fl{height:100%}
+.rbar .vv{width:78px;flex:none;text-align:right;font-family:'Noto Serif TC',serif;font-weight:900;font-size:14px}
+
+/* quote */
+.qt{font-family:'Noto Serif TC',serif;font-weight:900;font-size:20px;line-height:1.65;
+  border-left:5px solid var(--gold);padding:6px 0 6px 18px;margin:22px 0}
+.blk.dark .qt{border-color:var(--gold)}
+
+/* gap cards */
+.gap{background:var(--paper);border-radius:14px;padding:20px;margin-bottom:12px;border-left:6px solid var(--red)}
+.gap.mid{border-left-color:var(--gold)}
+.gap .lv{font-size:11px;font-weight:900;letter-spacing:1.5px;color:var(--red);margin-bottom:6px}
+.gap.mid .lv{color:var(--gold)}
+.gap h4{font-family:'Noto Serif TC',serif;font-size:17px;margin-bottom:7px}
+.gap p{font-size:13.5px;color:var(--soft);line-height:1.8}
+
+/* phases */
+.ph{position:relative;padding-left:52px;padding-bottom:26px}
+.ph:last-child{padding-bottom:0}
+.ph .num{position:absolute;left:0;top:0;width:38px;height:38px;border-radius:50%;background:var(--gold);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Noto Serif TC',serif;font-weight:900;font-size:17px}
+.ph .ln{position:absolute;left:18px;top:38px;bottom:0;width:2px;background:var(--gold-lt)}
+.ph:last-child .ln{display:none}
+.ph h4{font-family:'Noto Serif TC',serif;font-size:18px;margin-bottom:6px;padding-top:5px}
+.ph p{font-size:13.5px;color:var(--soft);line-height:1.8;margin-bottom:10px}
+.ph .ask{display:inline-block;border:2px dashed var(--gold);border-radius:9px;padding:8px 15px;
+  font-size:13px;font-weight:900;color:var(--gold)}
+
+/* decision */
+.dec{background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:24px 22px;margin-bottom:14px}
+.dec .no{font-family:'Noto Serif TC',serif;font-size:13px;font-weight:900;color:var(--gold);letter-spacing:2px;margin-bottom:8px}
+.dec h4{font-family:'Noto Serif TC',serif;font-size:19px;line-height:1.45;margin-bottom:10px}
+.dec p{font-size:13.5px;color:var(--soft);line-height:1.8}
+
+/* closing */
+.close p{font-family:'Noto Serif TC',serif;font-weight:900;font-size:20px;line-height:1.9;margin-bottom:22px}
+.close p:last-child{margin-bottom:0;color:var(--gold)}
+
+.foot{background:var(--ink2);color:rgba(255,255,255,.5);font-size:11.5px;padding:26px 22px;text-align:center;line-height:1.9}
+
+#code pre{background:var(--ink);color:#E0D8C6;padding:18px;font-size:10.5px;line-height:1.55;
+  overflow:auto;max-height:78vh;white-space:pre-wrap;word-break:break-all}
+</style>
+</head>
+<body>
+<div class="doc">
+
+<div class="tabs">
+  <button id="tv" class="on" onclick="sw('v')">瀏覽</button>
+  <button id="tc" onclick="sw('c')">代碼</button>
+</div>
+
+<div id="view" class="pane on">
+
+  <!-- HEADER -->
+  <div class="head">
+    <div class="eyebrow g">偉翔通運 · 商業評估報告</div>
+    <h1>圓通速遞<br>承接評估</h1>
+    <div class="meta">致 阿尼基 · 奕迪　｜　2026 年 8 月</div>
+  </div>
+
+  <!-- 1. 一句話 -->
+  <div class="blk dark">
+    <div class="eyebrow">一句話</div>
+    <h2 style="font-size:29px">蓋房子<br>先打地基。</h2>
+    <p class="dim">這份報告只講一件事：偉翔現在該不該把圓通這棟樓蓋上去。</p>
+  </div>
+
+  <!-- 2. 結論 -->
+  <div class="blk light">
+    <div class="eyebrow g">結論</div>
+    <div class="verdict">
+      <span class="tag">地基未穩</span>
+      <h3 style="font-size:21px;line-height:1.5">四大支柱<br>全部尚未站穩</h3>
+      <p style="font-size:14.5px;margin-top:12px" class="dim">
+        圓通的規則已經明確，偉翔的地基還沒到位。<b style="color:var(--red)">四根支柱一根都還沒穩</b>，此時往上蓋樓，風險由偉翔獨自承擔。
+      </p>
+    </div>
+
+    <div style="margin-top:24px">
+      <div class="gap">
+        <div class="lv">支柱 一</div>
+        <h4>財務精算能力</h4>
+        <p>連每月虧 50–80 萬的根因都拆不出來，成本歸屬邏輯尚未建立。</p>
+      </div>
+      <div class="gap">
+        <div class="lv">支柱 二</div>
+        <h4>組織架構</h4>
+        <p>調度指揮權未歸一，客服人員配比未建置，人員編制與職責分工尚未成形。</p>
+      </div>
+      <div class="gap">
+        <div class="lv">支柱 三</div>
+        <h4>服務圓通的專屬配套</h4>
+        <p>節點回傳、簽收存證、資安控管、異常件處理流程，圓通要求的配套一項都還沒健全。</p>
+      </div>
+      <div class="gap">
+        <div class="lv">支柱 四</div>
+        <h4>外派車輛管理約束能力</h4>
+        <p>中南部靠外派車主承運，但尚未簽署任何合作意向書，也無管理與約束機制。</p>
+      </div>
+    </div>
+
+    <p style="margin-top:22px;font-size:15px" class="dim">
+      這四根支柱，<b style="color:var(--ink)">每一根都直接對應圓通合約裡的罰則條款</b>。地基穩，這筆生意賺得住；地基不穩，罰款會從服務費裡一筆一筆扣回去。
+    </p>
+  </div>
+
+  <!-- 3. 三個數字 -->
+  <div class="blk sand">
+    <div class="eyebrow g">先看三個數字</div>
+    <div class="stat">
+      <div class="k">合約載明的保底貨量</div>
+      <div class="n red">0</div>
+      <div class="d dim">母約與附件一～四全文查無任何每日／每月量能承諾。200件／天是口頭說法，不在合約裡。</div>
+    </div>
+    <div class="stat">
+      <div class="k">單一罰則最高金額</div>
+      <div class="n red">NT$22,000<span class="hero-u">／單</span></div>
+      <div class="d dim">附件三「服務規範」第7、8項，5,000元人民幣／單，影響菜鳥聲譽或收入時觸發。</div>
+    </div>
+    <div class="stat">
+      <div class="k">目前每月虧損（原因不明）</div>
+      <div class="n red">50–80<span class="hero-u">萬</span></div>
+      <div class="d dim">書籍業務已於 7/31 停損，但虧損根因至今無法拆解。</div>
+    </div>
+  </div>
+
+  <!-- 4. 罰則 -->
+  <div class="blk dark">
+    <div class="eyebrow">附件三 · 賠付規則</div>
+    <h2>罰款不是<br>看貨值算的。</h2>
+    <p class="dim" style="margin-bottom:24px">是「一單多少錢」直接扣，跟這單值多少完全無關。</p>
+
+    <div class="pen"><div class="l">物流延遲</div><div class="r">¥10／單</div></div>
+    <div class="pen"><div class="l">非正常簽收<small>無法舉證即視為丟件</small></div><div class="r">¥50／單</div></div>
+    <div class="pen"><div class="l">信息回傳不實<small>同事件上限 ¥10,000</small></div><div class="r">¥200／單</div></div>
+    <div class="pen"><div class="l">包裹丟失 · 破損 · 發錯</div><div class="r">最高 ¥2,000／單</div></div>
+    <div class="pen"><div class="l">虛假舉證</div><div class="r">¥2,000／次</div></div>
+    <div class="pen"><div class="l">服務態度<small>三級：辱罵毆打最重</small></div><div class="r">¥50→2,000／單</div></div>
+    <div class="pen max">
+      <div class="l">服務規範 第7、8項<small>司機私自聯繫消費者、未按 SOP 操作，造成聲譽或收入影響</small></div>
+      <div class="r">¥5,000<br><span style="font-size:12px;font-weight:400">／單</span></div>
+    </div>
+    <p class="dim" style="margin-top:22px;font-size:13.5px">
+      💰 罰款<b style="color:#fff">直接從偉翔服務費中扣除</b>，不另開票對帳——不是事後才發現，是當月收入直接少一塊。
+    </p>
+  </div>
+
+  <!-- 5. 比例風險 -->
+  <div class="blk red">
+    <div class="eyebrow">賠償比例風險</div>
+    <h2>一次罰款<br>吃掉 33 單。</h2>
+    <div class="rbar">
+      <div class="row"><span class="lb">單筆運費</span><div class="tr"><div class="fl" style="width:3%;background:#fff"></div></div><span class="vv">657 元</span></div>
+      <div class="row"><span class="lb">最高罰則</span><div class="tr"><div class="fl" style="width:100%;background:#FFD98C"></div></div><span class="vv">22,000 元</span></div>
+    </div>
+    <p class="dim" style="margin-top:20px">
+      試運營一單運費約 NT$657。踩到一次最高罰則，等於白跑 33 趟——而且這 33 趟的油錢、司機薪水還是照付。
+    </p>
+  </div>
+
+  <!-- 6. 菜鳥 -->
+  <div class="blk light">
+    <div class="eyebrow g">這套規則是誰定的</div>
+    <div class="qt">這是菜鳥全網的標準化平台規則，不是圓通為偉翔量身設計的。</div>
+    <p class="dim">
+      阿里巴巴持有圓通約 22.5% 股權，圓通本身也是菜鳥網絡的原始股東之一。這份合約檔名就叫「<b style="color:var(--ink)">菜鳥平台產品協議—台灣末端配送</b>」。
+    </p>
+    <p class="dim" style="margin-top:16px">
+      意思是：<b style="color:var(--red)">罰則沒得談。</b>圓通台灣窗口很可能自己也沒有修改權限。唯一的解法不是談條款，是把我們自己的能力對齊到規則要求的水準。
+    </p>
+  </div>
+
+  <!-- 7. 缺口 -->
+  <div class="blk sand">
+    <div class="eyebrow g">那偉翔現在的能力在哪</div>
+    <h2>五個地方<br>還沒站穩。</h2>
+
+    <div class="gap">
+      <div class="lv">極高風險</div>
+      <h4>財務算不出來</h4>
+      <p>連每月虧 50–80 萬的原因都拆不出來，代表成本歸屬邏輯根本不存在。罰款被扣了，我們可能過幾個月才發現。</p>
+    </div>
+    <div class="gap">
+      <div class="lv">極高風險</div>
+      <h4>調度沒有單一指揮</h4>
+      <p>7日3配的容錯視窗只有 7 天。奕迪與李經理若各有各的調度邏輯，反應速度追不上罰則節奏。</p>
+    </div>
+    <div class="gap">
+      <div class="lv">極高風險</div>
+      <h4>合約沒有量能上限</h4>
+      <p>圓通可依附件四單方調整派單量。今天 200 件，明天要衝多少，我們沒有拒絕的合約依據。</p>
+    </div>
+    <div class="gap">
+      <div class="lv">高風險</div>
+      <h4>沒有客服建置</h4>
+      <p>異常件全部壓在第一線司機身上——而 ¥5,000 那條罰則，最容易被外派司機踩到。</p>
+    </div>
+    <div class="gap mid">
+      <div class="lv">高風險</div>
+      <h4>外派車輛尚未簽任何意向書</h4>
+      <p>中南部配送要靠外派車主，但目前一份合作意向書都還沒簽。運能是空的。</p>
+    </div>
+  </div>
+
+  <!-- 8. 三重成本 -->
+  <div class="blk dark">
+    <div class="eyebrow">要付出的代價有三種</div>
+    <div class="stat">
+      <div class="k">① 罰款的錢</div>
+      <div class="n gold">看得見</div>
+      <div class="d dim">逐單計算，直接從服務費扣除。</div>
+    </div>
+    <div class="stat">
+      <div class="k">② 打地基的錢</div>
+      <div class="n gold">算不出來</div>
+      <div class="d dim">客服人力、系統、簽收設備都能估。但合約硬性要求的物流責任險與公眾責任險，我們連一張報價單都還沒拿到。</div>
+    </div>
+    <div class="stat">
+      <div class="k">③ 招牌</div>
+      <div class="n red">賠不起</div>
+      <div class="d dim">如果地基沒打穩就接單，履約出包被降量或終止，消息會在物流圈傳開。凱薩、ASC 會開始懷疑偉翔的承接能力——這個沒有價碼。</div>
+    </div>
+  </div>
+
+  <!-- 9. 地基圖 -->
+  <div class="blk light">
+    <div class="eyebrow g">現在這棟房子長這樣</div>
+    <svg viewBox="0 0 340 430" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:8px 0">
+      <!-- upper floors: locked -->
+      <rect x="20" y="10" width="300" height="86" fill="#EDEAE2" stroke="#9A9186" stroke-width="2" stroke-dasharray="4 5"/>
+      <text x="170" y="40" text-anchor="middle" font-family="'Noto Serif TC',serif" font-size="15" font-weight="900" fill="#6B6459">🔒 樓層未定</text>
+      <text x="170" y="62" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#6B6459">正式量產規模</text>
+      <text x="170" y="80" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#6B6459">合約沒寫，圓通片面決定</text>
+
+      <!-- floor 1: pilot -->
+      <rect x="20" y="106" width="300" height="86" fill="#F7EDD4" stroke="#C8912F" stroke-width="2.5" stroke-dasharray="7 4"/>
+      <text x="170" y="136" text-anchor="middle" font-family="'Noto Serif TC',serif" font-size="15" font-weight="900" fill="#14120F">🚧 一樓 · 試運營</text>
+      <text x="170" y="158" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#2A251E">200 件／天 壓力測試</text>
+      <text x="170" y="176" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11" fill="#2A251E">邊蓋邊測承重</text>
+
+      <!-- crack -->
+      <polyline points="150,192 172,206 154,218 180,230 160,242" fill="none" stroke="#D0392B" stroke-width="3.5" stroke-linecap="round"/>
+      <text x="170" y="262" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11.5" font-weight="900" fill="#D0392B">⚠️ 裂縫：罰則 × 量能缺口</text>
+
+      <!-- ground line -->
+      <line x1="10" y1="278" x2="330" y2="278" stroke="#14120F" stroke-width="2.5"/>
+      <text x="330" y="293" text-anchor="end" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="#6B6459">地面</text>
+
+      <!-- foundation piles -->
+      <rect x="20" y="300" width="70" height="112" rx="5" fill="#FBEAE7" stroke="#D0392B" stroke-width="2.5"/>
+      <text x="55" y="330" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8B1F14">財務</text>
+      <text x="55" y="346" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8B1F14">精算</text>
+      <text x="55" y="374" text-anchor="middle" font-size="17">🔴</text>
+      <text x="55" y="396" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="#8B1F14">極弱</text>
+
+      <rect x="98" y="300" width="70" height="112" rx="5" fill="#FBF3E0" stroke="#C8912F" stroke-width="2.5"/>
+      <text x="133" y="330" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8A6410">組織</text>
+      <text x="133" y="346" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8A6410">架構</text>
+      <text x="133" y="374" text-anchor="middle" font-size="17">🟡</text>
+      <text x="133" y="396" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="#8A6410">待整備</text>
+
+      <rect x="176" y="300" width="70" height="112" rx="5" fill="#FBF3E0" stroke="#C8912F" stroke-width="2.5"/>
+      <text x="211" y="330" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8A6410">圓通</text>
+      <text x="211" y="346" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8A6410">專屬能力</text>
+      <text x="211" y="374" text-anchor="middle" font-size="17">🟡</text>
+      <text x="211" y="396" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="#8A6410">建置中</text>
+
+      <rect x="254" y="300" width="66" height="112" rx="5" fill="#FBEAE7" stroke="#D0392B" stroke-width="2.5"/>
+      <text x="287" y="330" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8B1F14">外派車輛</text>
+      <text x="287" y="346" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10.5" font-weight="700" fill="#8B1F14">管理約束</text>
+      <text x="287" y="374" text-anchor="middle" font-size="17">🔴</text>
+      <text x="287" y="396" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="#8B1F14">未簽意向書</text>
+    </svg>
+    <p class="dim" style="font-size:14px;margin-top:14px">
+      四根支柱，兩根紅燈、兩根還在灌漿。地基灌好，這棟樓蓋得起來；灌不好，樓越高塌得越快。
+    </p>
+  </div>
+
+  <!-- 10. 打地基 -->
+  <div class="blk sand">
+    <div class="eyebrow g">建議做法</div>
+    <h2>分四階段<br>把地基打穩。</h2>
+    <p class="dim" style="margin-bottom:28px">內容偉翔負責規劃，<b style="color:var(--ink)">每個階段要多久，請阿尼基裁示</b>。</p>
+
+    <div class="ph">
+      <div class="num">1</div><div class="ln"></div>
+      <h4>地基穩定</h4>
+      <p>調度指揮權歸一（一人指揮、一人負責）＋財務即時損益追蹤上線＋釐清月虧 50–80 萬根因。</p>
+      <span class="ask">需要多久？　＿＿ 週</span>
+    </div>
+    <div class="ph">
+      <div class="num">2</div><div class="ln"></div>
+      <h4>圓通專屬能力建置</h4>
+      <p>客服建置＋中南部意向書洽簽＋簽收存證 SOP（照片＋定位）＋派車系統上線＋基本資安控管。</p>
+      <span class="ask">需要多久？　＿＿ 週</span>
+    </div>
+    <div class="ph">
+      <div class="num">3</div><div class="ln"></div>
+      <h4>小批量壓力測試</h4>
+      <p>以 200 件／天規模驗證履約時效、資訊準確率、簽收合格率。用真實數據回推真實成本。</p>
+      <span class="ask">需要多久？　＿＿ 週</span>
+    </div>
+    <div class="ph">
+      <div class="num">4</div>
+      <h4>正式量產簽約</h4>
+      <p>驗收通過後才啟動。量產規模由雙方協商，不是現在這份合約的承諾。</p>
+    </div>
+  </div>
+
+  <!-- 10.5 賺賠比例 -->
+  <div class="blk dark">
+    <div class="eyebrow">賺錢 vs 賠錢</div>
+    <h2>同一筆生意<br>兩個結局。</h2>
+    <p class="dim" style="margin-bottom:6px">差別不在圓通給多少貨，在地基有沒有打穩。</p>
+
+    <svg viewBox="0 0 340 330" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;margin:20px 0 6px">
+      <!-- grid -->
+      <line x1="8" y1="70" x2="332" y2="70" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+      <line x1="8" y1="135" x2="332" y2="135" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+      <!-- zero line -->
+      <line x1="8" y1="200" x2="332" y2="200" stroke="#FFFEF9" stroke-width="2.5"/>
+      <text x="8" y="216" font-family="'Noto Sans TC',sans-serif" font-size="10.5" fill="rgba(255,255,255,.6)">0 元　損益兩平線</text>
+
+      <!-- A 順利 -->
+      <rect x="26" y="70" width="72" height="130" rx="4" fill="#2E7D4F"/>
+      <text x="62" y="60" text-anchor="middle" font-family="'Noto Serif TC',serif" font-size="17" font-weight="900" fill="#7BD4A0">+84.5萬</text>
+      <text x="62" y="252" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11.5" font-weight="700" fill="#FFFEF9">地基打穩</text>
+      <text x="62" y="270" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="rgba(255,255,255,.6)">順利執行</text>
+      <text x="62" y="286" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="rgba(255,255,255,.6)">淨利率 24.7%</text>
+
+      <!-- B 局部出錯 -->
+      <rect x="134" y="103" width="72" height="97" rx="4" fill="#C8912F"/>
+      <text x="170" y="93" text-anchor="middle" font-family="'Noto Serif TC',serif" font-size="17" font-weight="900" fill="#F0C56A">+63萬</text>
+      <text x="170" y="252" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11.5" font-weight="700" fill="#FFFEF9">局部出錯</text>
+      <text x="170" y="270" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="rgba(255,255,255,.6)">罰則侵蝕約 25%</text>
+
+      <!-- C 地基未穩 -->
+      <rect x="242" y="200" width="72" height="42" rx="4" fill="#D0392B"/>
+      <text x="278" y="262" text-anchor="middle" font-family="'Noto Serif TC',serif" font-size="17" font-weight="900" fill="#FF8B7D">−25萬</text>
+      <text x="278" y="286" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="11.5" font-weight="700" fill="#FFFEF9">地基未穩</text>
+      <text x="278" y="304" text-anchor="middle" font-family="'Noto Sans TC',sans-serif" font-size="10" fill="rgba(255,255,255,.6)">KPI 降檔＋派單縮減</text>
+
+      <!-- swing bracket -->
+      <line x1="322" y1="70" x2="322" y2="242" stroke="#FFD98C" stroke-width="1.5"/>
+      <line x1="317" y1="70" x2="327" y2="70" stroke="#FFD98C" stroke-width="1.5"/>
+      <line x1="317" y1="242" x2="327" y2="242" stroke="#FFD98C" stroke-width="1.5"/>
+    </svg>
+
+    <div class="stat" style="border-top:1px solid rgba(255,255,255,.16)">
+      <div class="k">最好與最壞之間的擺盪</div>
+      <div class="n gold">109.5<span class="hero-u">萬／月</span></div>
+      <div class="d dim">同樣的貨量、同樣的合約、同樣的價格——差別只在偉翔自己的執行能力。這 109.5 萬不是圓通給不給，是我們自己守不守得住。</div>
+    </div>
+    <div class="stat">
+      <div class="k">補一個壞月份要幾個好月份</div>
+      <div class="n red">約 3 個月</div>
+      <div class="d dim">賠掉的 25 萬，加上原本該賺的 84.5 萬，等於一次出事要用近三個月的順利營運來補。</div>
+    </div>
+
+    <p class="dim" style="font-size:12.5px;margin-top:20px;opacity:.75">
+      ⚠️ 三個情境皆為外部推估模型，非偉翔內部精算驗證數據。實際數字須待財務系統建置完成後重新驗證。
+    </p>
+  </div>
+
+  <!-- 11. 決策 -->
+  <div class="blk light">
+    <div class="eyebrow g">要阿尼基拍板的三件事</div>
+    <div class="dec">
+      <div class="no">決策 一 · 錢</div>
+      <h4>要不要投資<br>把地基打穩？</h4>
+      <p>核准整備計畫的資源投入，含客服人力、系統建置、保險保費。保費金額待報價後追加確認。</p>
+    </div>
+    <div class="dec">
+      <div class="no">決策 二 · 權</div>
+      <h4>調度指揮權<br>由誰統一負責？</h4>
+      <p>圓通 7日3配 的容錯視窗只有 7 天，車輛調度必須「一人指揮、一人負責」。目前指揮權未明確歸屬，請阿尼基裁定由誰統籌。</p>
+    </div>
+    <div class="dec">
+      <div class="no">決策 三 · 約</div>
+      <h4>簽約前要不要<br>先談量能上限？</h4>
+      <p>合約全文未載明任何量能上限，圓通可片面決定派單量。建議於補充協議書面載明「壓力測試期間不超過 200 件／天，超量需雙方另行協商」。若不爭取，等於接受對方單方決定貨量。</p>
+    </div>
+  </div>
+
+  <!-- 12. 收尾 -->
+  <div class="blk dark close">
+    <p>這次圓通案，我已針對合約書完整拆解，就罰則、運送量能、營運成本以及偉翔商譽四大面向，梳理出我方需承擔的各項風險，完成簽約前評估報告呈報給阿尼基。</p>
+    <p>後續決策交由阿尼基定奪，無論是【不承接】、【即刻承接】或是【擇期再啟動】，我都會全力以赴落實阿尼基最終指示。</p>
+  </div>
+
+  <div class="foot">
+    偉翔通運股份有限公司　｜　圓通速遞承接評估報告<br>
+    合約條款引用自：母約、附件一 SOP、附件二 費率表、附件三 賠付規則、附件四 KPI<br>
+    財務數字為外部推估模型，非內部精算驗證數據
+  </div>
+
+</div>
+
+<div id="code" class="pane"><pre id="cb"></pre></div>
+
+</div>
+<script>
+function sw(t){
+  document.getElementById('view').classList.toggle('on',t==='v');
+  document.getElementById('code').classList.toggle('on',t==='c');
+  document.getElementById('tv').classList.toggle('on',t==='v');
+  document.getElementById('tc').classList.toggle('on',t==='c');
+  window.scrollTo(0,0);
+}
+document.getElementById('cb').textContent=document.documentElement.outerHTML;
+</script>
+</body>
+</html>
